@@ -1,0 +1,3410 @@
+/* ==========================================================================
+   PLANET MISSION LAB - STYLESHEET
+   Tema: Space Arcade Sci-Fi (Strict Palet & Responsive 16:9 Klasikal Proyektor)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Press+Start+2P&family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&display=swap');
+
+:root {
+  /* STRICT COLOR PALETTE */
+  --dark-space: #432991;          /* Dark Space Background (Primary) */
+  --violet-container: #762A9D;    /* Violet/Purple Container (Secondary) */
+  --magenta-accent: #C42B7C;      /* Bright Pink/Magenta Accent */
+  --coral-button: #E35850;        /* Coral/Orange Action Buttons */
+  --cyber-cyan: #38BDF8;          /* Cyber Cyan/Light Blue (Borders & Glows) */
+
+  /* ARCADE & COMPLEMENTARY ACCENTS */
+  --arcade-blue-glow: #0284C7;
+  --arcade-cyan-bright: #67E8F9;
+  --arcade-yellow: #FDE047;
+  --arcade-green: #22C55E;
+  --arcade-red: #EF4444;
+  --arcade-white: #FFFFFF;
+  --arcade-card-bg: rgba(67, 41, 145, 0.88);
+  --arcade-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  
+  /* TYPOGRAPHY */
+  --font-arcade-title: 'Press Start 2P', monospace;
+  --font-scifi-head: 'Orbitron', sans-serif;
+  --font-body: 'Nunito', 'Fredoka', sans-serif;
+  
+  /* ASPECT RATIO */
+  --stage-aspect: 16 / 9;
+}
+
+/* RESET & BASE */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #1a0f3c;
+  background: radial-gradient(circle at center, #351c75 0%, #170d38 100%);
+  font-family: var(--font-body);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   16:9 VIEWPORT CONTAINER (OPTIMAL FOR PROJECTOR & MULTI-DEVICE)
+   ========================================================================== */
+#viewport-wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f0724;
+}
+
+#app-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 100vw;
+  max-height: 100vh;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: var(--dark-space);
+  background-image: url('../assets/bg%20keseluruhan.png');
+  background-size: cover;
+  background-position: center bottom;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(56, 189, 248, 0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fallback scale for non-aspect-ratio support */
+@supports not (aspect-ratio: 16 / 9) {
+  #app-stage {
+    width: 100vw;
+    height: 56.25vw; /* 16:9 */
+    max-height: 100vh;
+    max-width: 177.78vh; /* 16:9 */
+  }
+}
+
+/* GLOBAL HEADER / HUD */
+.stage-hud {
+  position: absolute;
+  top: 14px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.hud-left, .hud-center, .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+/* ROUND ARCADE BUTTONS */
+.arcade-circle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, filter 0.15s ease;
+  position: relative;
+  outline: none;
+}
+
+.arcade-circle-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.15);
+}
+
+.arcade-circle-btn:active {
+  transform: scale(0.95);
+}
+
+.arcade-circle-btn.btn-home {
+  background: radial-gradient(circle at 35% 35%, #38BDF8 0%, #0284C7 80%, #0369a1 100%);
+  border-color: #BAE6FD;
+}
+
+.arcade-circle-btn.btn-close {
+  background: radial-gradient(circle at 35% 35%, #F87171 0%, #E35850 80%, #B91C1C 100%);
+  border-color: #FECACA;
+}
+
+.arcade-circle-btn.btn-audio {
+  background: radial-gradient(circle at 35% 35%, #38BDF8 0%, #0284C7 80%, #0369a1 100%);
+  border-color: #BAE6FD;
+}
+
+.arcade-circle-btn.btn-fullscreen {
+  background: radial-gradient(circle at 35% 35%, #A78BFA 0%, #762A9D 80%, #581C87 100%);
+  border-color: #E9D5FF;
+}
+
+.arcade-circle-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: #FFFFFF;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+}
+
+/* Audio pill badge */
+.audio-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3px 6px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.2s;
+  pointer-events: auto;
+}
+.audio-toggle-pill:hover {
+  transform: scale(1.05);
+}
+.audio-toggle-pill span {
+  font-size: 14px;
+  margin-left: 2px;
+}
+
+/* ==========================================================================
+   SLIDE CONTAINERS & TRANSITIONS
+   ========================================================================== */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.35s ease-in-out, transform 0.35s ease-out;
+  padding: 60px 40px 40px 40px;
+  overflow: hidden;
+  z-index: 10;
+}
+
+.slide.active {
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+  z-index: 20;
+}
+
+/* SLIDE HEADERS (ARCADE FONT) */
+.arcade-header-title {
+  font-family: var(--font-arcade-title);
+  font-size: clamp(20px, 3.2vw, 36px);
+  text-align: center;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 
+    3px 3px 0px #0284C7,
+    -2px -2px 0px var(--violet-container),
+    0px 0px 18px var(--cyber-cyan);
+  margin-bottom: 20px;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   SLIDE 1: COVER / LANDING PAGE
+   ========================================================================== */
+#slide-cover {
+  padding: 0;
+  background-image: url('../assets/Background_Start.png');
+  background-size: cover;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.cover-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cover-title-group {
+  margin-top: -60px;
+  text-align: center;
+  z-index: 5;
+}
+
+.cover-title-main {
+  font-family: var(--font-arcade-title);
+  font-size: clamp(26px, 4.4vw, 54px);
+  color: #FFFFFF;
+  text-shadow: 
+    4px 4px 0px #0284C7,
+    -3px -3px 0px var(--violet-container),
+    0 0 24px var(--cyber-cyan);
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  animation: arcadePulse 2s infinite alternate ease-in-out;
+}
+
+.cover-title-sub {
+  font-family: var(--font-arcade-title);
+  font-size: clamp(22px, 3.6vw, 44px);
+  color: #FFFFFF;
+  text-shadow: 
+    4px 4px 0px #0284C7,
+    -3px -3px 0px var(--violet-container),
+    0 0 24px var(--cyber-cyan);
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+
+@keyframes arcadePulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.4)); }
+  100% { transform: scale(1.02); filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.9)); }
+}
+
+/* HUGE BLUE PLAY BUTTON */
+.btn-play-arcade {
+  width: clamp(90px, 14vw, 150px);
+  height: clamp(90px, 14vw, 150px);
+  border-radius: 50%;
+  border: 5px solid #E0F2FE;
+  background: radial-gradient(circle at 35% 30%, #38BDF8 0%, #0284C7 60%, #0369A1 100%);
+  box-shadow: 
+    0 0 0 10px rgba(56, 189, 248, 0.35),
+    0 12px 30px rgba(0, 0, 0, 0.6),
+    inset 0 4px 10px rgba(255, 255, 255, 0.8),
+    inset 0 -8px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+  z-index: 10;
+  outline: none;
+}
+
+.btn-play-arcade:hover {
+  transform: scale(1.12);
+  box-shadow: 
+    0 0 0 15px rgba(56, 189, 248, 0.5),
+    0 15px 40px rgba(0, 0, 0, 0.7),
+    inset 0 4px 12px rgba(255, 255, 255, 0.9);
+}
+
+.btn-play-arcade:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.4);
+}
+
+.btn-play-arcade .play-triangle {
+  width: 0;
+  height: 0;
+  border-top: clamp(20px, 3.2vw, 36px) solid transparent;
+  border-bottom: clamp(20px, 3.2vw, 36px) solid transparent;
+  border-left: clamp(34px, 5.2vw, 58px) solid #164e63;
+  position: relative;
+  left: 6px;
+  filter: drop-shadow(0 2px 2px rgba(255, 255, 255, 0.4));
+}
+
+.btn-play-arcade .play-triangle::after {
+  content: '';
+  position: absolute;
+  top: clamp(-18px, -2.8vw, -32px);
+  left: clamp(-32px, -4.8vw, -54px);
+  width: 0;
+  height: 0;
+  border-top: clamp(18px, -2.8vw, 32px) solid transparent;
+  border-bottom: clamp(18px, -2.8vw, 32px) solid transparent;
+  border-left: clamp(30px, 4.8vw, 52px) solid #0c2d3b;
+}
+
+/* Specular reflection gloss on play button */
+.btn-play-arcade::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 18%;
+  width: 32%;
+  height: 20%;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  transform: rotate(-35deg);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   FUTURISTIC SCI-FI TECH FRAME (ACCORDING TO SLIDE 5 & 11)
+   ========================================================================== */
+.cyber-frame {
+  position: relative;
+  background: rgba(43, 21, 95, 0.88);
+  border: 3.5px solid var(--cyber-cyan);
+  border-radius: 12px;
+  box-shadow: 
+    0 0 20px rgba(56, 189, 248, 0.45),
+    inset 0 0 15px rgba(56, 189, 248, 0.25);
+  padding: 24px 32px;
+  color: #FFFFFF;
+}
+
+/* Tech Cut Corners & Slash Decors */
+.cyber-frame::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 24px;
+  width: 60px;
+  height: 6px;
+  background: var(--cyber-cyan);
+  border-radius: 3px;
+  box-shadow: 0 0 10px var(--cyber-cyan);
+}
+
+.cyber-frame::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 24px;
+  width: 60px;
+  height: 6px;
+  background: var(--cyber-cyan);
+  border-radius: 3px;
+  box-shadow: 0 0 10px var(--cyber-cyan);
+}
+
+.cyber-frame-slashes-left {
+  position: absolute;
+  top: -12px;
+  left: 100px;
+  display: flex;
+  gap: 5px;
+}
+
+.cyber-frame-slashes-left span,
+.cyber-frame-slashes-right span {
+  display: inline-block;
+  width: 8px;
+  height: 10px;
+  background: #FFFFFF;
+  transform: skewX(-30deg);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+}
+
+.cyber-frame-slashes-right {
+  position: absolute;
+  top: -12px;
+  right: 100px;
+  display: flex;
+  gap: 5px;
+}
+
+/* Bottom corner notch tabs */
+.cyber-notch-bottom {
+  position: absolute;
+  bottom: -10px;
+  left: 120px;
+  display: flex;
+  gap: 6px;
+}
+.cyber-notch-bottom span {
+  width: 7px;
+  height: 8px;
+  background: var(--cyber-cyan);
+  transform: skewX(-30deg);
+}
+
+/* ==========================================================================
+   SLIDE 2: TUJUAN PEMBELAJARAN
+   ========================================================================== */
+#slide-objectives {
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.objectives-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1080px;
+  margin: auto;
+}
+
+.objectives-mascot {
+  width: clamp(140px, 18vw, 240px);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+  animation: floatMascot 3.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes floatMascot {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+.objectives-card {
+  flex: 1;
+  max-width: 680px;
+}
+
+.objectives-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.objectives-list li {
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 600;
+  line-height: 1.45;
+  color: #F1F5F9;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.objective-num {
+  font-family: var(--font-scifi-head);
+  font-weight: 800;
+  color: var(--cyber-cyan);
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid var(--cyber-cyan);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+/* NAV CONTROLS (BOTTOM PREV / NEXT) */
+.slide-nav-bottom {
+  position: absolute;
+  bottom: 22px;
+  left: 28px;
+  right: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.slide-nav-bottom .nav-btn-wrapper {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.slide-nav-bottom .nav-btn-wrapper:hover {
+  transform: scale(1.06);
+}
+
+.slide-nav-bottom .nav-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* ==========================================================================
+   SLIDE 3: DASHBOARD NAVIGASI UTAMA (4 MODULES + CONNECTED DASHED PATH)
+   ========================================================================== */
+#slide-dashboard {
+  align-items: center;
+  justify-content: center;
+  background-image: url('../assets/bg%20keseluruhan.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.dashboard-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  height: 72%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+/* Glowing connector SVG line */
+.dashboard-path-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.dashboard-path-svg path {
+  stroke: #FFFFFF;
+  stroke-width: 4;
+  stroke-dasharray: 10 10;
+  fill: none;
+  filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.8));
+  animation: dashAnimation 30s linear infinite;
+}
+
+@keyframes dashAnimation {
+  to {
+    stroke-dashoffset: -1000;
+  }
+}
+
+.dashboard-modules-grid {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+  padding: 0 30px;
+}
+
+.module-card {
+  width: clamp(140px, 16vw, 190px);
+  height: clamp(170px, 20vw, 220px);
+  background: linear-gradient(145deg, #432991 0%, #20124D 100%);
+  border: 4px solid #FFFFFF;
+  border-radius: 26px;
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(56, 189, 248, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 10px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+}
+
+/* Module staggering vertical positions according to the dashed curve */
+.module-card:nth-child(1) { align-self: flex-end; margin-bottom: 20px; }
+.module-card:nth-child(2) { align-self: center; }
+.module-card:nth-child(3) { align-self: flex-start; margin-top: 15px; }
+.module-card:nth-child(4) { align-self: flex-start; margin-top: -10px; }
+
+.module-card:hover {
+  transform: translateY(-10px) scale(1.08);
+  border-color: var(--cyber-cyan);
+  box-shadow: 
+    0 16px 35px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(56, 189, 248, 0.9);
+}
+
+.module-icon-wrap {
+  width: clamp(65px, 8vw, 95px);
+  height: clamp(65px, 8vw, 95px);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.4));
+  transition: transform 0.2s;
+}
+
+.module-card:hover .module-icon-wrap {
+  transform: scale(1.15) rotate(4deg);
+}
+
+.module-title {
+  font-family: var(--font-arcade-title);
+  font-size: clamp(10px, 1.05vw, 13px);
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 1.4;
+  letter-spacing: 1px;
+}
+
+/* Small astronaut mascot on rocket in dashboard */
+.dashboard-mascot-rocket {
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  z-index: 6;
+  pointer-events: none;
+  animation: rocketPatrol 12s ease-in-out infinite;
+}
+
+@keyframes rocketPatrol {
+  0% { transform: translate(15%, 80%) rotate(15deg); }
+  25% { transform: translate(35%, 45%) rotate(5deg); }
+  50% { transform: translate(62%, 20%) rotate(-10deg); }
+  75% { transform: translate(85%, 10%) rotate(25deg); }
+  100% { transform: translate(15%, 80%) rotate(15deg); }
+}
+
+/* ==========================================================================
+   SLIDE 4: PLANET EXPLORER (OVERVIEW + ORBIT MAP + PLANET SLIDER + DALAM/LUAR)
+   ========================================================================== */
+#slide-explorer {
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  background-image: url('../assets/bg%20keseluruhan.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.explorer-view-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.explorer-subview {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.explorer-subview.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* --- Subview A: Overview (Tata Surya Definition - Slide 7) --- */
+.explorer-overview-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+}
+
+.orbiting-planets-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.mini-orbit-planet {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+}
+
+.mini-orbit-sun { top: -20px; left: -50px; width: 85px; height: 85px; }
+.mini-orbit-mercury { bottom: 10px; left: 30%; }
+.mini-orbit-earth { bottom: -25px; left: 52%; width: 55px; height: 55px; }
+.mini-orbit-mars { top: -20px; right: 28%; }
+.mini-orbit-jupiter { bottom: 60px; left: -35px; width: 65px; height: 65px; }
+.mini-orbit-saturn { top: -35px; right: -40px; width: 95px; height: 95px; }
+.mini-orbit-neptune { bottom: 100px; right: -30px; width: 55px; height: 55px; }
+
+.overview-card-text {
+  font-size: clamp(14px, 1.4vw, 17px);
+  line-height: 1.6;
+  color: #F8FAFC;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Subview Switcher Tab Bar */
+.explorer-tabs-nav {
+  position: absolute;
+  top: 14px;
+  display: flex;
+  gap: 10px;
+  z-index: 30;
+  background: rgba(32, 18, 77, 0.7);
+  padding: 4px 10px;
+  border-radius: 30px;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.explorer-tab-btn {
+  background: transparent;
+  border: none;
+  color: #BAE6FD;
+  font-family: var(--font-scifi-head);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.explorer-tab-btn.active, .explorer-tab-btn:hover {
+  background: var(--cyber-cyan);
+  color: #0F172A;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+}
+
+/* --- Subview B: Interactive Solar System Map (Slide 4 & Explorer) --- */
+.orbit-map-container {
+  width: 98%;
+  max-width: 1480px;
+  height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+.orbit-map-sun {
+  width: clamp(120px, 11vw, 175px);
+  cursor: pointer;
+  filter: drop-shadow(0 0 35px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 16px rgba(245, 158, 11, 0.85));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+  position: relative;
+}
+.orbit-map-sun:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 50px rgba(251, 191, 36, 1)) drop-shadow(0 0 28px rgba(245, 158, 11, 0.95));
+}
+
+.orbit-map-planet-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+  position: relative;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.orbit-map-planet-item:hover {
+  transform: translateY(-10px) scale(1.15);
+  filter: drop-shadow(0 0 22px rgba(56, 189, 248, 0.85));
+}
+
+/* Planet Thumbnail Images on Orbit Map (Scaled Proportionally & Significantly Enlarged) */
+.orbit-planet-img {
+  object-fit: contain;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 10px rgba(56, 189, 248, 0.3));
+  transition: transform 0.25s ease;
+}
+
+.orbit-map-planet-item:hover .orbit-planet-img {
+  transform: rotate(5deg) scale(1.05);
+}
+
+/* 1. Merkurius: Planet Terkecil (~4.879 km) */
+.planet-item-mercury .orbit-planet-img {
+  width: clamp(34px, 3.2vw, 44px);
+  height: auto;
+}
+
+/* 2. Venus: Mirip Ukuran Bumi (~12.104 km) */
+.planet-item-venus .orbit-planet-img {
+  width: clamp(48px, 4.4vw, 60px);
+  height: auto;
+}
+
+/* 3. Bumi: Terbesar di Planet Dalam (~12.742 km) */
+.planet-item-earth .orbit-planet-img {
+  width: clamp(52px, 4.8vw, 66px);
+  height: auto;
+}
+
+/* 4. Mars: Planet Kedua Terkecil (~6.779 km) */
+.planet-item-mars .orbit-planet-img {
+  width: clamp(40px, 3.8vw, 50px);
+  height: auto;
+}
+
+/* 5. Jupiter: Planet Terbesar Se-Tata Surya (~139.820 km) */
+.planet-item-jupiter .orbit-planet-img {
+  width: clamp(105px, 10vw, 138px);
+  height: auto;
+}
+
+/* 6. Saturnus: Planet Cincin Megah (~116.460 km + Rentang Cincin Lebar) */
+.planet-item-saturn .orbit-planet-img {
+  width: clamp(125px, 12vw, 168px);
+  height: auto;
+}
+
+/* 7. Uranus: Raksasa Gas Es (~50.724 km) */
+.planet-item-uranus .orbit-planet-img {
+  width: clamp(68px, 6.6vw, 88px);
+  height: auto;
+}
+
+/* 8. Neptunus: Raksasa Gas Es Biru (~49.244 km) */
+.planet-item-neptune .orbit-planet-img {
+  width: clamp(66px, 6.4vw, 86px);
+  height: auto;
+}
+
+.orbit-pin-line {
+  width: 2px;
+  height: 26px;
+  border-left: 2.5px dashed var(--cyber-cyan);
+  margin: 4px 0;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.7));
+}
+
+.orbit-map-label {
+  background: rgba(23, 13, 56, 0.92);
+  color: #FFFFFF;
+  font-family: var(--font-scifi-head);
+  font-size: clamp(13px, 1.35vw, 16px);
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 8px;
+  border: 2px solid var(--cyber-cyan);
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(56, 189, 248, 0.35);
+  letter-spacing: 0.6px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease;
+}
+
+.orbit-map-planet-item:hover .orbit-map-label {
+  background: var(--violet-container);
+  border-color: #FFFFFF;
+  color: #FDE047;
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
+  transform: scale(1.08);
+}
+
+/* Sabuk Asteroid Divider in Orbit Map (Kumpulan Batu-batu Asteroid Alami 3D) */
+.asteroid-belt-divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 92%;
+  width: clamp(50px, 4.8vw, 72px);
+  margin: 0 4px;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.5, 0.64, 1), filter 0.25s ease;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.asteroid-belt-divider:hover {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.75));
+}
+
+.asteroid-belt-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 420px;
+  overflow: visible;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.8));
+  animation: asteroidFloat 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes asteroidFloat {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(0.4deg); }
+  100% { transform: translateY(3px) rotate(-0.3deg); }
+}
+
+.asteroid-belt-badge {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(135deg, #0284C7 0%, #0369a1 100%);
+  color: #FFFFFF;
+  font-family: var(--font-scifi-head);
+  font-size: clamp(10px, 0.95vw, 12px);
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1.5px solid #67E8F9;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px rgba(56, 189, 248, 0.5);
+  letter-spacing: 0.5px;
+  pointer-events: none;
+  z-index: 10;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.asteroid-belt-divider:hover .asteroid-belt-badge {
+  transform: scale(1.05);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.9);
+}
+
+/* --- Subview C: Detail Celestial Body Slider (Slide 10 - 36) --- */
+.planet-detail-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1080px;
+  margin: auto;
+}
+
+.planet-detail-left {
+  flex: 1.1;
+  max-width: 580px;
+}
+
+.planet-detail-right {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.planet-detail-number {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 900;
+  color: var(--cyber-cyan);
+  line-height: 1;
+  margin-bottom: 4px;
+  text-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+}
+
+.planet-detail-name {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(24px, 3.2vw, 40px);
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+}
+
+.planet-detail-summary {
+  font-size: 14px;
+  color: #E2E8F0;
+  margin-bottom: 16px;
+  font-style: italic;
+}
+
+.planet-detail-body-text {
+  font-size: clamp(13px, 1.25vw, 15px);
+  line-height: 1.55;
+  color: #F8FAFC;
+}
+
+.planet-detail-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 16px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1.5px dashed rgba(56, 189, 248, 0.45);
+}
+
+.planet-meta-item {
+  font-size: clamp(13px, 1.3vw, 15.5px);
+  color: #E2E8F0;
+  line-height: 1.45;
+  background: rgba(15, 10, 45, 0.65);
+  padding: 6px 12px;
+  border-radius: 8px;
+  border-left: 3.5px solid var(--cyber-cyan);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.planet-meta-item strong {
+  color: var(--cyber-cyan);
+  font-family: var(--font-scifi-head);
+  font-size: clamp(13px, 1.3vw, 15.5px);
+  margin-right: 4px;
+}
+
+.planet-hero-img-wrap {
+  width: clamp(180px, 24vw, 320px);
+  height: clamp(180px, 24vw, 320px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.planet-hero-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.7));
+  animation: planetSpin 40s linear infinite;
+}
+
+@keyframes planetSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Little astronaut floating beside planet */
+.detail-astronaut-float {
+  position: absolute;
+  top: 10px;
+  left: -40px;
+  width: 90px;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
+  animation: astronautHover 4s ease-in-out infinite;
+}
+
+@keyframes astronautHover {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(-5deg); }
+}
+
+/* --- Subview D: Planet Dalam & Luar Summary (Slide 37) --- */
+.classification-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 960px;
+}
+
+.classification-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.classification-col-card {
+  background: rgba(32, 18, 77, 0.85);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.classification-col-title {
+  font-family: var(--font-scifi-head);
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--cyber-cyan);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.classification-col-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #E2E8F0;
+}
+
+.classification-col-list li::before {
+  content: '✦ ';
+  color: var(--cyber-cyan);
+}
+
+/* ==========================================================================
+   SLIDE 5: PLANET LAB (FILTER & INTERACTIVE FINDER - SLIDE 39 - 51)
+   ========================================================================== */
+#slide-lab {
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url('../assets/bg%20keseluruhan.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.lab-filters-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 1060px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.lab-filter-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 140px;
+}
+
+.lab-filter-label {
+  font-family: var(--font-scifi-head);
+  font-size: 14px;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.lab-select-input-box {
+  width: 100%;
+  height: 38px;
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  position: relative;
+}
+
+.lab-search-icon {
+  width: 18px;
+  height: 18px;
+  fill: #64748B;
+  flex-shrink: 0;
+  margin-right: 6px;
+}
+
+.lab-select {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: #0F172A;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.lab-options-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.lab-option-pill {
+  width: 100%;
+  padding: 6px 12px;
+  background: #FEF08A; /* Soft yellow matching slide 39 */
+  color: #000000;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+  transition: all 0.15s;
+}
+
+.lab-option-pill:hover {
+  background: #FDE047;
+  transform: translateY(-2px);
+}
+
+.lab-option-pill.active {
+  background: #FACC15;
+  border-color: #0284C7;
+  box-shadow: 0 0 12px rgba(2, 132, 199, 0.6);
+  font-weight: 800;
+}
+
+/* Big "Temukan planet!" Button (Slide 39) */
+.btn-temukan-planet {
+  margin-top: 18px;
+  background: #FFFFFF;
+  color: #000000;
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 800;
+  padding: 10px 28px;
+  border-radius: 30px;
+  border: 3px solid #0284C7;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-temukan-planet:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(2, 132, 199, 0.5);
+  background: #F0F9FF;
+}
+
+.btn-temukan-planet:active {
+  transform: scale(0.96);
+}
+
+/* Results Display Area */
+.lab-results-stage {
+  margin-top: 16px;
+  width: 100%;
+  max-width: 900px;
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.lab-result-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.4); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.lab-result-img {
+  width: clamp(90px, 12vw, 140px);
+  height: clamp(90px, 12vw, 140px);
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+  animation: planetSpin 35s linear infinite;
+}
+
+.lab-result-name {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Preset quick filter pills for classroom teacher demonstration */
+.lab-presets-bar {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.lab-preset-chip {
+  background: rgba(255, 255, 255, 0.2);
+  color: #BAE6FD;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.lab-preset-chip:hover {
+  background: var(--cyber-cyan);
+  color: #0F172A;
+}
+
+/* ==========================================================================
+   SLIDE 6: MISSION ROOM (MINI GAMES - SLIDE 53 - 63)
+   ========================================================================== */
+#slide-mission {
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url('../assets/bg%20keseluruhan.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.mission-subnav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  z-index: 10;
+}
+
+.mission-tab-pill {
+  padding: 6px 18px;
+  background: rgba(32, 18, 77, 0.8);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-family: var(--font-scifi-head);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mission-tab-pill.active {
+  background: var(--cyber-cyan);
+  color: #0F172A;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.7);
+}
+
+.mission-subview {
+  width: 100%;
+  height: calc(100% - 100px);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mission-subview.active {
+  display: flex;
+}
+
+.mission-instruction-text {
+  font-size: clamp(14px, 1.5vw, 18px);
+  font-weight: 700;
+  color: #FFFFFF;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Mission 1: Arrange Solar System Order (Slide 6 & Mission Room) --- */
+.mission1-slots-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 1.2vw, 16px);
+  width: 100%;
+  max-width: 1220px;
+  margin-bottom: 22px;
+  padding: 8px 12px;
+}
+
+.mission-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+  user-select: none;
+}
+
+.mission-slot:hover {
+  transform: translateY(-4px) scale(1.08);
+}
+
+/* Semua slot seragam — lingkaran hitam polos */
+.slot-body-uniform {
+  width: clamp(72px, 7.8vw, 98px);
+  height: clamp(72px, 7.8vw, 98px);
+}
+
+/* Lingkaran hitam polos pengganti siluet planet */
+.slot-circle-empty {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #2a1a4e, #0d0820 70%);
+  border: 2.5px solid rgba(56, 189, 248, 0.5);
+  box-shadow:
+    0 0 0 1.5px rgba(56, 189, 248, 0.2),
+    0 4px 18px rgba(0, 0, 0, 0.7),
+    inset 0 0 14px rgba(56, 189, 248, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mission-slot:hover .slot-circle-empty {
+  border-color: rgba(56, 189, 248, 0.9);
+  box-shadow:
+    0 0 0 2px rgba(56, 189, 248, 0.35),
+    0 6px 24px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.mission-slot .slot-question-mark {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(20px, 2.4vw, 32px);
+  font-weight: 900;
+  color: #FFFFFF;
+  text-shadow: 0 0 10px #38BDF8, 0 0 20px rgba(56, 189, 248, 0.6), 0 2px 4px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+/* When a planet has been placed into the slot */
+.mission-slot.filled {
+  animation: slotPopIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: clamp(72px, 7.8vw, 98px);
+  height: clamp(72px, 7.8vw, 98px);
+}
+
+.mission-slot.filled .slot-planet-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
+  transition: transform 0.2s ease;
+}
+
+.mission-slot.filled:hover .slot-planet-img {
+  transform: scale(1.1) rotate(4deg);
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(56, 189, 248, 0.85));
+}
+
+@keyframes slotPopIn {
+  0% { transform: scale(0.7); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Pool of draggable/clickable planets */
+.mission1-pool-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(6px, 1.0vw, 14px);
+  flex-wrap: nowrap;
+  width: 97%;
+  max-width: 1100px;
+  background: rgba(30, 16, 75, 0.72);
+  padding: 14px 18px 12px 18px;
+  border-radius: 28px;
+  border: 2.5px dashed rgba(56, 189, 248, 0.55);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(56, 189, 248, 0.15);
+  margin: 0 auto;
+}
+
+.mission-pool-item {
+  cursor: grab;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  user-select: none;
+  /* Semua item memiliki lebar seragam agar nama tidak tabrakan */
+  width: clamp(80px, 8.5vw, 108px);
+}
+
+/* Wrapper gambar: tinggi seragam agar baseline gambar sejajar */
+.pool-item-img-wrap {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: clamp(60px, 6.5vw, 82px);
+}
+
+/* Gambar di dalam img-wrap */
+.pool-item-img-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* Label nama planet di bawah gambar */
+.pool-item-name {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: clamp(12px, 1.1vw, 15px);
+  font-weight: 500;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+  margin-top: 6px;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Ukuran gambar planet secara proporsional di dalam wrapper seragam */
+/* Matahari sedikit lebih besar, Merkurius sedikit lebih kecil — sisanya mendekati seragam */
+.pool-item-matahari .pool-item-img-wrap img  { max-height: 76px; }
+.pool-item-merkurius .pool-item-img-wrap img { max-height: 46px; }
+.pool-item-venus .pool-item-img-wrap img     { max-height: 60px; }
+.pool-item-bumi .pool-item-img-wrap img      { max-height: 62px; }
+.pool-item-mars .pool-item-img-wrap img      { max-height: 54px; }
+.pool-item-jupiter .pool-item-img-wrap img   { max-height: 72px; }
+.pool-item-saturnus .pool-item-img-wrap img  { max-height: 68px; max-width: 100%; }
+.pool-item-uranus .pool-item-img-wrap img    { max-height: 60px; max-width: 100%; }
+.pool-item-neptunus .pool-item-img-wrap img  { max-height: 60px; }
+
+/* Hapus lebar individual lama yang menyebabkan ukuran tidak seimbang */
+.pool-item-matahari { width: clamp(80px, 8.5vw, 108px); }
+.pool-item-merkurius { width: clamp(80px, 8.5vw, 108px); }
+.pool-item-venus { width: clamp(80px, 8.5vw, 108px); }
+.pool-item-bumi { width: clamp(80px, 8.5vw, 108px); }
+.pool-item-mars { width: clamp(80px, 8.5vw, 108px); }
+.pool-item-jupiter { width: clamp(80px, 8.5vw, 108px); }
+.pool-item-saturnus { width: clamp(90px, 9.5vw, 118px); } /* sedikit lebih lebar untuk cincin */
+.pool-item-uranus { width: clamp(86px, 9.0vw, 112px); }   /* sedikit lebih lebar untuk cincin */
+.pool-item-neptunus { width: clamp(80px, 8.5vw, 108px); }
+
+.mission-pool-item:hover {
+  transform: translateY(-6px) scale(1.16);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.8));
+}
+
+.mission-pool-item:active {
+  cursor: grabbing;
+  transform: scale(0.95);
+}
+
+.mission-pool-item.selected {
+  transform: translateY(-8px) scale(1.18);
+  filter: drop-shadow(0 0 20px #FDE047) drop-shadow(0 0 35px rgba(253, 224, 71, 0.9));
+}
+
+.mission-actions-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+/* Mascot 1 on the Right Side of the Screen (Very Slow Rotation) */
+.mission1-mascot-wrapper {
+  position: absolute;
+  right: clamp(12px, 2.2vw, 36px);
+  bottom: clamp(60px, 11vh, 120px);
+  width: clamp(125px, 14vw, 195px);
+  z-index: 25;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.mission1-floating-mascot {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 24px rgba(56, 189, 248, 0.45));
+  animation: mascotSlowSpin 50s linear infinite;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+}
+
+.mission1-mascot-wrapper:hover .mission1-floating-mascot {
+  filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 35px rgba(56, 189, 248, 0.85));
+}
+
+@keyframes mascotSlowSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* --- Mission 2: Clue Guessing Game (Slide 57 - 63) --- */
+.mission2-stage-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  width: 100%;
+  max-width: 1060px;
+  margin: auto;
+}
+
+.mission2-clues-card {
+  width: clamp(260px, 32vw, 360px);
+  background: #FDE68A; /* Warm cream/yellow card from slide 57 */
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  color: #000000;
+}
+
+.mission2-clues-list {
+  list-style: disc inside;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.mission2-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.5vw, 36px);
+}
+
+.mission2-planet-choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mission2-planet-choice:hover {
+  transform: scale(1.15) translateY(-6px);
+}
+
+.mission2-choice-img {
+  width: clamp(100px, 14vw, 150px);
+  height: clamp(100px, 14vw, 150px);
+  object-fit: contain;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+  animation: planetSpin 40s linear infinite;
+}
+
+.mission2-choice-name {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.6vw, 20px);
+  font-weight: 800;
+  color: #FFFFFF;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   FEEDBACK MODAL OVERLAY (EXACT SLIDE 54, 56, 58, 59, 66, 76 DESIGN)
+   ========================================================================== */
+.modal-feedback-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-feedback-overlay.active {
+  display: flex;
+}
+
+.feedback-card-container {
+  position: relative;
+  width: 90%;
+  max-width: 620px;
+  background: #FEF08A; /* Soft cream yellow */
+  border: 4px dashed #38BDF8; /* Cyan dashed border */
+  border-radius: 20px;
+  padding: 36px 30px 30px 30px;
+  text-align: center;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+  animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(0.7); }
+  100% { transform: scale(1); }
+}
+
+/* Success / Failure Icon Badge in Top Left Corner (Slide 56 & 66) */
+.feedback-badge-icon {
+  position: absolute;
+  top: -24px;
+  left: -20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.feedback-badge-icon.success {
+  background: #22C55E;
+}
+
+.feedback-badge-icon.failure {
+  background: #EF4444;
+}
+
+.feedback-badge-icon svg {
+  width: 32px;
+  height: 32px;
+  fill: #FFFFFF;
+}
+
+.feedback-message-text {
+  font-family: var(--font-body);
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.45;
+  margin-bottom: 24px;
+}
+
+/* Modal action buttons (circular reload or next arrow) */
+.feedback-action-btn-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 3px solid #BAE6FD;
+  background: radial-gradient(circle at 35% 35%, #38BDF8 0%, #0284C7 80%, #0369a1 100%);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s;
+  outline: none;
+}
+
+.feedback-action-btn-circle:hover {
+  transform: scale(1.15);
+}
+
+.feedback-action-btn-circle:active {
+  transform: scale(0.95);
+}
+
+.feedback-action-btn-circle svg {
+  width: 28px;
+  height: 28px;
+  fill: #FFFFFF;
+}
+
+/* Red Banner Modal for Quiz Feedback (Slide 66) */
+.quiz-feedback-banner {
+  background: #DC2626;
+  border: 3px dashed #FFFFFF;
+  border-radius: 16px;
+  padding: 24px 30px;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.quiz-feedback-banner.banner-success {
+  background: #16A34A;
+}
+
+.quiz-feedback-banner h3 {
+  font-family: var(--font-body);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+/* ==========================================================================
+   SLIDE 7: QUIZ KLASIKAL & FINAL RESULT (SLIDE 65 - 77)
+   ========================================================================== */
+#slide-quiz {
+  align-items: center;
+  justify-content: flex-start;
+  background-image: url('../assets/bg%20keseluruhan.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.quiz-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1080px;
+  margin: auto;
+  position: relative;
+}
+
+.quiz-mascot-col {
+  width: clamp(140px, 18vw, 220px);
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.6));
+  animation: floatMascot 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.quiz-card-col {
+  flex: 1;
+  max-width: 720px;
+  position: relative;
+}
+
+/* Question Number Badge (Slide 65: "1", "2", "3" ...) */
+.quiz-number-badge {
+  position: absolute;
+  top: -34px;
+  left: -20px;
+  font-family: var(--font-scifi-head);
+  font-size: clamp(38px, 5.5vw, 68px);
+  font-weight: 900;
+  color: #FFFFFF;
+  -webkit-text-stroke: 3px var(--cyber-cyan);
+  text-shadow: 
+    3px 3px 0px #0284C7,
+    0 0 15px rgba(56, 189, 248, 0.8);
+  z-index: 5;
+}
+
+.quiz-question-box {
+  background: #FFFFFF;
+  border-radius: 26px;
+  border: 4px solid #FDE047;
+  padding: 30px 28px 24px 28px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  color: #0F172A;
+}
+
+.quiz-question-text {
+  font-family: var(--font-body);
+  font-size: clamp(15px, 1.7vw, 19px);
+  font-weight: 800;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  color: #000000;
+}
+
+.quiz-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-option-btn {
+  background: #CBD5E1; /* Soft gray-blue pill like slide 65 */
+  color: #0F172A;
+  border: 2px solid transparent;
+  border-radius: 20px;
+  padding: 10px 18px;
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.35vw, 16px);
+  font-weight: 700;
+  text-align: left;
+  line-height: 1.35;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.15s;
+}
+
+.quiz-option-btn:hover {
+  background: #94A3B8;
+  transform: translateX(4px);
+}
+
+.quiz-option-btn.selected {
+  background: #FACC15;
+  border-color: #0284C7;
+  font-weight: 800;
+}
+
+/* FINAL RESULT PAGE (SLIDE 77) */
+.quiz-result-view {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.quiz-result-view.active {
+  display: flex;
+}
+
+.result-content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 48px);
+  width: 100%;
+  max-width: 1050px;
+  margin: 0 auto;
+}
+
+/* Mascot Display Container on Result Screen */
+.result-mascot-container {
+  width: clamp(220px, 28vw, 360px);
+  max-height: 72vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 28px rgba(56, 189, 248, 0.45));
+  animation: floatMascot 4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.result-mascot-img {
+  width: 100%;
+  height: auto;
+  max-height: clamp(240px, 34vw, 420px);
+  object-fit: contain;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.result-mascot-img:hover {
+  transform: scale(1.06) rotate(2deg);
+}
+
+.result-mascot-trophy {
+  width: clamp(160px, 22vw, 260px);
+  filter: drop-shadow(0 12px 25px rgba(0, 0, 0, 0.6));
+  animation: floatMascot 3.5s ease-in-out infinite;
+}
+
+.result-data-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+  max-width: 580px;
+}
+
+.result-congrats-title {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(24px, 3.2vw, 38px);
+  font-weight: 900;
+  color: #FFFFFF;
+  text-shadow: 
+    3px 3px 0px #0284C7,
+    0 0 16px rgba(56, 189, 248, 0.85);
+  line-height: 1.2;
+  letter-spacing: 1px;
+}
+
+.result-feedback-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1.5px solid var(--cyber-cyan);
+  border-radius: 20px;
+  font-size: clamp(12px, 1.4vw, 15px);
+  font-weight: 800;
+  color: #FDE047;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.result-feedback-desc {
+  font-size: clamp(12px, 1.25vw, 15px);
+  font-weight: 600;
+  color: #E0F2FE;
+  line-height: 1.45;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.result-score-card {
+  background: rgba(30, 41, 59, 0.9);
+  border: 3.5px solid var(--cyber-cyan);
+  border-radius: 18px;
+  padding: 12px 28px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+.result-score-card .trophy-icon {
+  font-size: clamp(36px, 4.5vw, 48px);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
+}
+
+.result-score-digits {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: 2px;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+}
+
+.result-buttons-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+/* Action Button styled using assets */
+.result-action-card-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(118, 42, 157, 0.9) 0%, rgba(67, 41, 145, 0.95) 100%);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 40px;
+  padding: 6px 20px 6px 8px;
+  color: #FFFFFF;
+  font-family: var(--font-scifi-head);
+  font-size: clamp(13px, 1.4vw, 16px);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 0 12px rgba(56, 189, 248, 0.25);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  outline: none;
+}
+
+.result-action-card-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  border-color: #FFFFFF;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.65), 0 0 25px rgba(56, 189, 248, 0.85);
+  background: linear-gradient(135deg, rgba(196, 43, 124, 0.92) 0%, rgba(118, 42, 157, 0.95) 100%);
+}
+
+.result-action-card-btn:active {
+  transform: translateY(2px) scale(0.96);
+}
+
+.result-btn-asset-icon {
+  width: clamp(44px, 5vw, 56px);
+  height: clamp(44px, 5vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
+  transition: transform 0.25s ease;
+}
+
+.result-action-card-btn:hover .result-btn-asset-icon {
+  transform: scale(1.12) rotate(-8deg);
+}
+
+.result-btn-asset-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.result-btn-label {
+  letter-spacing: 0.8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.result-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.8vw, 22px);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.result-btn-row:hover {
+  transform: translateX(6px);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN & ADAPTIVE LAYOUT
+   (Klasikal Proyektor 16:9, PC Desktop, iPad/Tablet, Mobile Smartphone)
+   ========================================================================== */
+
+/* Tablet & Smaller Screens */
+@media screen and (max-width: 900px) {
+  .slide {
+    padding: 50px 20px 30px 20px;
+  }
+  
+  .arcade-header-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .objectives-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .objectives-mascot {
+    width: 110px;
+  }
+
+  .planet-detail-container {
+    flex-direction: column-reverse;
+    gap: 14px;
+    overflow-y: auto;
+  }
+
+  .planet-hero-img-wrap {
+    width: 140px;
+    height: 140px;
+  }
+
+  .quiz-container {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .quiz-mascot-col {
+    display: none;
+  }
+
+  .lab-filters-row {
+    gap: 8px;
+  }
+
+  .lab-filter-group {
+    min-width: 100px;
+  }
+}
+
+/* Mobile Smartphone Portrait / Small Heights */
+@media screen and (max-height: 540px), screen and (max-width: 600px) {
+  .slide {
+    padding: 42px 14px 20px 14px;
+  }
+
+  .arcade-circle-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .arcade-circle-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .cover-title-main {
+    font-size: 20px;
+  }
+
+  .cover-title-sub {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .btn-play-arcade {
+    width: 80px;
+    height: 80px;
+  }
+
+  .dashboard-modules-grid {
+    padding: 0 10px;
+  }
+
+  .module-card {
+    width: 22%;
+    height: 140px;
+    border-radius: 14px;
+    padding: 8px 4px;
+  }
+
+  .module-icon-wrap {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 6px;
+  }
+
+  .module-title {
+    font-size: 8px;
+  }
+}
+
+
+/* ==========================================================================
+   ENHANCED UTILITIES: MODALS, MISSION LOCKS, & SLIDE SPLIT EXTENSIONS
+   ========================================================================== */
+
+/* Generic Custom Modal Overlay */
+.custom-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 7, 36, 0.82);
+  backdrop-filter: blur(6px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 600;
+  animation: fadeIn 0.25s ease-out;
+  padding: 20px;
+}
+
+.custom-modal-overlay.active {
+  display: flex;
+}
+
+.custom-modal-card {
+  position: relative;
+  width: 92%;
+  max-width: 640px;
+  background: linear-gradient(145deg, #2b155f 0%, #170b3b 100%);
+  border: 3.5px solid var(--cyber-cyan);
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.5), inset 0 0 15px rgba(56, 189, 248, 0.2);
+  color: #FFFFFF;
+  animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed rgba(56, 189, 248, 0.4);
+}
+
+.modal-title-text {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 800;
+  color: var(--cyber-cyan);
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-close-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #E35850;
+  border: 2px solid #FECACA;
+  color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s;
+  outline: none;
+}
+.modal-close-icon-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Developer Team Grid */
+.developers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.dev-member-card {
+  background: rgba(67, 41, 145, 0.6);
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.dev-member-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--cyber-cyan);
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+}
+
+.dev-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #38BDF8, #0284C7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  border: 2px solid #FFFFFF;
+}
+
+.dev-info h4 {
+  font-family: var(--font-scifi-head);
+  font-size: 16px;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+}
+
+.dev-info p {
+  font-size: 12px;
+  color: #BAE6FD;
+}
+
+/* Audio Settings Controls */
+.audio-settings-box {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.switch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.switch-input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--cyber-cyan);
+  cursor: pointer;
+}
+
+.volume-slider {
+  width: 140px;
+  accent-color: var(--cyber-cyan);
+  cursor: pointer;
+}
+
+/* Top Action HUD Buttons on Slide 1 */
+.cover-top-actions {
+  position: absolute;
+  top: 18px;
+  display: flex;
+  gap: 12px;
+  z-index: 50;
+}
+
+.cover-btn-pill {
+  background: rgba(43, 21, 95, 0.85);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 20px;
+  color: #FFFFFF;
+  padding: 6px 16px;
+  font-family: var(--font-scifi-head);
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.cover-btn-pill:hover {
+  background: var(--cyber-cyan);
+  color: #0F172A;
+  transform: translateY(-2px);
+}
+
+/* Mission Locked / Completed Styles (Slide 2) */
+.module-card.locked {
+  opacity: 0.55;
+  filter: grayscale(0.85);
+  cursor: not-allowed;
+  border-color: #64748B;
+}
+
+.module-card.locked:hover {
+  transform: none;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  border-color: #64748B;
+}
+
+.module-lock-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #EF4444;
+  color: #FFFFFF;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.module-badge-completed {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #22C55E;
+  color: #FFFFFF;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.teacher-mode-pill {
+  position: absolute;
+  bottom: 20px;
+  background: rgba(30, 41, 59, 0.85);
+  border: 1px solid rgba(253, 224, 71, 0.6);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #FDE047;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+/* Quiz Educational Explanatory Card (Slide 8) */
+.quiz-explanation-box {
+  background: rgba(15, 23, 42, 0.9);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #E2E8F0;
+  text-align: left;
+}
+
+.quiz-explanation-box strong {
+  color: var(--arcade-yellow);
+}
+
+
+/* ==========================================================================
+   SLIDE 1 ENHANCED HERO STYLES (TITLE ANIMATION, LARGE PLAY, & MASCOT)
+   ========================================================================== */
+
+.cover-enhanced-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 40px;
+}
+
+/* ENLARGED & ANIMATED TITLE */
+.cover-title-animated {
+  text-align: center;
+  margin-bottom: 20px;
+  animation: titleArcadeFloat 4s ease-in-out infinite;
+  z-index: 10;
+}
+
+.cover-title-animated .main-heading {
+  font-family: var(--font-arcade-title);
+  font-size: clamp(34px, 5.2vw, 68px);
+  color: #FFFFFF;
+  letter-spacing: 4px;
+  margin-bottom: 6px;
+  line-height: 1.15;
+  text-shadow: 
+    4px 4px 0px #0284C7,
+    -3px -3px 0px var(--violet-container),
+    0 0 25px var(--cyber-cyan),
+    0 0 50px rgba(56, 189, 248, 0.6);
+  animation: titleGlowPulse 2.5s ease-in-out infinite alternate;
+}
+
+.cover-title-animated .sub-heading {
+  font-family: var(--font-arcade-title);
+  font-size: clamp(26px, 4vw, 52px);
+  color: #FDE047;
+  letter-spacing: 3px;
+  line-height: 1.15;
+  text-shadow: 
+    3px 3px 0px #C42B7C,
+    -2px -2px 0px #432991,
+    0 0 20px rgba(253, 224, 71, 0.8);
+}
+
+.cover-subtitle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(43, 21, 95, 0.85);
+  border: 1.5px solid var(--cyber-cyan);
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-family: var(--font-scifi-head);
+  font-size: clamp(11px, 1.2vw, 14px);
+  font-weight: 700;
+  color: #BAE6FD;
+  letter-spacing: 2px;
+  margin-top: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+@keyframes titleArcadeFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes titleGlowPulse {
+  0% {
+    text-shadow: 
+      4px 4px 0px #0284C7,
+      -3px -3px 0px var(--violet-container),
+      0 0 15px var(--cyber-cyan);
+  }
+  100% {
+    text-shadow: 
+      4px 4px 0px #0284C7,
+      -3px -3px 0px var(--violet-container),
+      0 0 35px var(--cyber-cyan),
+      0 0 65px rgba(56, 189, 248, 0.9);
+  }
+}
+
+/* HORIZONTAL ACTION AREA: PLAY BUTTON + MASCOT */
+.cover-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vw, 56px);
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 900px;
+  margin-top: 10px;
+}
+
+.cover-play-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ENLARGED ARCADE PLAY BUTTON */
+.btn-play-enlarged {
+  width: clamp(120px, 16vw, 175px);
+  height: clamp(120px, 16vw, 175px);
+  border-radius: 50%;
+  border: 6px solid #F0F9FF;
+  background: radial-gradient(circle at 35% 30%, #38BDF8 0%, #0284C7 60%, #0369A1 100%);
+  box-shadow: 
+    0 0 0 12px rgba(56, 189, 248, 0.4),
+    0 0 0 22px rgba(56, 189, 248, 0.18),
+    0 16px 36px rgba(0, 0, 0, 0.65),
+    inset 0 6px 14px rgba(255, 255, 255, 0.9),
+    inset 0 -10px 16px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  outline: none;
+  animation: playRingsPulse 2.8s infinite ease-in-out;
+}
+
+.btn-play-enlarged:hover {
+  transform: scale(1.14);
+  box-shadow: 
+    0 0 0 16px rgba(56, 189, 248, 0.6),
+    0 0 0 28px rgba(56, 189, 248, 0.25),
+    0 20px 48px rgba(0, 0, 0, 0.75),
+    inset 0 6px 16px rgba(255, 255, 255, 1);
+}
+
+.btn-play-enlarged:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 0 8px rgba(56, 189, 248, 0.5);
+}
+
+.btn-play-enlarged .play-triangle-large {
+  width: 0;
+  height: 0;
+  border-top: clamp(26px, 3.8vw, 42px) solid transparent;
+  border-bottom: clamp(26px, 3.8vw, 42px) solid transparent;
+  border-left: clamp(42px, 6vw, 68px) solid #083344;
+  position: relative;
+  left: 8px;
+  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.4));
+}
+
+.btn-play-enlarged::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: 18%;
+  width: 32%;
+  height: 20%;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  transform: rotate(-35deg);
+  pointer-events: none;
+}
+
+@keyframes playRingsPulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 10px rgba(56, 189, 248, 0.35),
+      0 0 0 20px rgba(56, 189, 248, 0.15),
+      0 16px 36px rgba(0, 0, 0, 0.65),
+      inset 0 6px 14px rgba(255, 255, 255, 0.9);
+  }
+  50% {
+    box-shadow: 
+      0 0 0 16px rgba(56, 189, 248, 0.55),
+      0 0 0 28px rgba(56, 189, 248, 0.25),
+      0 20px 42px rgba(0, 0, 0, 0.75),
+      inset 0 6px 16px rgba(255, 255, 255, 0.95);
+  }
+}
+
+/* Play Button Action Label */
+.cover-start-label-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #E35850 0%, #C42B7C 100%);
+  color: #FFFFFF;
+  font-family: var(--font-scifi-head);
+  font-size: clamp(13px, 1.4vw, 17px);
+  font-weight: 800;
+  padding: 9px 24px;
+  border-radius: 30px;
+  border: 2px solid #FECDD3;
+  box-shadow: 0 6px 18px rgba(227, 88, 80, 0.45), 0 0 12px rgba(196, 43, 124, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  letter-spacing: 1px;
+}
+
+.cover-start-label-pill:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 25px rgba(227, 88, 80, 0.6), 0 0 20px rgba(196, 43, 124, 0.6);
+}
+
+.cover-start-label-pill:active {
+  transform: scale(0.97);
+}
+
+/* MASCOT AT THE RIGHT OF PLAY BUTTON */
+.cover-mascot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.cover-mascot-img {
+  height: clamp(160px, 24vw, 290px);
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 20px rgba(56, 189, 248, 0.3));
+  animation: mascotZeroGravity 4.5s ease-in-out infinite;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cover-mascot-container:hover .cover-mascot-img {
+  transform: scale(1.1) rotate(4deg);
+  filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 30px rgba(56, 189, 248, 0.7));
+}
+
+@keyframes mascotZeroGravity {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-14px) rotate(2.5deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(-18px) rotate(3deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+/* Mascot Speech Bubble */
+.cover-speech-bubble {
+  position: absolute;
+  top: -36px;
+  right: -20px;
+  background: #FFFFFF;
+  color: #0F172A;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: speechBubblePop 3s ease-in-out infinite alternate;
+}
+
+.cover-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 20px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #FFFFFF;
+}
+
+@keyframes speechBubblePop {
+  0% { transform: translateY(0px) scale(0.98); }
+  100% { transform: translateY(-4px) scale(1.02); }
+}
+
+/* ARCADE HUD BUTTON EXTENSIONS */
+.arcade-btn-badge-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(30, 18, 77, 0.8);
+  border: 1.5px solid var(--cyber-cyan);
+  border-radius: 25px;
+  padding: 4px 14px 4px 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.arcade-btn-badge-label:hover {
+  transform: translateY(-2px);
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #BAE6FD;
+}
+
+.arcade-btn-badge-label span.text-label {
+  font-family: var(--font-scifi-head);
+  font-size: 11px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+}
+
+
+/* ==========================================================================
+   BUTTON ASSET INTEGRATION & CENTERED START WITH FAR-RIGHT MASCOT
+   ========================================================================== */
+
+.asset-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(62px, 6.5vw, 80px);
+  height: clamp(62px, 6.5vw, 80px);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+  outline: none;
+  position: relative;
+}
+
+.asset-icon-btn:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 8px 18px rgba(56, 189, 248, 0.7)) brightness(1.12);
+}
+
+.asset-icon-btn:active {
+  transform: scale(0.92);
+}
+
+.asset-icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Tooltip for asset icon buttons */
+.asset-icon-btn[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 7, 36, 0.9);
+  color: #FFFFFF;
+  border: 1px solid var(--cyber-cyan);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-family: var(--font-scifi-head);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.asset-icon-btn:hover[data-tooltip]::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(4px);
+}
+
+/* Centered Start Button (Halaman Utama) */
+.cover-center-start-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(160px, 20vw, 240px);
+  height: clamp(160px, 20vw, 240px);
+  position: relative;
+  /* Kondisi normal: posisi & ukuran awal dipertahankan, tanpa animasi otomatis */
+  transform: translateY(0) scale(1);
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 18px rgba(56, 189, 248, 0.45));
+  /* Animasi transisi halus (smooth transition) untuk pergerakan 3D & bayangan */
+  transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1), filter 0.28s ease;
+  will-change: transform, filter;
+  outline: none;
+  z-index: 20;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Efek 3D / Raised Button Effect ketika kursor diarahkan (Hover pada Desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .cover-center-start-btn:hover {
+    /* Tombol sedikit terangkat ke atas (-5px) & sedikit membesar (1.05) */
+    transform: translateY(-5px) scale(1.05);
+    /* Bayangan lebih tebal & jelas (kesan kedalaman 3D) + pantulan cahaya & glow sci-fi hidup */
+    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.8)) 
+            drop-shadow(0 8px 14px rgba(0, 0, 0, 0.6)) 
+            drop-shadow(0 0 30px rgba(56, 189, 248, 0.9)) 
+            drop-shadow(0 0 52px rgba(103, 232, 249, 0.45)) 
+            brightness(1.08);
+  }
+}
+
+/* Aksesibilitas Keyboard Focus */
+.cover-center-start-btn:focus-visible {
+  transform: translateY(-5px) scale(1.05);
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.8)) 
+          drop-shadow(0 8px 14px rgba(0, 0, 0, 0.6)) 
+          drop-shadow(0 0 32px rgba(56, 189, 248, 0.95)) 
+          drop-shadow(0 0 52px rgba(103, 232, 249, 0.45)) 
+          brightness(1.08);
+}
+
+/* Efek menekan (Pressed Effect) ketika tombol diklik / ditekan (Desktop & Mobile) */
+.cover-center-start-btn:active,
+.cover-center-start-btn.btn-pressed {
+  /* Tombol sedikit turun & mengecil menyerupai tombol fisik yang ditekan */
+  transform: translateY(2px) scale(0.97);
+  /* Bayangan merapat ke bawah tombol dengan glow terfokus */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.8)) 
+          drop-shadow(0 0 14px rgba(56, 189, 248, 0.5)) 
+          brightness(0.96);
+  transition-duration: 0.08s;
+}
+
+.cover-center-start-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Mascot on the Far Right Screen Edge */
+.cover-mascot-far-right {
+  position: absolute;
+  right: clamp(15px, 3.5vw, 50px);
+  bottom: clamp(10px, 2vw, 35px);
+  height: clamp(200px, 32vw, 380px);
+  width: auto;
+  z-index: 15;
+  pointer-events: auto;
+  cursor: pointer;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 25px rgba(56, 189, 248, 0.35));
+  animation: mascotZeroGravityRight 4.5s ease-in-out infinite;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cover-mascot-far-right:hover {
+  transform: scale(1.08) rotate(3deg);
+  filter: drop-shadow(0 20px 42px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 35px rgba(56, 189, 248, 0.75));
+}
+
+/* Mascot on the Left Side of the Screen */
+.cover-mascot-left {
+  position: absolute;
+  left: clamp(5px, 1.5vw, 25px);
+  bottom: 0;
+  height: clamp(240px, 38vw, 460px);
+  width: auto;
+  z-index: 15;
+  pointer-events: auto;
+  cursor: pointer;
+  filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 25px rgba(56, 189, 248, 0.35));
+  animation: mascotZeroGravityLeft 4.5s ease-in-out infinite;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cover-mascot-left:hover {
+  transform: scale(1.08) rotate(-3deg);
+  filter: drop-shadow(0 20px 42px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 35px rgba(56, 189, 248, 0.75));
+}
+
+@keyframes mascotZeroGravityLeft {
+  0%   { transform: translateY(0px) rotate(0deg); }
+  25%  { transform: translateY(-12px) rotate(-1.5deg); }
+  50%  { transform: translateY(-4px) rotate(1deg); }
+  75%  { transform: translateY(-16px) rotate(-2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@keyframes mascotZeroGravityRight {
+  0% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-14px) rotate(2deg); }
+  50% { transform: translateY(-5px) rotate(-1.5deg); }
+  75% { transform: translateY(-18px) rotate(2.5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+/* ==========================================================================
+   SLIDE 3: REVISED PENGERTIAN TATA SURYA (KLASIKAL PROYEKTOR 16:9)
+   - 3 Content Cards Proporsional
+   - Teks Besar (24-28px di Resolusi Proyektor Kelas)
+   - Visual Urutan 8 Planet Horizontal dari Matahari
+   ========================================================================== */
+
+.slide3-content-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1380px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.6vh, 20px);
+  z-index: 10;
+  margin: 0 auto;
+}
+
+.slide3-title {
+  margin-bottom: 0;
+  font-size: clamp(20px, 2.2vw, 32px);
+  line-height: 1.2;
+}
+
+/* 3-Cards Grid */
+.slide3-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.5vw, 24px);
+  width: 100%;
+  align-items: stretch;
+}
+
+/* Individual Content Card */
+.slide3-card {
+  position: relative;
+  background: linear-gradient(160deg, rgba(53, 28, 117, 0.92) 0%, rgba(26, 12, 65, 0.95) 100%);
+  border: 2.5px solid rgba(56, 189, 248, 0.6);
+  border-radius: 16px;
+  padding: clamp(16px, 2vh, 24px) clamp(18px, 1.8vw, 26px);
+  box-shadow: 
+    0 10px 28px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 0 20px rgba(56, 189, 248, 0.2);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1), 
+              border-color 0.25s ease, 
+              box-shadow 0.28s ease;
+  overflow: hidden;
+}
+
+.slide3-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--cyber-cyan);
+  box-shadow: 
+    0 16px 36px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 30px rgba(56, 189, 248, 0.4);
+}
+
+.slide3-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent);
+  opacity: 0.8;
+}
+
+/* Card Header */
+.slide3-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: clamp(10px, 1.2vh, 14px);
+  padding-bottom: clamp(8px, 1vh, 12px);
+  border-bottom: 1.5px solid rgba(56, 189, 248, 0.25);
+}
+
+.slide3-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(38px, 3.2vw, 48px);
+  height: clamp(38px, 3.2vw, 48px);
+  border-radius: 12px;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1.5px solid rgba(56, 189, 248, 0.5);
+  font-size: clamp(20px, 1.6vw, 26px);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.3);
+  flex-shrink: 0;
+}
+
+.slide3-card-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.slide3-card-badge {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(9px, 0.75vw, 11px);
+  font-weight: 800;
+  color: var(--cyber-cyan);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.slide3-card-title {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(17px, 1.35vw, 23px);
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.25;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Card Body Text - Diperbesar signifikan (sekitar 24-28px pada layar proyektor) */
+.slide3-card-body {
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.35vw, 25px);
+  line-height: 1.55;
+  color: #F1F5F9;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.slide3-card-body p {
+  margin: 0;
+}
+
+.slide3-card-body strong {
+  color: #FDE047;
+  font-weight: 800;
+}
+
+.slide3-card-body em {
+  color: #BAE6FD;
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* Planetary Order Strip (Bagian Pusat & Urutan Planet Horizontal) */
+.slide3-orbit-strip {
+  position: relative;
+  background: linear-gradient(135deg, rgba(30, 14, 75, 0.9) 0%, rgba(18, 8, 48, 0.95) 100%);
+  border: 2px solid rgba(56, 189, 248, 0.5);
+  border-radius: 16px;
+  padding: clamp(8px, 1.1vh, 12px) clamp(14px, 1.6vw, 24px);
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    inset 0 0 15px rgba(56, 189, 248, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 0.8vh, 10px);
+  width: 100%;
+}
+
+.slide3-strip-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-scifi-head);
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #FDE047;
+  text-transform: uppercase;
+  background: rgba(253, 224, 71, 0.12);
+  border: 1px solid rgba(253, 224, 71, 0.4);
+  padding: 3px 14px;
+  border-radius: 20px;
+}
+
+.slide3-strip-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: clamp(4px, 0.5vw, 10px);
+}
+
+.slide3-planet-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1), filter 0.22s ease;
+  flex: 1;
+  text-align: center;
+}
+
+.slide3-planet-node:hover {
+  transform: translateY(-4px) scale(1.15);
+  filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.85));
+}
+
+.slide3-planet-node:active {
+  transform: scale(0.95);
+}
+
+.slide3-planet-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(34px, 3vw, 50px);
+  height: clamp(34px, 3vw, 50px);
+  position: relative;
+}
+
+.slide3-planet-avatar.avatar-saturn {
+  width: clamp(48px, 4.2vw, 68px);
+}
+
+.slide3-planet-avatar.avatar-sun {
+  width: clamp(40px, 3.6vw, 58px);
+  height: clamp(40px, 3.6vw, 58px);
+}
+
+.slide3-planet-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.65));
+}
+
+.avatar-sun img {
+  filter: drop-shadow(0 0 14px rgba(253, 224, 71, 0.85)) drop-shadow(0 0 25px rgba(249, 115, 22, 0.6));
+}
+
+.slide3-planet-name {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(10px, 0.85vw, 13px);
+  font-weight: 800;
+  color: #FFFFFF;
+  white-space: nowrap;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+}
+
+.slide3-planet-tag {
+  font-family: var(--font-scifi-head);
+  font-size: clamp(8px, 0.68vw, 10px);
+  font-weight: 700;
+  color: var(--cyber-cyan);
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.slide3-planet-node.is-sun .slide3-planet-tag {
+  color: #FDE047;
+  background: rgba(253, 224, 71, 0.15);
+  border-color: rgba(253, 224, 71, 0.4);
+}
+
+.slide3-track-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(56, 189, 248, 0.65);
+  font-size: clamp(13px, 1.1vw, 17px);
+  font-weight: 900;
+  text-shadow: 0 0 6px rgba(56, 189, 248, 0.5);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+/* Responsivitas Layar Sempit / HP */
+@media (max-width: 900px) {
+  .slide3-cards-grid {
+    grid-template-columns: 1fr;
+    max-height: 48vh;
+    overflow-y: auto;
+  }
+  .slide3-strip-track {
+    overflow-x: auto;
+    padding-bottom: 6px;
+    justify-content: flex-start;
+  }
+  .slide3-planet-node {
+    min-width: 60px;
+  }
+}
+
+
+/* ==========================================================================
+   SLIDE 2: PROGRESSIVE UNLOCK SYSTEM ADDITIONS
+   ========================================================================== */
+
+/* Efek shake ketika kartu misi terkunci diklik */
+@keyframes lockedShake {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-7px) rotate(-1deg); }
+  30%  { transform: translateX(7px) rotate(1deg); }
+  45%  { transform: translateX(-5px); }
+  60%  { transform: translateX(5px); }
+  75%  { transform: translateX(-3px); }
+  90%  { transform: translateX(3px); }
+  100% { transform: translateX(0); }
+}
+
+.module-card.locked-shake {
+  animation: lockedShake 0.5s ease-in-out;
+}
+
+/* Status: Kartu misi yang sudah selesai — border centang hijau */
+.module-card.completed {
+  border-color: #22C55E;
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.45);
+}
+
+/* Tombol Reset Progres: warna merah konsisten dengan tema */
+#btn-reset-progress {
+  color: #FCA5A5;
+}
+
+#btn-reset-progress:hover {
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.75);
+  color: #FFFFFF;
+}
+
+/* Tombol audio aset di slide-2 (ukuran serasi dengan tombol lain) */
+.asset-icon-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  transition: transform 0.2s, filter 0.2s;
+  flex-shrink: 0;
+}
+
+.asset-icon-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.asset-icon-btn:hover {
+  transform: scale(1.1);
+  filter: brightness(1.15);
+}
