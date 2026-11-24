@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide 6 - Mission Room I | PLANET MISSION LAB</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ==========================================================================
+       OPTIMALISASI SLIDE 6 (MISSION ROOM 1) UNTUK LAYAR BESAR / PROYEKTOR / PID
+       ========================================================================== */
+
+    /* Kontainer slide utama: Terpusat secara vertikal dan seimbang */
+    .slide-mission1-main {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      box-sizing: border-box !important;
+      padding-top: clamp(65px, 8.5vh, 88px) !important;
+      padding-bottom: clamp(65px, 8vh, 88px) !important;
+      padding-left: clamp(20px, 2.5vw, 36px) !important;
+      padding-right: clamp(20px, 2.5vw, 36px) !important;
+      background: transparent !important;
+      position: relative !important;
+    }
+
+    /* Wrapper utama seluruh area game: Diturunkan ke tengah layar secara seimbang */
+    .mission1-game-container {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      max-width: clamp(1020px, 94vw, 1260px) !important;
+      margin: 0 auto !important;
+      /* Geser vertikal ke bawah agar tepat di area tengah kerja layar PID */
+      transform: translateY(clamp(8px, 1.4vh, 18px)) !important;
+      position: relative !important;
+      z-index: 10 !important;
+    }
+
+    /* Judul dan Subjudul */
+    .mission1-header-title {
+      margin-top: 0 !important;
+      margin-bottom: clamp(4px, 0.8vh, 8px) !important;
+      font-size: clamp(26px, 3.4vw, 40px) !important;
+      letter-spacing: 2px !important;
+      text-shadow: 3px 3px 0px #0284C7, 0 0 20px rgba(56, 189, 248, 0.85) !important;
+    }
+
+    .mission1-instruction-text {
+      font-size: clamp(15px, 1.6vw, 19px) !important;
+      font-weight: 800 !important;
+      color: #BAE6FD !important;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8) !important;
+      margin-top: 0 !important;
+      margin-bottom: clamp(16px, 2.2vh, 26px) !important;
+      text-align: center !important;
+    }
+
+    /* --------------------------------------------------------------------------
+       1. DERETAN 9 SLOT LINGKARAN JAWABAN (DIPERBESAR & LEBIH JELAS)
+       -------------------------------------------------------------------------- */
+    .mission1-slots-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(10px, 1.25vw, 18px) !important;
+      width: 100% !important;
+      max-width: 1260px !important;
+      margin-bottom: clamp(18px, 2.5vh, 28px) !important;
+      padding: clamp(6px, 1vh, 12px) clamp(10px, 1.2vw, 16px) !important;
+      box-sizing: border-box !important;
+    }
+
+    .mission-slot.slot-body-uniform {
+      width: clamp(86px, 8.4vw, 112px) !important;
+      height: clamp(86px, 8.4vw, 112px) !important;
+      border-radius: 50% !important;
+      cursor: pointer !important;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease !important;
+    }
+
+    .mission-slot:hover {
+      transform: translateY(-5px) scale(1.08) !important;
+    }
+
+    /* Lingkaran kosong dengan tanda tanya besar & kontras */
+    .slot-circle-empty {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 50% !important;
+      background: radial-gradient(circle at 35% 35%, #2a1a4e, #0d0820 72%) !important;
+      border: 3px solid rgba(56, 189, 248, 0.65) !important;
+      box-shadow:
+        0 0 0 2px rgba(56, 189, 248, 0.25),
+        0 6px 20px rgba(0, 0, 0, 0.75),
+        inset 0 0 16px rgba(56, 189, 248, 0.12) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.22s ease !important;
+    }
+
+    .mission-slot:hover .slot-circle-empty {
+      border-color: #38BDF8 !important;
+      box-shadow:
+        0 0 0 3px rgba(56, 189, 248, 0.45),
+        0 8px 26px rgba(0, 0, 0, 0.85),
+        inset 0 0 22px rgba(56, 189, 248, 0.25) !important;
+    }
+
+    .mission-slot .slot-question-mark {
+      font-family: var(--font-scifi-head) !important;
+      font-size: clamp(28px, 3vw, 42px) !important;
+      font-weight: 900 !important;
+      color: #FFFFFF !important;
+      text-shadow: 0 0 12px #38BDF8, 0 0 24px rgba(56, 189, 248, 0.75), 0 2px 6px rgba(0, 0, 0, 0.9) !important;
+      line-height: 1 !important;
+    }
+
+    .mission-slot.filled {
+      width: clamp(86px, 8.4vw, 112px) !important;
+      height: clamp(86px, 8.4vw, 112px) !important;
+    }
+
+    .mission-slot.filled .slot-planet-img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.6)) !important;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. AREA KUMPULAN PLANET (POOL) - DIPERBESAR & TULISAN LEBIH TEGAS
+       -------------------------------------------------------------------------- */
+    .mission1-pool-row {
+      display: flex !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      gap: clamp(8px, 1.15vw, 18px) !important;
+      flex-wrap: nowrap !important;
+      width: 98% !important;
+      max-width: clamp(1020px, 94vw, 1260px) !important;
+      background: rgba(26, 14, 68, 0.82) !important;
+      padding: clamp(16px, 2vh, 22px) clamp(16px, 1.8vw, 26px) clamp(14px, 1.8vh, 18px) clamp(16px, 1.8vw, 26px) !important;
+      border-radius: 28px !important;
+      border: 3px dashed rgba(56, 189, 248, 0.65) !important;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.6), inset 0 0 24px rgba(56, 189, 248, 0.15) !important;
+      backdrop-filter: blur(8px) !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+    }
+
+    .mission-pool-item {
+      width: clamp(90px, 9.2vw, 120px) !important;
+      cursor: grab !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-end !important;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease !important;
+    }
+
+    .pool-item-img-wrap {
+      display: flex !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: clamp(74px, 8vw, 98px) !important;
+    }
+
+    .pool-item-img-wrap img {
+      max-width: 100% !important;
+      max-height: 100% !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+      display: block !important;
+      filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.7)) !important;
+    }
+
+    /* Skala tinggi maksimal planet agar proporsional dan tidak gepeng */
+    .pool-item-matahari .pool-item-img-wrap img  { max-height: clamp(74px, 7.8vw, 96px) !important; }
+    .pool-item-jupiter .pool-item-img-wrap img   { max-height: clamp(70px, 7.4vw, 92px) !important; }
+    .pool-item-saturnus .pool-item-img-wrap img  { max-height: clamp(66px, 7.0vw, 88px) !important; }
+    .pool-item-uranus .pool-item-img-wrap img    { max-height: clamp(62px, 6.5vw, 80px) !important; }
+    .pool-item-neptunus .pool-item-img-wrap img  { max-height: clamp(62px, 6.5vw, 80px) !important; }
+    .pool-item-bumi .pool-item-img-wrap img      { max-height: clamp(62px, 6.5vw, 80px) !important; }
+    .pool-item-venus .pool-item-img-wrap img     { max-height: clamp(60px, 6.3vw, 78px) !important; }
+    .pool-item-mars .pool-item-img-wrap img      { max-height: clamp(54px, 5.6vw, 70px) !important; }
+    .pool-item-merkurius .pool-item-img-wrap img { max-height: clamp(48px, 5.0vw, 64px) !important; }
+
+    .pool-item-saturnus { width: clamp(98px, 10vw, 130px) !important; }
+    .pool-item-uranus   { width: clamp(94px, 9.6vw, 124px) !important; }
+
+    /* Label Nama Planet di Bawah Gambar */
+    .pool-item-name {
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(14px, 1.4vw, 17px) !important;
+      font-weight: 800 !important;
+      color: #FFFFFF !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.7) !important;
+      margin-top: 8px !important;
+      letter-spacing: 0.3px !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+    }
+
+    .mission-pool-item:hover {
+      transform: translateY(-7px) scale(1.15) !important;
+      filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 18px rgba(56, 189, 248, 0.8)) !important;
+    }
+
+    .mission-pool-item.selected {
+      transform: translateY(-9px) scale(1.18) !important;
+      filter: drop-shadow(0 0 22px #FDE047) drop-shadow(0 0 36px rgba(253, 224, 71, 0.9)) !important;
+    }
+
+    /* --------------------------------------------------------------------------
+       3. TOMBOL AKSI INTERAKTIF (ACAK / RESET & PERIKSA URUTAN)
+       -------------------------------------------------------------------------- */
+    .mission-actions-row {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: clamp(16px, 2vw, 26px) !important;
+      margin-top: clamp(18px, 2.4vh, 26px) !important;
+      width: 100% !important;
+    }
+
+    .btn-action-reset-m1 {
+      padding: clamp(11px, 1.4vh, 15px) clamp(24px, 2.4vw, 34px) !important;
+      font-size: clamp(15.5px, 1.6vw, 18.5px) !important;
+      font-weight: 800 !important;
+      border-radius: 18px !important;
+      background: rgba(239, 68, 68, 0.6) !important;
+      border: 2px solid #EF4444 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.45) !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      font-family: var(--font-body), sans-serif !important;
+    }
+
+    .btn-action-reset-m1:hover {
+      background: #EF4444 !important;
+      box-shadow: 0 0 22px rgba(239, 68, 68, 0.75), 0 6px 18px rgba(0, 0, 0, 0.6) !important;
+      transform: translateY(-2px) scale(1.03) !important;
+    }
+
+    .btn-action-check-m1 {
+      padding: clamp(12px, 1.5vh, 16px) clamp(34px, 3.4vw, 48px) !important;
+      font-size: clamp(17px, 1.75vw, 21px) !important;
+      font-weight: 900 !important;
+      border-radius: 24px !important;
+      background: linear-gradient(135deg, #0284C7 0%, #00D2FF 100%) !important;
+      border: 2.5px solid #BAE6FD !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 0 24px rgba(0, 210, 255, 0.6), 0 6px 20px rgba(0, 0, 0, 0.5) !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      font-family: var(--font-body), sans-serif !important;
+      letter-spacing: 0.5px !important;
+    }
+
+    .btn-action-check-m1:hover {
+      background: linear-gradient(135deg, #0369A1 0%, #38BDF8 100%) !important;
+      border-color: #FFFFFF !important;
+      box-shadow: 0 0 32px rgba(0, 210, 255, 0.85), 0 8px 24px rgba(0, 0, 0, 0.7) !important;
+      transform: translateY(-2px) scale(1.03) !important;
+    }
+
+    /* --------------------------------------------------------------------------
+       4. MASKOT ASTRONOT DI SAMPING (POSISI AMAN TIDAK MENUTUPI TOMBOL)
+       -------------------------------------------------------------------------- */
+    .mission1-mascot-wrapper {
+      position: absolute !important;
+      right: clamp(14px, 2vw, 34px) !important;
+      bottom: clamp(65px, 9.5vh, 105px) !important;
+      width: clamp(115px, 12vw, 155px) !important;
+      z-index: 25 !important;
+      pointer-events: auto !important;
+      cursor: pointer !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEWPORT 16:9 CONTAINER -->
+  <div id="viewport-wrapper">
+    <div id="app-stage" style="background-image: url('assets/bg%20keseluruhan.png');">
+
+      <!-- ====================================================================
+           GLOBAL HUD
+           ==================================================================== -->
+      <header class="stage-hud">
+        <div class="hud-left" style="gap: 20px;">
+          <button id="btn-back-menu" class="asset-icon-btn" data-tooltip="Menu Utama" title="Kembali ke Menu Utama">
+            <img src="assets/Tombol%20Rumah.png" alt="Kembali ke Menu Utama">
+          </button>
+          <button id="btn-global-audio" class="asset-icon-btn" data-tooltip="Pengaturan Suara" title="Pengaturan Audio (Tekan M)">
+            <img src="assets/Tombol%20Suara.png" alt="Tombol Suara">
+          </button>
+        </div>
+        <div class="hud-center"></div>
+        <div class="hud-right" style="gap: 20px;">
+          <button id="btn-global-fullscreen" class="arcade-circle-btn btn-fullscreen" title="Layar Penuh Proyektor (F)">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           SLIDE 6 CONTENT: MISSION ROOM I
+           ==================================================================== -->
+      <main class="slide active slide-mission1-main">
+        <h2 class="arcade-header-title mission1-header-title">MISSION ROOM I</h2>
+        <p class="mission-instruction-text mission1-instruction-text">
+          🚀 Susunlah planet-planet sesuai dengan urutannya dari Matahari!
+        </p>
+
+        <!-- KELOMPOK UTAMA PERMAINAN (DITURUNKAN KE TENGAH SECARA VERTIKAL) -->
+        <div class="mission1-game-container">
+          <!-- 9 SLOT LINGKARAN HITAM POLOS -->
+          <div id="mission1-slots-row" class="mission1-slots-row"></div>
+
+          <!-- POOL BENDA ANGKASA SECARA ACAK -->
+          <div id="mission1-pool-row" class="mission1-pool-row"></div>
+
+          <!-- TOMBOL AKSI MISI 1 (DIPERBESAR & NYAMAN DI-TOUCH) -->
+          <div class="mission-actions-row">
+            <button id="btn-reset-m1" class="btn-action-reset-m1" title="Acak kembali posisi planet">
+              🔄 Acak / Reset Posisi
+            </button>
+            <button id="btn-check-m1" class="btn-action-check-m1" title="Periksa kebenaran urutan planet">
+              Periksa Urutan ✨
+            </button>
+          </div>
+        </div>
+
+        <!-- MASKOT 1 -->
+        <div id="mission1-mascot" class="mission1-mascot-wrapper" title="Astronot Penjelajah Antariksa (Klik)">
+          <img src="assets/Maskot%201.png" alt="Maskot 1 Astronot" class="mission1-floating-mascot">
+        </div>
+
+        <!-- TOMBOL NAVIGASI BAWAH -->
+        <div class="slide-nav-bottom">
+          <div id="btn-prev-lab" class="nav-btn-wrapper" title="Kembali ke Planet Lab">
+            <button class="arcade-circle-btn btn-home" style="width: 50px; height: 50px;">
+              <svg viewBox="0 0 24 24" style="width: 26px; height: 26px;"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <span class="nav-label" style="font-size: clamp(15px, 1.6vw, 18px); font-weight: 800;">Planet Lab</span>
+          </div>
+
+          <div id="btn-direct-m2" class="nav-btn-wrapper" title="Lanjut ke Mission Room 2">
+            <span class="nav-label" style="font-size: clamp(15px, 1.6vw, 18px); font-weight: 800;">Lanjut ke Mission Room 2</span>
+            <button class="arcade-circle-btn btn-home" style="width: 50px; height: 50px;">
+              <svg viewBox="0 0 24 24" style="width: 26px; height: 26px;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       POPUP FEEDBACK MODAL (SUKSES / GAGAL)
+       ====================================================================== -->
+  <div id="modal-feedback" class="modal-feedback-overlay">
+    <div id="feedback-card-container" class="feedback-card-container">
+      <div id="feedback-badge-icon" class="feedback-badge-icon success">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+      <p id="feedback-message-text" class="feedback-message-text">
+        Yeay! Urutannya sudah benar, kamu boleh menjelajah ke petualangan selanjutnya!
+      </p>
+      <button id="feedback-modal-btn" class="feedback-action-btn-circle" title="Lanjut">
+        <svg id="modal-icon-next" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        <svg id="modal-icon-retry" style="display: none;" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+      </button>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       SCRIPTS
+       ====================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CommonHUD.init('slide-6');
+
+      let userSlots = new Array(9).fill(null);
+      let pool = [];
+      let selectedPoolItem = null;
+
+      // Navigasi
+      const btnMenu = document.getElementById('btn-back-menu');
+      const btnPrev = document.getElementById('btn-prev-lab');
+      const btnDirect = document.getElementById('btn-direct-m2');
+      if (btnMenu) btnMenu.addEventListener('click', () => {
+        CommonAudio.play('button');
+        CommonHUD.navigate('slide-2.html');
+      });
+      if (btnPrev) btnPrev.addEventListener('click', () => {
+        CommonAudio.play('button');
+        CommonHUD.navigate('slide-5.html');
+      });
+      if (btnDirect) btnDirect.addEventListener('click', () => {
+        CommonAudio.play('button');
+        CommonHUD.navigate('slide-7.html');
+      });
+
+      // Interaksi Maskot 1
+      const mascot1 = document.getElementById('mission1-mascot');
+      if (mascot1) {
+        mascot1.addEventListener('click', () => {
+          CommonAudio.play('correct');
+          mascot1.style.transform = 'scale(1.15)';
+          setTimeout(() => { mascot1.style.transform = ''; }, 350);
+        });
+      }
+
+      function resetMission() {
+        userSlots = new Array(9).fill(null);
+        selectedPoolItem = null;
+        const correct = PLANET_DATA.missions.mission1.correctOrder;
+        pool = [...correct].sort(() => Math.random() - 0.5);
+        renderSlots();
+        renderPool();
+      }
+
+      function renderSlots() {
+        const slotsRow = document.getElementById('mission1-slots-row');
+        if (!slotsRow) return;
+        slotsRow.innerHTML = '';
+
+        userSlots.forEach((item, index) => {
+          const slot = document.createElement('div');
+          slot.className = 'mission-slot slot-body-uniform' + (item ? ' filled' : '');
+          slot.setAttribute('data-index', index);
+          slot.setAttribute('title', item
+            ? item.name + ' (Klik untuk mengembalikan ke rak)'
+            : 'Slot ' + (index === 0 ? 'Pusat (Matahari)' : 'Planet ' + index));
+
+          if (item) {
+            // Slot sudah diisi — tampilkan gambar planet
+            const img = document.createElement('img');
+            img.src = item.image;
+            img.alt = item.name;
+            img.className = 'slot-planet-img';
+            slot.appendChild(img);
+
+            slot.addEventListener('click', () => {
+              CommonAudio.play('click');
+              pool.push(item);
+              userSlots[index] = null;
+              renderSlots();
+              renderPool();
+            });
+          } else {
+            // Slot kosong — LINGKARAN HITAM POLOS dengan tanda tanya
+            const circle = document.createElement('div');
+            circle.className = 'slot-circle-empty';
+
+            const qmark = document.createElement('span');
+            qmark.className = 'slot-question-mark';
+            qmark.textContent = '?';
+            circle.appendChild(qmark);
+            slot.appendChild(circle);
+
+            // Klik untuk mengisi slot
+            slot.addEventListener('click', () => {
+              if (selectedPoolItem) {
+                CommonAudio.play('click');
+                userSlots[index] = selectedPoolItem;
+                pool = pool.filter(p => p.id !== selectedPoolItem.id);
+                selectedPoolItem = null;
+                renderSlots();
+                renderPool();
+              }
+            });
+
+            // HTML5 Drag & Drop
+            slot.addEventListener('dragover', (e) => e.preventDefault());
+            slot.addEventListener('drop', (e) => {
+              e.preventDefault();
+              const itemId = e.dataTransfer.getData('text/plain');
+              const dropped = pool.find(p => p.id === itemId);
+              if (dropped) {
+                CommonAudio.play('click');
+                userSlots[index] = dropped;
+                pool = pool.filter(p => p.id !== itemId);
+                renderSlots();
+                renderPool();
+              }
+            });
+          }
+
+          slotsRow.appendChild(slot);
+        });
+      }
+
+      function renderPool() {
+        const poolRow = document.getElementById('mission1-pool-row');
+        if (!poolRow) return;
+        poolRow.innerHTML = '';
+
+        if (pool.length === 0) {
+          poolRow.innerHTML = '<div style="padding: 10px 20px; text-align: center;"><p style="font-size: 15px; font-weight: 800; color: #BAE6FD; text-shadow: 0 2px 4px rgba(0,0,0,0.6);">✨ Semua planet telah ditempatkan! Silakan tekan tombol <strong>"Periksa Urutan"</strong> di bawah.</p></div>';
+          return;
+        }
+
+        pool.forEach(item => {
+          const el = document.createElement('div');
+          el.className = 'mission-pool-item pool-item-' + item.id + (selectedPoolItem && selectedPoolItem.id === item.id ? ' selected' : '');
+          el.setAttribute('draggable', 'true');
+          el.setAttribute('title', 'Klik atau Drag: ' + item.name);
+
+          // Wrapper gambar
+          const imgWrap = document.createElement('div');
+          imgWrap.className = 'pool-item-img-wrap';
+
+          const img = document.createElement('img');
+          img.src = item.image;
+          img.alt = item.name;
+          img.setAttribute('draggable', 'false');
+          imgWrap.appendChild(img);
+
+          // Label nama
+          const nameLabel = document.createElement('span');
+          nameLabel.className = 'pool-item-name';
+          nameLabel.textContent = item.name;
+
+          el.appendChild(imgWrap);
+          el.appendChild(nameLabel);
+
+          el.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', item.id);
+          });
+
+          el.addEventListener('click', () => {
+            CommonAudio.play('click');
+            const firstEmpty = userSlots.findIndex(s => s === null);
+            if (firstEmpty !== -1) {
+              userSlots[firstEmpty] = item;
+              pool = pool.filter(p => p.id !== item.id);
+              selectedPoolItem = null;
+              renderSlots();
+              renderPool();
+              return;
+            }
+            if (selectedPoolItem && selectedPoolItem.id === item.id) {
+              selectedPoolItem = null;
+            } else {
+              selectedPoolItem = item;
+            }
+            renderPool();
+          });
+
+          poolRow.appendChild(el);
+        });
+      }
+
+      function checkOrder() {
+        const correct = PLANET_DATA.missions.mission1.correctOrder;
+        let isCorrect = true;
+        for (let i = 0; i < correct.length; i++) {
+          if (!userSlots[i] || userSlots[i].id !== correct[i].id) {
+            isCorrect = false;
+            break;
+          }
+        }
+
+        const modal = document.getElementById('modal-feedback');
+        const badge = document.getElementById('feedback-badge-icon');
+        const msg = document.getElementById('feedback-message-text');
+        const iconNext = document.getElementById('modal-icon-next');
+        const iconRetry = document.getElementById('modal-icon-retry');
+        const btnAction = document.getElementById('feedback-modal-btn');
+
+        if (isCorrect) {
+          CommonAudio.play('success');
+          CommonState.unlockMission(3);
+          badge.className = 'feedback-badge-icon success';
+          badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+          msg.textContent = 'Yeay! Urutannya sudah benar, kamu boleh menjelajah ke petualangan selanjutnya!';
+          iconNext.style.display = 'block';
+          iconRetry.style.display = 'none';
+          btnAction.onclick = () => {
+            modal.classList.remove('active');
+            CommonHUD.navigate('slide-7.html');
+          };
+        } else {
+          CommonAudio.play('wrong');
+          badge.className = 'feedback-badge-icon failure';
+          badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>';
+          msg.textContent = 'Jawabanmu salah, coba kembali pelajari materi sebelumnya, dan kerjakan dengan teliti!';
+          iconNext.style.display = 'none';
+          iconRetry.style.display = 'block';
+          btnAction.onclick = () => {
+            modal.classList.remove('active');
+            resetMission();
+          };
+        }
+
+        modal.classList.add('active');
+      }
+
+      document.getElementById('btn-check-m1').addEventListener('click', checkOrder);
+      document.getElementById('btn-reset-m1').addEventListener('click', () => {
+        CommonAudio.play('click');
+        resetMission();
+      });
+
+      resetMission();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide 8 - Quiz Tata Surya | PLANET MISSION LAB</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ==========================================================================
+       STYLING SISTEM EVALUASI SLIDE 8: MODE SELECT, MULTIPLE CHOICE & FIND THE WORDS
+       OPTIMAL UNTUK INTERACTIVE FLAT PANEL (PID/IFP 16:9)
+       ========================================================================== */
+
+    /* Container Utama Slide 8 */
+    .slide-quiz-main {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      background: transparent !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      box-sizing: border-box !important;
+      padding-top: clamp(55px, 7.5vh, 75px) !important;
+      padding-bottom: clamp(60px, 7.5vh, 80px) !important;
+      padding-left: clamp(20px, 2.5vw, 40px) !important;
+      padding-right: clamp(20px, 2.5vw, 40px) !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    /* Views Container */
+    .eval-view {
+      display: none;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Penyesuaian View 1 (Mode Select): Judul & Subjudul dinaikkan proporsional ke area atas */
+    #view-mode-select {
+      justify-content: flex-start !important;
+      padding-top: clamp(10px, 1.8vh, 26px) !important;
+    }
+
+    /* Penyesuaian View 3 (Find the Words): Menurunkan posisi area konten agar seimbang di tengah layar */
+    #view-quiz-ftw {
+      justify-content: flex-start !important;
+      padding-top: clamp(82px, 10.8vh, 118px) !important;
+      padding-bottom: clamp(65px, 8vh, 85px) !important;
+      box-sizing: border-box !important;
+    }
+
+    .eval-view.active {
+      display: flex !important;
+      animation: fadeInView 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInView {
+      from { opacity: 0; transform: scale(0.98) translateY(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* --------------------------------------------------------------------------
+       BAGIAN A: HALAMAN PEMILIHAN DUA MODE EVALUASI
+       -------------------------------------------------------------------------- */
+    .mode-select-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .mode-select-title {
+      font-size: clamp(24px, 3.2vw, 38px) !important;
+      margin-top: 0 !important;
+      margin-bottom: 8px !important;
+      letter-spacing: 2px !important;
+      color: #FFFFFF !important;
+      text-transform: uppercase !important;
+      text-shadow: 3px 3px 0px #0284C7, 0 0 24px rgba(56, 189, 248, 0.85) !important;
+      text-align: center;
+    }
+
+    .mode-select-subtitle {
+      font-size: clamp(14px, 1.5vw, 18px) !important;
+      font-weight: 800 !important;
+      color: #BAE6FD !important;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8) !important;
+      margin-top: 0 !important;
+      margin-bottom: clamp(34px, 4.8vh, 52px) !important;
+      text-align: center;
+    }
+
+    /* Row Kartu Mode Seimbang */
+    .mode-cards-grid {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: clamp(24px, 3.5vw, 44px);
+      width: 100%;
+      max-width: 980px;
+    }
+
+    .mode-card-item {
+      flex: 1;
+      max-width: 440px;
+      background: linear-gradient(160deg, rgba(30, 27, 75, 0.88) 0%, rgba(15, 23, 42, 0.95) 100%);
+      border: 3px solid rgba(56, 189, 248, 0.45);
+      border-radius: 28px;
+      padding: clamp(28px, 3.5vh, 36px) clamp(24px, 2.8vw, 32px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.2);
+      backdrop-filter: blur(12px);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .mode-card-item:hover {
+      transform: translateY(-8px) scale(1.03);
+      border-color: #FDE047;
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.65), 0 0 35px rgba(253, 224, 71, 0.45);
+    }
+
+    .mode-card-item:active {
+      transform: scale(0.99);
+    }
+
+    .mode-card-item.mode-ftw {
+      border-color: rgba(232, 121, 249, 0.55);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 25px rgba(232, 121, 249, 0.25);
+    }
+
+    .mode-card-item.mode-ftw:hover {
+      border-color: #E879F9;
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.65), 0 0 35px rgba(232, 121, 249, 0.5);
+    }
+
+    /* Tag Status Pengerjaan di Atas Kartu */
+    .mode-status-pill {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mode-status-pill.pending {
+      background: rgba(148, 163, 184, 0.2);
+      color: #CBD5E1;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+    }
+
+    .mode-status-pill.done {
+      background: rgba(34, 197, 94, 0.25);
+      color: #4ADE80;
+      border: 1px solid #22C55E;
+    }
+
+    /* Ilustrasi / Ikon Futuristik Kartu */
+    .mode-icon-wrapper {
+      width: clamp(80px, 9vw, 110px);
+      height: clamp(80px, 9vw, 110px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, rgba(56, 189, 248, 0.35), rgba(15, 23, 42, 0.85));
+      border: 2px solid rgba(56, 189, 248, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 18px rgba(56, 189, 248, 0.4);
+      transition: transform 0.25s ease;
+    }
+
+    .mode-card-item.mode-ftw .mode-icon-wrapper {
+      background: radial-gradient(circle at 35% 35%, rgba(232, 121, 249, 0.35), rgba(15, 23, 42, 0.85));
+      border-color: rgba(232, 121, 249, 0.6);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 18px rgba(232, 121, 249, 0.4);
+    }
+
+    .mode-card-item:hover .mode-icon-wrapper {
+      transform: scale(1.1) rotate(4deg);
+    }
+
+    .mode-icon-wrapper svg {
+      width: 52%;
+      height: 52%;
+      fill: none;
+      stroke: #FFFFFF;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .mode-card-title {
+      font-family: var(--font-scifi-head), sans-serif;
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: 1.5px;
+      margin: 0 0 8px 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .mode-card-desc {
+      font-size: clamp(14px, 1.4vw, 16.5px);
+      font-weight: 700;
+      line-height: 1.45;
+      color: #CBD5E1;
+      margin: 0 0 20px 0;
+      flex-grow: 1;
+    }
+
+    .btn-mode-launch {
+      width: 100%;
+      padding: clamp(11px, 1.4vh, 15px) 20px;
+      font-size: clamp(15px, 1.5vw, 18px);
+      font-weight: 900;
+      font-family: var(--font-body), sans-serif;
+      border-radius: 18px;
+      border: 2px solid #BAE6FD;
+      background: linear-gradient(135deg, #0284C7 0%, #00D2FF 100%);
+      color: #FFFFFF;
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .mode-card-item.mode-ftw .btn-mode-launch {
+      border-color: #FBCFE8;
+      background: linear-gradient(135deg, #9333EA 0%, #E879F9 100%);
+      box-shadow: 0 0 20px rgba(232, 121, 249, 0.5), 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-mode-launch:hover {
+      transform: scale(1.02);
+      filter: brightness(1.1);
+    }
+
+    /* --------------------------------------------------------------------------
+       BAGIAN B: STYLING MULTIPLE CHOICE
+       -------------------------------------------------------------------------- */
+    .eval-header-nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1120px;
+      margin-bottom: clamp(10px, 1.4vh, 16px);
+    }
+
+    .btn-back-to-modes {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 18px;
+      font-size: clamp(13px, 1.3vw, 15px);
+      font-weight: 800;
+      color: #BAE6FD;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1.5px solid rgba(56, 189, 248, 0.4);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-back-to-modes:hover {
+      background: rgba(56, 189, 248, 0.25);
+      border-color: #38BDF8;
+      color: #FFFFFF;
+      transform: translateX(-3px);
+    }
+
+    .quiz-content-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      max-width: clamp(920px, 88vw, 1160px) !important;
+      margin: 0 auto !important;
+      position: relative !important;
+      z-index: 10 !important;
+      transform: translateY(clamp(20px, 2.8vh, 32px)) !important;
+    }
+
+    .slide-quiz-title {
+      position: absolute !important;
+      top: clamp(10px, 1.8vh, 26px) !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      margin: 0 !important;
+      width: 100% !important;
+      text-align: center !important;
+      font-size: clamp(22px, 2.5vw, 32px) !important;
+      letter-spacing: 2px !important;
+      color: #FFFFFF !important;
+      text-transform: uppercase !important;
+      text-shadow: 3px 3px 0px #0284C7, 0 0 20px rgba(56, 189, 248, 0.85) !important;
+      z-index: 20 !important;
+      pointer-events: none;
+    }
+
+    .quiz-container {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(24px, 3.5vw, 44px) !important;
+      width: 100% !important;
+      position: relative !important;
+      box-sizing: border-box !important;
+    }
+
+    .quiz-mascot-col {
+      width: clamp(155px, 16vw, 210px) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 12px !important;
+      flex-shrink: 0 !important;
+    }
+
+    .quiz-mascot-img-wrapper {
+      width: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      animation: floatMascot 4s ease-in-out infinite !important;
+    }
+
+    .quiz-mascot-img {
+      width: 100% !important;
+      height: auto !important;
+      max-height: clamp(170px, 22vh, 225px) !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.6)) !important;
+    }
+
+    .quiz-score-card {
+      width: 100% !important;
+      max-width: 180px !important;
+      background: rgba(15, 23, 42, 0.85) !important;
+      border: 2px solid #FDE047 !important;
+      border-radius: 16px !important;
+      padding: 7px 14px !important;
+      text-align: center !important;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(253, 224, 71, 0.3) !important;
+      backdrop-filter: blur(8px) !important;
+      box-sizing: border-box !important;
+    }
+
+    .quiz-score-label {
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      color: #FDE047 !important;
+      letter-spacing: 1.5px !important;
+      text-transform: uppercase !important;
+      display: block !important;
+      margin-bottom: 2px !important;
+    }
+
+    .quiz-score-val {
+      font-family: var(--font-scifi-head) !important;
+      font-size: clamp(20px, 2.2vw, 24px) !important;
+      font-weight: 900 !important;
+      color: #FFFFFF !important;
+      line-height: 1.2 !important;
+    }
+
+    .quiz-score-max {
+      font-size: clamp(14px, 1.5vw, 16px) !important;
+      color: #94A3B8 !important;
+      font-weight: 700 !important;
+    }
+
+    .quiz-card-col {
+      flex: 1 !important;
+      max-width: clamp(680px, 60vw, 840px) !important;
+      position: relative !important;
+    }
+
+    .quiz-number-badge {
+      position: absolute !important;
+      top: -24px !important;
+      left: -14px !important;
+      font-family: var(--font-scifi-head) !important;
+      font-size: clamp(36px, 4vw, 52px) !important;
+      font-weight: 900 !important;
+      color: #FFFFFF !important;
+      -webkit-text-stroke: 3px var(--cyber-cyan) !important;
+      text-shadow: 3px 3px 0px #0284C7, 0 0 15px rgba(56, 189, 248, 0.8) !important;
+      z-index: 5 !important;
+      line-height: 1 !important;
+    }
+
+    .quiz-question-box {
+      background: #FFFFFF !important;
+      border-radius: clamp(20px, 2vw, 26px) !important;
+      border: 4px solid #FDE047 !important;
+      padding: clamp(22px, 2.6vh, 30px) clamp(22px, 2.4vw, 34px) clamp(18px, 2vh, 24px) clamp(26px, 2.8vw, 38px) !important;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45), 0 0 22px rgba(253, 224, 71, 0.25) !important;
+      color: #0F172A !important;
+      box-sizing: border-box !important;
+    }
+
+    .quiz-question-text {
+      font-family: var(--font-body) !important;
+      font-size: clamp(18px, 1.9vw, 22px) !important;
+      font-weight: 800 !important;
+      line-height: 1.45 !important;
+      margin-bottom: clamp(14px, 1.8vh, 18px) !important;
+      color: #0F172A !important;
+      word-wrap: break-word !important;
+    }
+
+    .quiz-options-list {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: clamp(9px, 1.2vh, 13px) !important;
+    }
+
+    .quiz-option-btn {
+      background: #F1F5F9 !important;
+      color: #0F172A !important;
+      border: 2px solid #CBD5E1 !important;
+      border-radius: clamp(14px, 1.4vw, 18px) !important;
+      padding: clamp(10px, 1.2vh, 14px) clamp(16px, 1.8vw, 22px) !important;
+      font-family: var(--font-body) !important;
+      font-size: clamp(16px, 1.55vw, 19px) !important;
+      font-weight: 700 !important;
+      text-align: left !important;
+      line-height: 1.4 !important;
+      cursor: pointer !important;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12) !important;
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      word-wrap: break-word !important;
+      white-space: normal !important;
+    }
+
+    .quiz-option-btn:hover {
+      background: #E2E8F0 !important;
+      border-color: #94A3B8 !important;
+      transform: translateX(6px) !important;
+    }
+
+    .quiz-option-btn.selected {
+      background: #FEF08A !important;
+      border-color: #0284C7 !important;
+      color: #000000 !important;
+      font-weight: 800 !important;
+    }
+
+    /* --------------------------------------------------------------------------
+       BAGIAN C: STYLING FIND THE WORDS (TATA LETAK 2 BAGIAN: ATAS & BAWAH)
+       BAGIAN ATAS: KARTU SOAL (~60%) & MASKOT + SKOR (~40%)
+       BAGIAN BAWAH: PAPAN GRID HURUF 11x6 (66 KOTAK) SEJAJAR DENGAN PANEL ATAS
+       -------------------------------------------------------------------------- */
+    .ftw-main-container {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: clamp(10px, 1.4vh, 16px) !important;
+      width: 100% !important;
+      max-width: clamp(880px, 80vw, 1040px) !important;
+      margin: 0 auto !important;
+      position: relative !important;
+      z-index: 10 !important;
+      box-sizing: border-box !important;
+    }
+
+    /* BAGIAN ATAS: DUA AREA BERDAMPINGAN */
+    .ftw-top-row {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch !important;
+      justify-content: space-between !important;
+      gap: clamp(14px, 1.8vw, 22px) !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* SEBELAH KIRI: KARTU SOAL AKTIF (~60% LEBAR) */
+    .ftw-clue-card {
+      flex: 1.45 !important;
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.92) 0%, rgba(15, 23, 42, 0.96) 100%) !important;
+      border: 2.5px solid #00D2FF !important;
+      border-radius: 20px !important;
+      padding: clamp(8px, 1.1vh, 14px) clamp(14px, 1.6vw, 20px) !important;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 16px rgba(0, 210, 255, 0.25) !important;
+      backdrop-filter: blur(8px) !important;
+      box-sizing: border-box !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      position: relative !important;
+    }
+
+    .ftw-clue-header-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      margin-bottom: 3px !important;
+    }
+
+    .ftw-question-number-pill {
+      font-family: var(--font-scifi-head), sans-serif;
+      font-size: clamp(11.5px, 1.2vw, 13.5px);
+      font-weight: 900;
+      color: #FDE047;
+      background: rgba(245, 158, 11, 0.25);
+      border: 1px solid #F59E0B;
+      padding: 2.5px 11px;
+      border-radius: 10px;
+      letter-spacing: 1px;
+    }
+
+    .ftw-guide-hint {
+      font-size: clamp(10.5px, 1.1vw, 12.5px);
+      font-weight: 700;
+      color: #7DD3FC;
+      letter-spacing: 0.5px;
+      opacity: 0.9;
+    }
+
+    .ftw-clue-text {
+      font-size: clamp(13px, 1.4vw, 16.5px) !important;
+      font-weight: 800 !important;
+      color: #FFFFFF !important;
+      line-height: 1.35 !important;
+      margin: 3px 0 6px 0 !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* Kotak Indikator Jumlah Huruf Jawaban (_ _ _ _) */
+    .ftw-letter-slots-row {
+      display: flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+      flex-wrap: wrap !important;
+    }
+
+    .ftw-letter-slot-box {
+      width: clamp(24px, 2.3vw, 30px) !important;
+      height: clamp(24px, 2.3vw, 30px) !important;
+      border-radius: 7px !important;
+      background: rgba(15, 23, 42, 0.85) !important;
+      border: 2px solid #38BDF8 !important;
+      color: #FDE047 !important;
+      font-family: var(--font-scifi-head), sans-serif !important;
+      font-size: clamp(13px, 1.4vw, 17px) !important;
+      font-weight: 900 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+      transition: all 0.25s ease !important;
+    }
+
+    .ftw-letter-slot-box.revealed {
+      background: #0284C7 !important;
+      border-color: #FDE047 !important;
+      color: #FFFFFF !important;
+      transform: scale(1.08) !important;
+      box-shadow: 0 0 12px #FDE047 !important;
+    }
+
+    /* SEBELAH KANAN: AREA MASKOT DAN SKOR (~40% LEBAR) */
+    .ftw-mascot-score-panel {
+      flex: 1 !important;
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.82) 0%, rgba(15, 23, 42, 0.92) 100%) !important;
+      border: 2px solid rgba(56, 189, 248, 0.45) !important;
+      border-radius: 20px !important;
+      padding: clamp(6px, 0.9vh, 10px) clamp(10px, 1.3vw, 16px) !important;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45), 0 0 16px rgba(56, 189, 248, 0.2) !important;
+      backdrop-filter: blur(8px) !important;
+      box-sizing: border-box !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(10px, 1.4vw, 18px) !important;
+    }
+
+    .ftw-mascot-wrapper {
+      width: clamp(75px, 8vw, 100px) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      animation: floatMascot 4s ease-in-out infinite !important;
+      transition: transform 0.25s ease !important;
+      flex-shrink: 0 !important;
+    }
+
+    .ftw-mascot-wrapper:hover {
+      transform: scale(1.08) rotate(-3deg) !important;
+    }
+
+    .ftw-mascot-img {
+      width: 100% !important;
+      max-height: clamp(80px, 10vh, 105px) !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.65)) !important;
+    }
+
+    /* Panel Skor Find the Words */
+    .ftw-score-card {
+      flex: 1 !important;
+      max-width: clamp(150px, 15vw, 195px) !important;
+      background: rgba(15, 23, 42, 0.88) !important;
+      border: 2px solid #FDE047 !important;
+      border-radius: 16px !important;
+      padding: clamp(5px, 0.8vh, 9px) clamp(8px, 1.1vw, 13px) !important;
+      text-align: center !important;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 12px rgba(253, 224, 71, 0.25) !important;
+      backdrop-filter: blur(8px) !important;
+      box-sizing: border-box !important;
+    }
+
+    .ftw-score-header-label {
+      font-size: 10.5px;
+      font-weight: 900;
+      color: #FDE047;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .ftw-score-digits {
+      font-family: var(--font-scifi-head), sans-serif;
+      font-size: clamp(18px, 1.9vw, 23px);
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.15;
+    }
+
+    .ftw-score-max-digits {
+      font-size: clamp(12px, 1.25vw, 14.5px);
+      color: #94A3B8;
+      font-weight: 700;
+    }
+
+    .ftw-score-divider {
+      height: 1.5px;
+      background: rgba(253, 224, 71, 0.35);
+      margin: 3px 0;
+    }
+
+    .ftw-score-sublabel {
+      font-size: 9px;
+      font-weight: 800;
+      color: #BAE6FD;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 1px;
+    }
+
+    .ftw-score-correct-val {
+      font-family: var(--font-scifi-head), sans-serif;
+      font-size: clamp(12px, 1.25vw, 14.5px);
+      font-weight: 900;
+      color: #38BDF8;
+    }
+
+    /* Toast Notifikasi Feedback Cepat */
+    .ftw-toast-alert {
+      margin-top: 2px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #FCA5A5;
+      text-align: center;
+      min-height: 18px;
+      line-height: 1.2;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1px 4px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .ftw-toast-alert.success {
+      color: #86EFAC;
+    }
+
+    /* BAGIAN BAWAH: PAPAN GRID HURUF 11x6 (66 KOTAK) SEJAJAR PRESISI DENGAN PANEL ATAS */
+    .ftw-bottom-row {
+      width: 100% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+    }
+
+    .ftw-grid-board-card {
+      width: 100% !important;
+      max-width: 100% !important;
+      background: rgba(15, 23, 42, 0.92) !important;
+      border: 3px solid #00D2FF !important;
+      border-radius: 20px !important;
+      padding: clamp(10px, 1.2vh, 14px) clamp(14px, 1.6vw, 22px) !important;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.65), 0 0 25px rgba(0, 210, 255, 0.4) !important;
+      backdrop-filter: blur(12px) !important;
+      touch-action: none !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+    }
+
+    .ftw-grid-table {
+      display: grid !important;
+      grid-template-columns: repeat(11, 1fr) !important;
+      grid-template-rows: repeat(6, 1fr) !important;
+      gap: clamp(4px, 0.5vw, 7px) !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .ftw-cell {
+      height: clamp(36px, 4.4vh, 46px) !important;
+      background: rgba(30, 41, 59, 0.85);
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-scifi-head), sans-serif;
+      font-size: clamp(16px, 1.8vw, 22px);
+      font-weight: 900;
+      color: #F8FAFC;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+      touch-action: none;
+    }
+
+    @media (hover: hover) {
+      .ftw-cell:hover {
+        background: rgba(56, 189, 248, 0.35);
+        border-color: #38BDF8;
+        transform: scale(1.08);
+      }
+    }
+
+    .ftw-cell.ftw-cell-selecting {
+      background: #FDE047 !important;
+      color: #0F172A !important;
+      border-color: #F59E0B !important;
+      transform: scale(1.1) !important;
+      box-shadow: 0 0 14px rgba(253, 224, 71, 0.85) !important;
+      z-index: 2;
+    }
+
+    .ftw-cell.ftw-cell-found {
+      background: linear-gradient(135deg, #0284C7 0%, #00D2FF 100%) !important;
+      color: #FFFFFF !important;
+      border-color: #BAE6FD !important;
+      font-weight: 900 !important;
+      box-shadow: 0 0 12px rgba(0, 210, 255, 0.8) !important;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    .ftw-cell.ftw-cell-wrong {
+      background: #EF4444 !important;
+      color: #FFFFFF !important;
+      border-color: #F87171 !important;
+      animation: shakeWrong 0.4s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEWPORT 16:9 CONTAINER -->
+  <div id="viewport-wrapper">
+    <div id="app-stage" style="background-image: url('assets/bg%20keseluruhan.png');">
+
+      <!-- ====================================================================
+           GLOBAL HUD (POJOK KIRI: HOME & AUDIO, POJOK KANAN: FULLSCREEN)
+           ==================================================================== -->
+      <header class="stage-hud">
+        <div class="hud-left" style="gap: 20px; align-items: center;">
+          <button id="btn-back-menu" class="asset-icon-btn" data-tooltip="Menu Utama" title="Kembali ke Menu Utama">
+            <img src="assets/Tombol%20Rumah.png" alt="Kembali ke Menu Utama">
+          </button>
+          <button id="btn-global-audio" class="asset-icon-btn" data-tooltip="Pengaturan Suara" title="Pengaturan Audio (Tekan M)">
+            <img src="assets/Tombol%20Suara.png" alt="Tombol Suara">
+          </button>
+        </div>
+
+        <div class="hud-center"></div>
+
+        <div class="hud-right" style="gap: 20px; align-items: center;">
+          <button id="btn-global-fullscreen" class="arcade-circle-btn btn-fullscreen" title="Layar Penuh Proyektor (F)">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           MAIN CONTENT CONTAINER (SLIDE 8 EVALUASI DUA MODE)
+           ==================================================================== -->
+      <main class="slide active slide-quiz-main">
+
+        <!-- ================================================================
+             VIEW 1: HALAMAN PEMILIHAN DUA MODE PERMAINAN
+             ================================================================ -->
+        <div id="view-mode-select" class="eval-view active">
+          <div class="mode-select-wrapper">
+            <h2 class="arcade-header-title mode-select-title">QUIZ TATA SURYA</h2>
+            <p class="mode-select-subtitle">Pilih salah satu mode kuis untuk menguji pemahamanmu!</p>
+
+            <div class="mode-cards-grid">
+              <!-- KARTU 1: MULTIPLE CHOICE -->
+              <div id="card-mode-mc" class="mode-card-item mode-mc" title="Klik untuk Mulai Multiple Choice">
+                <div id="pill-status-mc" class="mode-status-pill pending">
+                  <span>⚪ Belum Dikerjakan</span>
+                </div>
+                <div class="mode-icon-wrapper">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3" y="4" width="18" height="16" rx="3"/>
+                    <path d="M7 8h10M7 12h6M7 16h4"/>
+                    <circle cx="16.5" cy="14.5" r="2.5" fill="#38BDF8"/>
+                  </svg>
+                </div>
+                <h3 class="mode-card-title">MULTIPLE CHOICE</h3>
+                <p class="mode-card-desc">Pilih jawaban yang paling tepat dari pilihan yang tersedia.</p>
+                <button class="btn-mode-launch">
+                  <span>MULAI</span>
+                  <span>🚀</span>
+                </button>
+              </div>
+
+              <!-- KARTU 2: FIND THE WORDS -->
+              <div id="card-mode-ftw" class="mode-card-item mode-ftw" title="Klik untuk Mulai Find the Words">
+                <div id="pill-status-ftw" class="mode-status-pill pending">
+                  <span>⚪ Belum Dikerjakan</span>
+                </div>
+                <div class="mode-icon-wrapper">
+                  <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>
+                    <circle cx="9" cy="9" r="1.5" fill="#E879F9"/>
+                  </svg>
+                </div>
+                <h3 class="mode-card-title">FIND THE WORDS</h3>
+                <p class="mode-card-desc">Temukan kata tersembunyi berdasarkan petunjuk soal!</p>
+                <button class="btn-mode-launch">
+                  <span>MULAI</span>
+                  <span>🔍</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             VIEW 2: MODE MULTIPLE CHOICE (10 SOAL)
+             ================================================================ -->
+        <div id="view-quiz-mc" class="eval-view">
+          <h2 class="arcade-header-title slide-quiz-title">QUIZ: MULTIPLE CHOICE</h2>
+
+          <div class="quiz-content-wrapper">
+            <div class="quiz-container">
+              <!-- MASKOT & SKOR MC -->
+              <div class="quiz-mascot-col">
+                <div id="quiz-mascot-interactive" class="quiz-mascot-img-wrapper" title="Astronot Penjelajah Antariksa (Klik)">
+                  <img src="assets/Maskot%201.png" alt="Maskot Astronot Quiz Tata Surya" class="quiz-mascot-img">
+                </div>
+                <div class="quiz-score-card">
+                  <span class="quiz-score-label">SKOR</span>
+                  <div class="quiz-score-val">
+                    <span id="quiz-live-score">0</span> <span class="quiz-score-max">/ 10</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KOTAK SOAL MC -->
+              <div class="quiz-card-col">
+                <div id="quiz-number-badge" class="quiz-number-badge">1</div>
+                <div class="quiz-question-box">
+                  <h3 id="quiz-question-text" class="quiz-question-text">
+                    Memuat pertanyaan...
+                  </h3>
+                  <div id="quiz-options-list" class="quiz-options-list"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             VIEW 3: MODE FIND THE WORDS (PENCARIAN KATA GRID 9x9)
+             ================================================================ -->
+        <div id="view-quiz-ftw" class="eval-view">
+          <h2 class="arcade-header-title slide-quiz-title">QUIZ: FIND THE WORDS</h2>
+
+          <div class="ftw-main-container">
+            <!-- BAGIAN ATAS: DUA AREA BERDAMPINGAN (SOAL 60% & MASKOT+SKOR 40%) -->
+            <div class="ftw-top-row">
+              <!-- SEBELAH KIRI: KARTU SOAL AKTIF (~60% LEBAR) -->
+              <div class="ftw-clue-card">
+                <div class="ftw-clue-header-row">
+                  <div id="ftw-question-number-pill" class="ftw-question-number-pill">SOAL 1 / 10</div>
+                  <span class="ftw-guide-hint">💡 Seret huruf mendatar / menurun</span>
+                </div>
+                <p id="ftw-clue-text" class="ftw-clue-text">Memuat petunjuk soal...</p>
+                <!-- Kotak huruf kosong _ _ _ _ -->
+                <div id="ftw-letter-slots-row" class="ftw-letter-slots-row"></div>
+              </div>
+
+              <!-- SEBELAH KANAN: AREA MASKOT DAN SKOR (~40% LEBAR) -->
+              <div class="ftw-mascot-score-panel">
+                <!-- MASKOT ASTRONOT INTERAKTIF -->
+                <div id="ftw-mascot-interactive" class="ftw-mascot-wrapper" title="Astronot Penjelajah Antariksa (Klik)">
+                  <img src="assets/Maskot%201.png" alt="Maskot Astronot Find The Words" class="ftw-mascot-img">
+                </div>
+
+                <!-- PANEL SKOR -->
+                <div class="ftw-score-card">
+                  <span class="ftw-score-header-label">SKOR</span>
+                  <div class="ftw-score-digits">
+                    <span id="ftw-live-score">0</span> <span class="ftw-score-max-digits">/ 10</span>
+                  </div>
+                  <div class="ftw-score-divider"></div>
+                  <span class="ftw-score-sublabel">JAWABAN BENAR</span>
+                  <div class="ftw-score-correct-val">
+                    <span id="ftw-correct-count">0</span> SOAL
+                  </div>
+                  <!-- Pesan Toast Feedback -->
+                  <div id="ftw-toast-alert" class="ftw-toast-alert"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- BAGIAN BAWAH: PAPAN GRID HURUF MEMBENTANG LEBAR -->
+            <div class="ftw-bottom-row">
+              <div class="ftw-grid-board-card">
+                <div id="ftw-grid-table" class="ftw-grid-table"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================================================================
+             TOMBOL NAVIGASI BAWAH
+             ================================================================ -->
+        <div class="slide-nav-bottom">
+          <div id="btn-prev-m2" class="nav-btn-wrapper" title="Kembali ke Menu Utama">
+            <button class="arcade-circle-btn btn-home">
+              <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <span class="nav-label">Menu Utama</span>
+          </div>
+
+          <div id="btn-skip-result" class="nav-btn-wrapper" title="Lihat Hasil Akhir Keseluruhan">
+            <span class="nav-label">Lihat Hasil Akhir</span>
+            <button class="arcade-circle-btn btn-home">
+              <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       MODAL 1: FEEDBACK SOAL MULTIPLE CHOICE (EDUKATIF & PEMBAHASAN)
+       ====================================================================== -->
+  <div id="modal-quiz-feedback" class="modal-feedback-overlay">
+    <div id="feedback-card-container" class="feedback-card-container" style="max-width: 660px;">
+      <div id="feedback-badge-icon" class="feedback-badge-icon success">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+
+      <h3 id="feedback-status-title" style="font-family: var(--font-scifi-head); font-size: 22px; font-weight: 800; margin-bottom: 8px;">
+        Jawabanmu Benar!
+      </h3>
+
+      <div id="feedback-explanation-box" class="quiz-explanation-box">
+        <strong>💡 Pembahasan Materi:</strong>
+        <p id="feedback-explanation-text" style="margin-top: 6px; font-size: 14.5px; line-height: 1.55; color: #FFFFFF;"></p>
+      </div>
+
+      <div style="margin-top: 20px;">
+        <button id="feedback-next-btn" class="feedback-action-btn-circle" title="Soal Selanjutnya">
+          <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       MODAL 2: INTERIM SELESAI MULTIPLE CHOICE (ARAHKAN KE FIND THE WORDS)
+       ====================================================================== -->
+  <div id="modal-mc-finish" class="modal-feedback-overlay">
+    <div class="feedback-card-container" style="max-width: 620px; background: #0F172A; border: 3px solid #00D2FF;">
+      <div class="feedback-badge-icon success" style="background: linear-gradient(135deg, #0284C7, #00D2FF);">
+        <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+      </div>
+
+      <h3 style="font-family: var(--font-scifi-head); font-size: 24px; font-weight: 900; color: #FFFFFF; margin-bottom: 6px;">
+        Multiple Choice Selesai! 🎉
+      </h3>
+
+      <p style="font-size: 16px; color: #BAE6FD; font-weight: 700; margin-bottom: 16px;">
+        Skor kamu: <strong id="modal-mc-score-digits" style="font-size: 24px; color: #FDE047;">10 / 10</strong>
+      </p>
+
+      <p style="font-size: 14.5px; color: #CBD5E1; line-height: 1.5; margin-bottom: 24px;">
+        Luar biasa! Sekarang giliranmu membuktikan pemahaman materi Tata Surya pada tantangan pencarian kata <strong>Find the Words</strong>!
+      </p>
+
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <button id="btn-mc-finish-to-ftw" class="btn-mode-launch" style="width: auto; padding: 12px 28px; background: linear-gradient(135deg, #9333EA, #E879F9); border-color: #FBCFE8;">
+          <span>Lanjut ke Find the Words 🔍</span>
+        </button>
+        <button id="btn-mc-finish-to-modes" class="btn-mode-launch" style="width: auto; padding: 12px 24px; background: rgba(30, 41, 59, 0.9); border-color: #64748B;">
+          <span>Pilih Mode Lain</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       MODAL 3: INTERIM SELESAI FIND THE WORDS (ARAHKAN KE HASIL AKHIR)
+       ====================================================================== -->
+  <div id="modal-ftw-finish" class="modal-feedback-overlay">
+    <div class="feedback-card-container" style="max-width: 620px; background: #0F172A; border: 3px solid #00D2FF; box-shadow: 0 0 35px rgba(0, 210, 255, 0.4);">
+      <div class="feedback-badge-icon success" style="background: linear-gradient(135deg, #0284C7, #00D2FF);">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+
+      <h3 style="font-family: var(--font-scifi-head); font-size: 24px; font-weight: 900; color: #FFFFFF; margin-bottom: 6px;">
+        Selamat! Find the Words Selesai! 🌟
+      </h3>
+
+      <div style="background: rgba(30, 27, 75, 0.7); border: 1.5px solid #00D2FF; border-radius: 16px; padding: 14px 20px; margin: 16px 0; text-align: left;">
+        <div style="font-size: 15px; font-weight: 800; color: #86EFAC; margin-bottom: 6px;">
+          ✓ Total Jawaban Benar: <span id="modal-ftw-correct-text" style="color: #FFFFFF; font-size: 18px;">10 / 10</span>
+        </div>
+        <div style="font-size: 15px; font-weight: 800; color: #BAE6FD; margin-bottom: 6px;">
+          🎯 Soal Diselesaikan: <span id="modal-ftw-done-text" style="color: #FFFFFF; font-size: 18px;">10 Soal</span>
+        </div>
+        <div style="font-size: 15px; font-weight: 800; color: #FDE047;">
+          ⚡ Persentase Keberhasilan: <span id="modal-ftw-percent-text" style="color: #FFFFFF; font-size: 18px;">100%</span>
+        </div>
+      </div>
+
+      <p style="font-size: 14.5px; color: #CBD5E1; line-height: 1.5; margin-bottom: 24px;">
+        Hebat! Kamu telah menuntaskan tantangan pencarian kata antariksa ini.
+      </p>
+
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <button id="btn-ftw-retry" class="btn-mode-launch" style="width: auto; padding: 12px 28px; background: linear-gradient(135deg, #0284C7, #00D2FF); border-color: #BAE6FD;">
+          <span>Main Lagi 🔄</span>
+        </button>
+        <button id="btn-ftw-to-modes" class="btn-mode-launch" style="width: auto; padding: 12px 24px; background: rgba(30, 41, 59, 0.9); border-color: #64748B;">
+          <span>Pilih Mode Kuis</span>
+        </button>
+        <button id="btn-ftw-to-results" class="btn-mode-launch" style="width: auto; padding: 12px 28px; background: linear-gradient(135deg, #9333EA, #E879F9); border-color: #FBCFE8;">
+          <span>Lihat Hasil Akhir Misi 🏆</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       SCRIPTS: SISTEM EVALUASI, PENILAIAN TERINTEGRASI & INTERAKSI IFP
+       ====================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CommonHUD.init('slide-8');
+
+      // ====================================================================
+      // 1. DATA 15 BANK SOAL "FIND THE WORDS"
+      // ====================================================================
+      const FTW_BANK = [
+        { id: 1, clue: "Pusat tata surya kita yang berupa bintang raksasa dan memancarkan cahayanya sendiri adalah...", answer: "MATAHARI" },
+        { id: 2, clue: "Planet paling kecil sekaligus yang letaknya paling dekat dengan Matahari adalah...", answer: "MERKURIUS" },
+        { id: 3, clue: "Planet terpanas di tata surya yang sering dijuluki sebagai Bintang Kejora atau Bintang Fajar adalah...", answer: "VENUS" },
+        { id: 4, clue: "Satu-satunya planet yang diketahui memiliki kehidupan dan sebagian besar permukaannya tertutup air adalah...", answer: "BUMI" },
+        { id: 5, clue: "Planet yang dijuluki Planet Merah karena permukaan tanahnya mengandung banyak debu besi berkarat adalah...", answer: "MARS" },
+        { id: 6, clue: "Planet terbesar di dalam sistem tata surya kita adalah...", answer: "JUPITER" },
+        { id: 7, clue: "Planet raksasa yang terkenal memiliki sistem cincin paling besar, terang, dan indah adalah...", answer: "SATURNUS" },
+        { id: 8, clue: "Planet raksasa es yang memiliki sumbu rotasi sangat miring sehingga tampak menggelinding menyamping adalah...", answer: "URANUS" },
+        { id: 9, clue: "Planet terjauh dari Matahari yang berwarna biru pekat dan memiliki angin badai terkuat adalah...", answer: "NEPTUNUS" },
+        { id: 10, clue: "Kumpulan ribuan batuan langit yang mengorbit di antara lintasan planet Mars dan Jupiter disebut sabuk...", answer: "ASTEROID" },
+        { id: 11, clue: "Benda langit berekor panjang yang tersusun dari es dan debu serta mengorbit Matahari dengan lintasan sangat lonjong adalah...", answer: "KOMET" },
+        { id: 12, clue: "Batu luar angkasa yang berhasil menembus atmosfer Bumi hingga jatuh menyentuh permukaan tanah disebut...", answer: "METEORIT" },
+        { id: 13, clue: "Satu-satunya satelit alami yang dimiliki oleh planet Bumi adalah...", answer: "BULAN" },
+        { id: 14, clue: "Jalur atau lintasan melengkung yang dilalui planet saat bergerak mengelilingi Matahari disebut...", answer: "ORBIT" },
+        { id: 15, clue: "Gerakan planet berputar pada porosnya sendiri yang menyebabkan terjadinya siang dan malam disebut...", answer: "ROTASI" }
+      ];
+
+      // ====================================================================
+      // 2. HELPER FUNCTIONS
+      // ====================================================================
+      function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      // Audio synthesizer nada manis jika dibutuhkan
+      function playTone(freq, dur = 0.15) {
+        try {
+          const ctx = CommonAudio.ctx;
+          if (!ctx || CommonState.isAudioMuted()) return;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          const t = ctx.currentTime;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(0.25, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(t);
+          osc.stop(t + dur);
+        } catch (e) {}
+      }
+
+      // ====================================================================
+      // 3. NAVIGASI TIGA VIEW SLIDE 8 (MODE SELECT, MC, FTW)
+      // ====================================================================
+      const viewModeSelect = document.getElementById('view-mode-select');
+      const viewQuizMc     = document.getElementById('view-quiz-mc');
+      const viewQuizFtw    = document.getElementById('view-quiz-ftw');
+
+      function updateBottomNav(target) {
+        const btnPrev = document.getElementById('btn-prev-m2');
+        if (!btnPrev) return;
+        const navLabel = btnPrev.querySelector('.nav-label');
+        if (target === 'mc' || target === 'ftw') {
+          if (navLabel) navLabel.textContent = 'Pilih Mode Kuis';
+          btnPrev.title = 'Kembali ke Pilihan Mode Kuis';
+        } else {
+          if (navLabel) navLabel.textContent = 'Menu Utama';
+          btnPrev.title = 'Kembali ke Menu Utama';
+        }
+      }
+
+      function switchView(target) {
+        [viewModeSelect, viewQuizMc, viewQuizFtw].forEach(v => {
+          v.classList.remove('active');
+          v.style.display = 'none';
+        });
+
+        if (target === 'mc') {
+          viewQuizMc.classList.add('active');
+          viewQuizMc.style.display = 'flex';
+          updateBottomNav('mc');
+          startMCQuiz();
+        } else if (target === 'ftw') {
+          viewQuizFtw.classList.add('active');
+          viewQuizFtw.style.display = 'flex';
+          updateBottomNav('ftw');
+          startFTWQuiz();
+        } else {
+          viewModeSelect.classList.add('active');
+          viewModeSelect.style.display = 'flex';
+          updateBottomNav('select');
+          updateModeSelectCards();
+        }
+      }
+
+      // Update Tampilan Status Pengerjaan di Kartu Pemilihan Mode
+      function updateModeSelectCards() {
+        const mcDone = localStorage.getItem('pml_eval_mc_done') === 'true';
+        const mcScore = parseInt(localStorage.getItem('pml_eval_mc_score') || '0', 10);
+        const ftwDone = localStorage.getItem('pml_eval_ftw_done') === 'true';
+        const ftwScore = parseInt(localStorage.getItem('pml_eval_ftw_score') || '0', 10);
+
+        const pillMc = document.getElementById('pill-status-mc');
+        const pillFtw = document.getElementById('pill-status-ftw');
+
+        if (pillMc) {
+          if (mcDone) {
+            pillMc.className = 'mode-status-pill done';
+            pillMc.innerHTML = `<span>✓ Selesai (${mcScore}/10)</span>`;
+          } else {
+            pillMc.className = 'mode-status-pill pending';
+            pillMc.innerHTML = `<span>⚪ Belum Dikerjakan</span>`;
+          }
+        }
+
+        if (pillFtw) {
+          if (ftwDone) {
+            pillFtw.className = 'mode-status-pill done';
+            pillFtw.innerHTML = `<span>✓ Selesai (${ftwScore}/10)</span>`;
+          } else {
+            pillFtw.className = 'mode-status-pill pending';
+            pillFtw.innerHTML = `<span>⚪ Belum Dikerjakan</span>`;
+          }
+        }
+      }
+
+      // Event listener klik kartu mode
+      document.getElementById('card-mode-mc').addEventListener('click', () => {
+        CommonAudio.play('button');
+        switchView('mc');
+      });
+      document.getElementById('card-mode-ftw').addEventListener('click', () => {
+        CommonAudio.play('button');
+        switchView('ftw');
+      });
+
+      // Tombol kembali ke mode select dari dalam permainan
+      const btnBackMc = document.getElementById('btn-back-to-modes-mc');
+      if (btnBackMc) {
+        btnBackMc.addEventListener('click', () => {
+          CommonAudio.play('button');
+          switchView('select');
+        });
+      }
+      const btnBackFtw = document.getElementById('btn-back-to-modes-ftw');
+      if (btnBackFtw) {
+        btnBackFtw.addEventListener('click', () => {
+          CommonAudio.play('button');
+          switchView('select');
+        });
+      }
+
+      // ====================================================================
+      // 4. LOGIKA PERMAINAN MULTIPLE CHOICE (10 SOAL)
+      // ====================================================================
+      const QUESTIONS_PER_SESSION = 10;
+      const STORAGE_KEY_USED_IDS  = 'planetMission_usedQuestionIds';
+      const allMCQuestions        = PLANET_DATA.quizQuestions || [];
+
+      function getSessionMCQuestions() {
+        let usedRaw = localStorage.getItem(STORAGE_KEY_USED_IDS);
+        let usedIds = usedRaw ? JSON.parse(usedRaw) : [];
+
+        let available = allMCQuestions.filter(q => !usedIds.includes(q.id));
+        if (available.length < QUESTIONS_PER_SESSION) {
+          usedIds = [];
+          available = [...allMCQuestions];
+          localStorage.setItem(STORAGE_KEY_USED_IDS, JSON.stringify([]));
+        }
+
+        const picked = shuffle(available).slice(0, QUESTIONS_PER_SESSION);
+        const newUsed = [...usedIds, ...picked.map(q => q.id)];
+        localStorage.setItem(STORAGE_KEY_USED_IDS, JSON.stringify(newUsed));
+
+        return picked.map(q => {
+          const indexed = q.options.map((text, idx) => ({ text, isCorrect: idx === q.correctIndex }));
+          const shuffled = shuffle(indexed);
+          const newCorrectIndex = shuffled.findIndex(o => o.isCorrect);
+          return {
+            ...q,
+            options: shuffled.map(o => o.text),
+            correctIndex: newCorrectIndex
+          };
+        });
+      }
+
+      let mcQuestions = [];
+      let mcCurrentIdx = 0;
+      let mcScore = 0;
+      let mcIsAnswered = false;
+
+      function startMCQuiz() {
+        mcQuestions = getSessionMCQuestions();
+        mcCurrentIdx = 0;
+        mcScore = 0;
+        mcIsAnswered = false;
+        renderMCQuestion(0);
+      }
+
+      function renderMCQuestion(idx) {
+        mcIsAnswered = false;
+        const q = mcQuestions[idx];
+        if (!q) return;
+
+        const numBadge = document.getElementById('quiz-number-badge');
+        const qText = document.getElementById('quiz-question-text');
+        const optList = document.getElementById('quiz-options-list');
+        const scoreLabel = document.getElementById('quiz-live-score');
+
+        if (numBadge) numBadge.textContent = idx + 1;
+        if (qText) qText.textContent = q.question;
+        if (scoreLabel) scoreLabel.textContent = mcScore;
+
+        if (optList) {
+          optList.innerHTML = '';
+          q.options.forEach((optText, optIdx) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-option-btn';
+            btn.textContent = optText;
+            btn.addEventListener('click', () => {
+              if (mcIsAnswered) return;
+              mcIsAnswered = true;
+              btn.classList.add('selected');
+              handleMCAnswer(optIdx, q);
+            });
+            optList.appendChild(btn);
+          });
+        }
+      }
+
+      function handleMCAnswer(selectedIdx, questionData) {
+        const isCorrect = selectedIdx === questionData.correctIndex;
+        if (isCorrect) mcScore++;
+
+        const modal   = document.getElementById('modal-quiz-feedback');
+        const badge   = document.getElementById('feedback-badge-icon');
+        const card    = document.getElementById('feedback-card-container');
+        const title   = document.getElementById('feedback-status-title');
+        const expText = document.getElementById('feedback-explanation-text');
+        const btnNext = document.getElementById('feedback-next-btn');
+
+        if (isCorrect) {
+          CommonAudio.play('correct');
+          badge.className = 'feedback-badge-icon success';
+          badge.innerHTML = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
+          title.textContent   = 'Jawabanmu Benar! 🎉';
+          title.style.color   = '#15803D';
+          card.style.background   = '#DCFCE7';
+          card.style.borderColor  = '#22C55E';
+        } else {
+          CommonAudio.play('wrong');
+          badge.className = 'feedback-badge-icon failure';
+          badge.innerHTML = `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+          title.textContent   = 'Jawabanmu Kurang Tepat! 📚';
+          title.style.color   = '#B91C1C';
+          card.style.background   = '#FEE2E2';
+          card.style.borderColor  = '#EF4444';
+        }
+
+        const correctLetter = questionData.options[questionData.correctIndex];
+        expText.innerHTML = `<strong>Kunci Jawaban Tepat:</strong> ${correctLetter}<br><br>${questionData.explanation}`;
+
+        btnNext.onclick = () => {
+          modal.classList.remove('active');
+          if (mcCurrentIdx < mcQuestions.length - 1) {
+            mcCurrentIdx++;
+            renderMCQuestion(mcCurrentIdx);
+          } else {
+            // Selesai seluruh 10 soal Multiple Choice
+            saveMCScores();
+            showMCFinishModal();
+          }
+        };
+
+        modal.classList.add('active');
+      }
+
+      function saveMCScores() {
+        localStorage.setItem('pml_eval_mc_score', mcScore);
+        localStorage.setItem('pml_eval_mc_total', '10');
+        localStorage.setItem('pml_eval_mc_done', 'true');
+        syncCombinedScores();
+      }
+
+      function showMCFinishModal() {
+        const modal = document.getElementById('modal-mc-finish');
+        const digits = document.getElementById('modal-mc-score-digits');
+        if (digits) digits.textContent = `${mcScore} / 10`;
+
+        document.getElementById('btn-mc-finish-to-ftw').onclick = () => {
+          modal.classList.remove('active');
+          CommonAudio.play('button');
+          switchView('ftw');
+        };
+
+        document.getElementById('btn-mc-finish-to-modes').onclick = () => {
+          modal.classList.remove('active');
+          CommonAudio.play('button');
+          switchView('select');
+        };
+
+        modal.classList.add('active');
+      }
+
+      // ====================================================================
+      // 5. LOGIKA PERMAINAN FIND THE WORDS (GRID 11x6 = 66 KOTAK, 10 SOAL)
+      // ====================================================================
+      const FTW_ROWS = 6;
+      const FTW_COLS = 11;
+      let ftwQuestions = [];
+      let ftwCurrentIdx = 0;
+      let ftwScore = 0;
+      let ftwGridMatrix = [];
+      let ftwPlacements = [];
+      let foundWordIds = [];
+
+      // Algoritma Pembuatan Grid 11x6 yang menampung 10 kata dengan variasi arah (Mendatar & Menurun)
+      function generateWordSearchGrid(pickedQuestions) {
+        const ROWS = FTW_ROWS; // 6
+        const COLS = FTW_COLS; // 11
+        // Urutkan kata dari yang terpanjang ke terpendek untuk kemudahan penempatan
+        const sorted = [...pickedQuestions].sort((a, b) => b.answer.length - a.answer.length);
+
+        // Percobaan penempatan seimbang: menjamin kombinasi arah mendatar (dir 0) dan menurun (dir 1)
+        for (let attempt = 0; attempt < 500; attempt++) {
+          const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(''));
+          const placements = [];
+          let allPlaced = true;
+          let horizCount = 0;
+          let vertCount = 0;
+
+          for (const item of sorted) {
+            const word = item.answer.toUpperCase();
+            const candH = [];
+            const candV = [];
+
+            // Arah 0: Mendatar (Kiri ke Kanan)
+            for (let r = 0; r < ROWS; r++) {
+              for (let c = 0; c <= COLS - word.length; c++) {
+                let canPlace = true;
+                for (let i = 0; i < word.length; i++) {
+                  const ch = grid[r][c + i];
+                  if (ch !== '' && ch !== word[i]) { canPlace = false; break; }
+                }
+                if (canPlace) candH.push({ r, c, dir: 0 });
+              }
+            }
+
+            // Arah 1: Menurun (Atas ke Bawah) - hanya untuk kata yang panjangnya <= ROWS (<= 6)
+            if (word.length <= ROWS) {
+              for (let r = 0; r <= ROWS - word.length; r++) {
+                for (let c = 0; c < COLS; c++) {
+                  let canPlace = true;
+                  for (let i = 0; i < word.length; i++) {
+                    const ch = grid[r + i][c];
+                    if (ch !== '' && ch !== word[i]) { canPlace = false; break; }
+                  }
+                  if (canPlace) candV.push({ r, c, dir: 1 });
+                }
+              }
+            }
+
+            const allCandidates = candH.concat(candV);
+            if (allCandidates.length === 0) {
+              allPlaced = false;
+              break;
+            }
+
+            // Variasi arah: dorong kata pendek masuk ke arah vertikal bila masih sedikit
+            let pool = allCandidates;
+            if (word.length <= ROWS && candV.length > 0 && vertCount < 4) {
+              pool = candV;
+            } else if (horizCount > vertCount && candV.length > 0) {
+              pool = candV;
+            } else if (vertCount > horizCount && candH.length > 0) {
+              pool = candH;
+            }
+
+            // Pilih posisi acak dari kandidat yang diseimbangkan
+            const pick = pool[Math.floor(Math.random() * pool.length)];
+            if (pick.dir === 0) horizCount++;
+            else vertCount++;
+
+            const cells = [];
+            for (let i = 0; i < word.length; i++) {
+              const rr = pick.dir === 0 ? pick.r : pick.r + i;
+              const cc = pick.dir === 0 ? pick.c + i : pick.c;
+              grid[rr][cc] = word[i];
+              cells.push({ r: rr, c: cc });
+            }
+
+            placements.push({
+              id: item.id,
+              answer: word,
+              cells: cells,
+              dir: pick.dir
+            });
+          }
+
+          // Pastikan kedua arah ada dalam kombinasi (minimal 2 vertikal & 4 mendatar)
+          if (allPlaced && vertCount >= 2 && horizCount >= 4) {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for (let r = 0; r < ROWS; r++) {
+              for (let c = 0; c < COLS; c++) {
+                if (grid[r][c] === '') {
+                  grid[r][c] = letters.charAt(Math.floor(Math.random() * letters.length));
+                }
+              }
+            }
+            return { grid, placements };
+          }
+        }
+
+        // Fallback jika iterasi ketat belum terpenuhi: minimal 1 vertikal
+        for (let attempt = 0; attempt < 300; attempt++) {
+          const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(''));
+          const placements = [];
+          let allPlaced = true;
+          let horizCount = 0;
+          let vertCount = 0;
+
+          for (const item of sorted) {
+            const word = item.answer.toUpperCase();
+            const candH = [];
+            const candV = [];
+            for (let r = 0; r < ROWS; r++) {
+              for (let c = 0; c <= COLS - word.length; c++) {
+                let canPlace = true;
+                for (let i = 0; i < word.length; i++) {
+                  const ch = grid[r][c + i];
+                  if (ch !== '' && ch !== word[i]) { canPlace = false; break; }
+                }
+                if (canPlace) candH.push({ r, c, dir: 0 });
+              }
+            }
+            if (word.length <= ROWS) {
+              for (let r = 0; r <= ROWS - word.length; r++) {
+                for (let c = 0; c < COLS; c++) {
+                  let canPlace = true;
+                  for (let i = 0; i < word.length; i++) {
+                    const ch = grid[r + i][c];
+                    if (ch !== '' && ch !== word[i]) { canPlace = false; break; }
+                  }
+                  if (canPlace) candV.push({ r, c, dir: 1 });
+                }
+              }
+            }
+            const allCandidates = candH.concat(candV);
+            if (allCandidates.length === 0) { allPlaced = false; break; }
+            let pool = allCandidates;
+            if (word.length <= ROWS && candV.length > 0 && vertCount < 3) pool = candV;
+            const pick = pool[Math.floor(Math.random() * pool.length)];
+            if (pick.dir === 0) horizCount++; else vertCount++;
+            const cells = [];
+            for (let i = 0; i < word.length; i++) {
+              const rr = pick.dir === 0 ? pick.r : pick.r + i;
+              const cc = pick.dir === 0 ? pick.c + i : pick.c;
+              grid[rr][cc] = word[i];
+              cells.push({ r: rr, c: cc });
+            }
+            placements.push({ id: item.id, answer: word, cells: cells, dir: pick.dir });
+          }
+          if (allPlaced && vertCount >= 1) {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            for (let r = 0; r < ROWS; r++) {
+              for (let c = 0; c < COLS; c++) {
+                if (grid[r][c] === '') grid[r][c] = letters.charAt(Math.floor(Math.random() * letters.length));
+              }
+            }
+            return { grid, placements };
+          }
+        }
+
+        // Fallback darurat
+        const fallbackGrid = Array.from({ length: ROWS }, () => Array(COLS).fill('A'));
+        return { grid: fallbackGrid, placements: [] };
+      }
+
+      function startFTWQuiz() {
+        // 1. Ambil 10 soal dari FTW_BANK secara seimbang (4 kata panjang >= 7 dan 6 kata pendek <= 6)
+        // agar seluruh 10 kata dijamin muat sempurna pada grid 11x6
+        const longBank = FTW_BANK.filter(q => q.answer.length >= 7);
+        const shortBank = FTW_BANK.filter(q => q.answer.length <= 6);
+        const pickedLong = shuffle(longBank).slice(0, 4);
+        const pickedShort = shuffle(shortBank).slice(0, 6);
+        ftwQuestions = shuffle([...pickedLong, ...pickedShort]);
+        ftwCurrentIdx = 0;
+        ftwScore = 0;
+        foundWordIds = [];
+
+        // 2. Buat grid 11x6 yang menampung ke-10 kata jawaban
+        const gen = generateWordSearchGrid(ftwQuestions);
+        ftwGridMatrix = gen.grid;
+        ftwPlacements = gen.placements;
+
+        // 3. Render papan grid 11x6 (66 kotak)
+        renderFTWGridBoard();
+
+        // 4. Render soal aktif pertama
+        renderFTWActiveQuestion();
+      }
+
+      function renderFTWGridBoard() {
+        const board = document.getElementById('ftw-grid-table');
+        if (!board) return;
+        board.innerHTML = '';
+
+        for (let r = 0; r < FTW_ROWS; r++) {
+          for (let c = 0; c < FTW_COLS; c++) {
+            const cell = document.createElement('div');
+            cell.className = 'ftw-cell';
+            cell.textContent = ftwGridMatrix[r][c];
+            cell.dataset.r = r;
+            cell.dataset.c = c;
+            board.appendChild(cell);
+          }
+        }
+
+        setupFTWDragSelection();
+      }
+
+      function renderFTWProgressDots() {
+        // Indikator lingkaran progres 1-10 dihapus sesuai revisi
+      }
+
+      function renderFTWActiveQuestion() {
+        const q = ftwQuestions[ftwCurrentIdx];
+        if (!q) return;
+
+        const numPill = document.getElementById('ftw-question-number-pill');
+        const clueText = document.getElementById('ftw-clue-text');
+        const slotsRow = document.getElementById('ftw-letter-slots-row');
+        const scoreLive = document.getElementById('ftw-live-score');
+        const scoreCount = document.getElementById('ftw-correct-count');
+        const toast = document.getElementById('ftw-toast-alert');
+
+        if (numPill) numPill.textContent = `SOAL ${ftwCurrentIdx + 1} / 10`;
+        if (clueText) clueText.textContent = q.clue;
+        if (scoreLive) scoreLive.textContent = ftwScore;
+        if (scoreCount) scoreCount.textContent = ftwScore;
+        if (toast) { toast.textContent = ''; toast.className = 'ftw-toast-alert'; }
+
+        // Render kotak kosong _ _ _ _ sesuai jumlah huruf jawaban
+        if (slotsRow) {
+          slotsRow.innerHTML = '';
+          const len = q.answer.length;
+          for (let i = 0; i < len; i++) {
+            const box = document.createElement('div');
+            box.className = 'ftw-letter-slot-box';
+            box.textContent = '_';
+            slotsRow.appendChild(box);
+          }
+        }
+      }
+
+      // ====================================================================
+      // 6. INTERAKSI DRAG / SENTUH (MOUSE & TOUCH PID/IFP)
+      // ====================================================================
+      let isSelecting = false;
+      let startCoords = null; // { r, c }
+      let currentCoords = null; // { r, c }
+      let activeLineCells = []; // array of { r, c }
+
+      function setupFTWDragSelection() {
+        const board = document.getElementById('ftw-grid-table');
+        if (!board) return;
+
+        function getCellFromPoint(clientX, clientY) {
+          const el = document.elementFromPoint(clientX, clientY);
+          if (el && el.classList.contains('ftw-cell')) {
+            return {
+              r: parseInt(el.dataset.r, 10),
+              c: parseInt(el.dataset.c, 10),
+              element: el
+            };
+          }
+          return null;
+        }
+
+        function calculateLine(start, curr) {
+          if (!start || !curr) return [];
+          const r1 = start.r;
+          const c1 = start.c;
+          const r2 = curr.r;
+          const c2 = curr.c;
+          const cells = [];
+
+          // Mendatar dari Kiri ke Kanan
+          if (r1 === r2 && c2 >= c1) {
+            for (let c = c1; c <= c2; c++) cells.push({ r: r1, c: c });
+          }
+          // Menurun dari Atas ke Bawah
+          else if (c1 === c2 && r2 >= r1) {
+            for (let r = r1; r <= r2; r++) cells.push({ r: r, c: c1 });
+          }
+          return cells;
+        }
+
+        function updateHighlight() {
+          // Bersihkan seleksi sementara
+          document.querySelectorAll('.ftw-cell.ftw-cell-selecting').forEach(el => {
+            el.classList.remove('ftw-cell-selecting');
+          });
+
+          // Terapkan highlight pada sel yang sedang ditarik
+          activeLineCells.forEach(coord => {
+            const el = document.querySelector(`.ftw-cell[data-r="${coord.r}"][data-c="${coord.c}"]`);
+            if (el) el.classList.add('ftw-cell-selecting');
+          });
+        }
+
+        function onStart(x, y) {
+          const cell = getCellFromPoint(x, y);
+          if (!cell) return;
+          isSelecting = true;
+          startCoords = { r: cell.r, c: cell.c };
+          currentCoords = { r: cell.r, c: cell.c };
+          activeLineCells = [startCoords];
+          updateHighlight();
+          playTone(520, 0.05);
+        }
+
+        function onMove(x, y) {
+          if (!isSelecting) return;
+          const cell = getCellFromPoint(x, y);
+          if (!cell) return;
+          if (cell.r === currentCoords.r && cell.c === currentCoords.c) return;
+
+          currentCoords = { r: cell.r, c: cell.c };
+          activeLineCells = calculateLine(startCoords, currentCoords);
+          updateHighlight();
+        }
+
+        function onEnd() {
+          if (!isSelecting) return;
+          isSelecting = false;
+
+          validateFTWSelection(activeLineCells);
+
+          // Hapus highlight seleksi sementara
+          document.querySelectorAll('.ftw-cell.ftw-cell-selecting').forEach(el => {
+            el.classList.remove('ftw-cell-selecting');
+          });
+          startCoords = null;
+          currentCoords = null;
+          activeLineCells = [];
+        }
+
+        // Pointer Events (Support Mouse & Touchscreen IFP secara presisi)
+        board.addEventListener('pointerdown', (e) => {
+          e.preventDefault();
+          onStart(e.clientX, e.clientY);
+        });
+
+        window.addEventListener('pointermove', (e) => {
+          if (isSelecting) {
+            e.preventDefault();
+            onMove(e.clientX, e.clientY);
+          }
+        });
+
+        window.addEventListener('pointerup', () => {
+          if (isSelecting) onEnd();
+        });
+        window.addEventListener('pointercancel', () => {
+          if (isSelecting) onEnd();
+        });
+      }
+
+      // Validasi Jawaban Find the Words
+      function validateFTWSelection(cells) {
+        if (!cells || cells.length < 2) return;
+
+        const formedWord = cells.map(coord => ftwGridMatrix[coord.r][coord.c]).join('').toUpperCase();
+        const activeQ = ftwQuestions[ftwCurrentIdx];
+        if (!activeQ) return;
+
+        const toast = document.getElementById('ftw-toast-alert');
+
+        // KASUS 1: BENAR UNTUK SOAL AKTIF
+        if (formedWord === activeQ.answer.toUpperCase()) {
+          // 1. Suara "ting" lembut
+          CommonAudio.play('correct');
+          playTone(880, 0.2);
+
+          // 2. Beri highlight stabilo permanen pada huruf jawaban
+          cells.forEach(coord => {
+            const el = document.querySelector(`.ftw-cell[data-r="${coord.r}"][data-c="${coord.c}"]`);
+            if (el) el.classList.add('ftw-cell-found');
+          });
+
+          // 3. Tampilkan jawaban benar pada kotak huruf selama 1 detik
+          const slotsRow = document.getElementById('ftw-letter-slots-row');
+          if (slotsRow) {
+            const boxes = slotsRow.querySelectorAll('.ftw-letter-slot-box');
+            activeQ.answer.split('').forEach((char, idx) => {
+              if (boxes[idx]) {
+                boxes[idx].textContent = char;
+                boxes[idx].classList.add('revealed');
+              }
+            });
+          }
+
+          // 4. Tambah skor 1 & perbarui progres
+          ftwScore++;
+          foundWordIds.push(activeQ.id);
+
+          const scoreLive = document.getElementById('ftw-live-score');
+          const scoreCount = document.getElementById('ftw-correct-count');
+          if (scoreLive) scoreLive.textContent = ftwScore;
+          if (scoreCount) scoreCount.textContent = ftwScore;
+
+          if (toast) {
+            toast.className = 'ftw-toast-alert success';
+            toast.textContent = `✨ Tepat sekali! Kata: ${activeQ.answer}`;
+          }
+
+          renderFTWProgressDots();
+
+          // 5. Jeda 1 detik lalu otomatis lanjut ke soal berikutnya
+          setTimeout(() => {
+            if (ftwCurrentIdx < ftwQuestions.length - 1) {
+              ftwCurrentIdx++;
+              renderFTWActiveQuestion();
+            } else {
+              // Selesai seluruh 10 soal Find the Words
+              saveFTWScores();
+              showFTWFinishModal();
+            }
+          }, 1100);
+
+          return;
+        }
+
+        // KASUS 2: KATA COCOK DENGAN SOAL LAIN (Bukan Soal Aktif)
+        const isOtherWord = ftwQuestions.some(q => q.answer.toUpperCase() === formedWord && q.id !== activeQ.id);
+        if (isOtherWord) {
+          triggerWrongSelectionAnimation(cells);
+          if (toast) {
+            toast.className = 'ftw-toast-alert';
+            toast.textContent = 'Belum tepat untuk soal ini, coba baca lagi petunjuknya!';
+          }
+          return;
+        }
+
+        // KASUS 3: JAWABAN SALAH / BUKAN KATA TARGET
+        triggerWrongSelectionAnimation(cells);
+        if (toast) {
+          toast.className = 'ftw-toast-alert';
+          toast.textContent = 'Belum tepat untuk soal ini, coba baca lagi petunjuknya!';
+        }
+      }
+
+      function triggerWrongSelectionAnimation(cells) {
+        CommonAudio.play('wrong');
+        cells.forEach(coord => {
+          const el = document.querySelector(`.ftw-cell[data-r="${coord.r}"][data-c="${coord.c}"]`);
+          if (el) {
+            el.classList.add('ftw-cell-wrong');
+            setTimeout(() => el.classList.remove('ftw-cell-wrong'), 450);
+          }
+        });
+      }
+
+      function saveFTWScores() {
+        localStorage.setItem('pml_eval_ftw_score', ftwScore);
+        localStorage.setItem('pml_eval_ftw_total', '10');
+        localStorage.setItem('pml_eval_ftw_done', 'true');
+        syncCombinedScores();
+      }
+
+      function showFTWFinishModal() {
+        const modal = document.getElementById('modal-ftw-finish');
+        const correctText = document.getElementById('modal-ftw-correct-text');
+        const doneText = document.getElementById('modal-ftw-done-text');
+        const percentText = document.getElementById('modal-ftw-percent-text');
+
+        const percent = Math.round((ftwScore / 10) * 100);
+
+        if (correctText) correctText.textContent = `${ftwScore} / 10`;
+        if (doneText) doneText.textContent = `10 Soal`;
+        if (percentText) percentText.textContent = `${percent}%`;
+
+        const btnRetry = document.getElementById('btn-ftw-retry');
+        if (btnRetry) {
+          btnRetry.onclick = () => {
+            modal.classList.remove('active');
+            CommonAudio.play('button');
+            startFTWQuiz();
+          };
+        }
+
+        const btnModes = document.getElementById('btn-ftw-to-modes');
+        if (btnModes) {
+          btnModes.onclick = () => {
+            modal.classList.remove('active');
+            CommonAudio.play('button');
+            switchView('select');
+          };
+        }
+
+        const btnResults = document.getElementById('btn-ftw-to-results');
+        if (btnResults) {
+          btnResults.onclick = () => {
+            modal.classList.remove('active');
+            CommonAudio.play('button');
+            CommonHUD.navigate('slide-9.html');
+          };
+        }
+
+        modal.classList.add('active');
+      }
+
+      // ====================================================================
+      // 7. SINKRONISASI SKOR TERINTEGRASI (MULTIPLE CHOICE + FIND THE WORDS)
+      // ====================================================================
+      function syncCombinedScores() {
+        const mc = parseInt(localStorage.getItem('pml_eval_mc_score') || '0', 10);
+        const ftw = parseInt(localStorage.getItem('pml_eval_ftw_score') || '0', 10);
+        const combinedScore = mc + ftw;
+        const combinedTotal = 20;
+
+        CommonState.saveQuizScore(combinedScore, combinedTotal);
+      }
+
+      // ====================================================================
+      // 8. INTERAKSI GLOBAL & NAVIGASI BAWAH
+      // ====================================================================
+      const btnMenu = document.getElementById('btn-back-menu');
+      const btnPrev = document.getElementById('btn-prev-m2');
+      const btnSkip = document.getElementById('btn-skip-result');
+
+      if (btnMenu) btnMenu.addEventListener('click', () => {
+        CommonAudio.play('button');
+        CommonHUD.navigate('slide-2.html');
+      });
+      if (btnPrev) btnPrev.addEventListener('click', () => {
+        CommonAudio.play('button');
+        if (viewQuizMc && viewQuizMc.classList.contains('active')) {
+          switchView('select');
+        } else if (viewQuizFtw && viewQuizFtw.classList.contains('active')) {
+          switchView('select');
+        } else {
+          CommonHUD.navigate('slide-2.html');
+        }
+      });
+      if (btnSkip) btnSkip.addEventListener('click', () => {
+        CommonAudio.play('button');
+        CommonHUD.navigate('slide-9.html');
+      });
+
+      // Interaktivitas Maskot
+      const mascotMC = document.getElementById('quiz-mascot-interactive');
+      if (mascotMC) {
+        mascotMC.addEventListener('click', () => {
+          CommonAudio.play('button');
+          mascotMC.style.transform = 'scale(1.15) rotate(-6deg)';
+          setTimeout(() => mascotMC.style.transform = '', 300);
+        });
+      }
+
+      const mascotFTW = document.getElementById('ftw-mascot-interactive');
+      if (mascotFTW) {
+        mascotFTW.addEventListener('click', () => {
+          CommonAudio.play('button');
+          mascotFTW.style.transform = 'scale(1.15) rotate(-6deg)';
+          setTimeout(() => mascotFTW.style.transform = '', 300);
+        });
+      }
+
+      // Periksa parameter URL (misalnya ?mode=ftw atau ?mode=mc)
+      const urlParams = new URLSearchParams(window.location.search);
+      const reqMode = urlParams.get('mode');
+      if (reqMode === 'mc') {
+        switchView('mc');
+      } else if (reqMode === 'ftw') {
+        switchView('ftw');
+      } else {
+        switchView('select');
+      }
+    });
+  </script>
+</body>
+</html>

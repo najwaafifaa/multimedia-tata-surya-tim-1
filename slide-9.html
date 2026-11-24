@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide 9 - Hasil Akhir Evaluasi | PLANET MISSION LAB</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ==========================================================================
+       STYLING SLIDE 9: REKAPITULASI HASIL AKHIR KESELURUHAN EVALUASI
+       (MULTIPLE CHOICE + FIND THE WORDS)
+       OPTIMAL UNTUK PID / IFP 16:9 (TANPA SCROLLBAR)
+       ========================================================================== */
+
+    .slide-result-main {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      box-sizing: border-box !important;
+      padding-top: clamp(40px, 6vh, 65px) !important;
+      padding-bottom: clamp(35px, 5vh, 55px) !important;
+      padding-left: clamp(24px, 3.5vw, 50px) !important;
+      padding-right: clamp(24px, 3.5vw, 50px) !important;
+      background: transparent !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    /* Judul Utama Slide 9 Terpusat di Bagian Atas */
+    .result-page-title {
+      font-family: var(--font-scifi-head), sans-serif !important;
+      font-size: clamp(24px, 2.8vw, 36px) !important;
+      font-weight: 900 !important;
+      color: #FFFFFF !important;
+      letter-spacing: 2px !important;
+      text-transform: uppercase !important;
+      text-shadow: 3px 3px 0px #0284C7, 0 0 24px rgba(56, 189, 248, 0.85) !important;
+      margin: 0 0 clamp(18px, 2.5vh, 28px) 0 !important;
+      text-align: center !important;
+    }
+
+    .result-unified-container {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(28px, 3.8vw, 52px) !important;
+      width: 100% !important;
+      max-width: clamp(960px, 86vw, 1160px) !important;
+      margin: 0 auto !important;
+    }
+
+    /* Kolom Maskot Adaptif di Sebelah Kiri */
+    .result-mascot-side-col {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: clamp(230px, 23vw, 310px) !important;
+      flex-shrink: 0 !important;
+    }
+
+    .result-mascot-img-wrap {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      animation: floatMascot 4.5s ease-in-out infinite;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .result-mascot-img-wrap:hover {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .result-mascot-img {
+      width: 100% !important;
+      height: auto !important;
+      max-height: clamp(220px, 29vh, 300px) !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 24px rgba(56, 189, 248, 0.45)) !important;
+    }
+
+    .result-medal-badge {
+      margin-top: 14px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      padding: 8px 22px !important;
+      background: rgba(15, 23, 42, 0.88) !important;
+      border: 2px solid #FDE047 !important;
+      border-radius: 18px !important;
+      font-size: clamp(13px, 1.35vw, 16px) !important;
+      font-weight: 900 !important;
+      color: #FDE047 !important;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 16px rgba(253, 224, 71, 0.35) !important;
+      backdrop-filter: blur(8px) !important;
+      white-space: nowrap !important;
+    }
+
+    /* Kolom Data Hasil di Sebelah Kanan */
+    .result-details-col {
+      flex: 1 !important;
+      max-width: clamp(680px, 62vw, 840px) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+    }
+
+    .result-main-title {
+      display: none !important;
+    }
+
+    /* Kotak Pesan Apresiasi / Penyemangat */
+    .result-appreciation-box {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 27, 75, 0.88) 100%) !important;
+      border: 2.5px solid rgba(56, 189, 248, 0.6) !important;
+      border-radius: 20px !important;
+      padding: clamp(14px, 1.8vh, 20px) clamp(20px, 2.2vw, 28px) !important;
+      margin-bottom: clamp(16px, 2vh, 24px) !important;
+      backdrop-filter: blur(10px) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 18px rgba(56, 189, 248, 0.2) !important;
+    }
+
+    .result-feedback-headline {
+      font-size: clamp(17px, 1.9vw, 23px) !important;
+      font-weight: 900 !important;
+      color: #FDE047 !important;
+      margin: 0 0 6px 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+
+    .result-feedback-body {
+      font-size: clamp(13.5px, 1.4vw, 16px) !important;
+      font-weight: 700 !important;
+      color: #BAE6FD !important;
+      line-height: 1.5 !important;
+      margin: 0 !important;
+    }
+
+    /* Deretan Dua Kartu Hasil Sub-Mode (Multiple Choice & Find the Words) */
+    .result-submodes-row {
+      display: flex !important;
+      gap: clamp(16px, 2vw, 24px) !important;
+      margin-bottom: 0 !important;
+    }
+
+    .result-submode-card {
+      flex: 1 !important;
+      background: linear-gradient(145deg, rgba(30, 27, 75, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%) !important;
+      border: 2.5px solid rgba(56, 189, 248, 0.55) !important;
+      border-radius: 20px !important;
+      padding: clamp(16px, 2vh, 22px) clamp(18px, 2vw, 24px) !important;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5) !important;
+      backdrop-filter: blur(10px) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+    }
+
+    .result-submode-card.card-ftw {
+      border-color: rgba(232, 121, 249, 0.6) !important;
+    }
+
+    .submode-card-header {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      margin-bottom: 12px !important;
+      padding-bottom: 8px !important;
+      border-bottom: 1.5px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .submode-title {
+      font-family: var(--font-scifi-head), sans-serif !important;
+      font-size: clamp(14px, 1.45vw, 17.5px) !important;
+      font-weight: 900 !important;
+      color: #38BDF8 !important;
+      letter-spacing: 1px !important;
+    }
+
+    .result-submode-card.card-ftw .submode-title {
+      color: #E879F9 !important;
+    }
+
+    .submode-status-tag {
+      font-size: 12px !important;
+      font-weight: 900 !important;
+      color: #86EFAC !important;
+      background: rgba(34, 197, 94, 0.22) !important;
+      padding: 3px 10px !important;
+      border-radius: 8px !important;
+      letter-spacing: 0.5px !important;
+    }
+
+    .submode-stats-row {
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      font-size: clamp(13.5px, 1.4vw, 16px) !important;
+      font-weight: 800 !important;
+      color: #CBD5E1 !important;
+      padding: 4px 0 !important;
+    }
+
+    .submode-stats-row .correct {
+      color: #4ADE80 !important;
+      font-size: clamp(15px, 1.6vw, 18px) !important;
+    }
+    .submode-stats-row .wrong {
+      color: #F87171 !important;
+      font-size: clamp(15px, 1.6vw, 18px) !important;
+    }
+
+    /* TOMBOL AKSI UTAMA (MAIN LAGI & KEMBALI KE MENU UTAMA) */
+    .result-actions-row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(18px, 2.5vw, 32px) !important;
+      width: 100% !important;
+      max-width: clamp(620px, 60vw, 840px) !important;
+      margin-top: clamp(22px, 3vh, 36px) !important;
+    }
+
+    .btn-result-action {
+      flex: 1 !important;
+      padding: clamp(13px, 1.6vh, 18px) clamp(22px, 2.5vw, 34px) !important;
+      border-radius: 20px !important;
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(15px, 1.6vw, 19px) !important;
+      font-weight: 900 !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 14px !important;
+      white-space: nowrap !important;
+      transition: all 0.22s cubic-bezier(0.25, 1, 0.5, 1) !important;
+      user-select: none !important;
+      touch-action: manipulation !important;
+    }
+
+    .btn-result-retry {
+      background: linear-gradient(135deg, #0284C7 0%, #00D2FF 100%);
+      border: 2.5px solid #BAE6FD;
+      color: #FFFFFF;
+      box-shadow: 0 0 20px rgba(0, 210, 255, 0.5), 0 4px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-result-retry:hover {
+      transform: translateY(-3px) scale(1.02);
+      filter: brightness(1.1);
+      box-shadow: 0 0 28px rgba(0, 210, 255, 0.7);
+    }
+
+    .btn-result-home {
+      background: rgba(30, 41, 59, 0.85);
+      border: 2.5px solid #64748B;
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+    }
+
+    .btn-result-home:hover {
+      background: rgba(51, 65, 85, 0.95);
+      border-color: #94A3B8;
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    .btn-result-action img {
+      width: clamp(24px, 2.5vw, 32px);
+      height: clamp(24px, 2.5vw, 32px);
+      object-fit: contain;
+    }
+
+    /* Peringatan Jika Belum Menyelesaikan Kedua Mode */
+    .incomplete-warning-banner {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1.5px solid #EF4444;
+      border-radius: 12px;
+      padding: 6px 14px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #FCA5A5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-resume-mode {
+      background: #EF4444;
+      color: #FFFFFF;
+      border: none;
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEWPORT 16:9 CONTAINER -->
+  <div id="viewport-wrapper">
+    <div id="app-stage" style="background-image: url('assets/bg%20keseluruhan.png');">
+
+      <!-- ====================================================================
+           GLOBAL HUD
+           ==================================================================== -->
+      <header class="stage-hud">
+        <div class="hud-left" style="gap: 20px; align-items: center;">
+          <button id="btn-back-menu" class="asset-icon-btn" data-tooltip="Menu Utama" title="Kembali ke Menu Utama">
+            <img src="assets/Tombol%20Rumah.png" alt="Kembali ke Menu Utama">
+          </button>
+          <button id="btn-global-audio" class="asset-icon-btn" data-tooltip="Pengaturan Suara" title="Pengaturan Audio (Tekan M)">
+            <img src="assets/Tombol%20Suara.png" alt="Tombol Suara">
+          </button>
+        </div>
+
+        <div class="hud-center"></div>
+
+        <div class="hud-right" style="gap: 20px; align-items: center;">
+          <button id="btn-global-fullscreen" class="arcade-circle-btn btn-fullscreen" title="Layar Penuh Proyektor (F)">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           SLIDE 9 CONTENT: HASIL AKHIR KESELURUHAN EVALUASI (20 SOAL)
+           ==================================================================== -->
+      <main class="slide active slide-result-main">
+
+        <!-- JUDUL UTAMA TERPUSAT SECARA HORIZONTAL DI BAGIAN ATAS -->
+        <h2 class="arcade-header-title result-page-title">HASIL QUIZ TATA SURYA</h2>
+
+        <!-- AREA KONTEN UTAMA: MASKOT (KIRI) & RINCIAN HASIL (KANAN) -->
+        <div class="result-unified-container">
+          
+          <!-- MASKOT ASTRONOT ADAPTIF & MEDALI -->
+          <div class="result-mascot-side-col">
+            <div id="result-mascot-wrapper" class="result-mascot-img-wrap" title="Astronot Planet Mission Lab (Klik)">
+              <img id="result-mascot-img" 
+                   class="result-mascot-img" 
+                   src="assets/Maskot%209.png" 
+                   alt="Maskot Astronot Hasil Evaluasi">
+            </div>
+
+            <div id="result-medal-badge" class="result-medal-badge">
+              <span>🎖️</span>
+              <span id="result-medal-text">Medali Keberhasilan</span>
+            </div>
+          </div>
+
+          <!-- KOLOM RINCIAN HASIL & PENILAIAN TERINTEGRASI -->
+          <div class="result-details-col">
+
+            <!-- Banner Peringatan Jika Mode Belum Selesai Semua -->
+            <div id="banner-incomplete" class="incomplete-warning-banner" style="display: none;">
+              <span id="banner-incomplete-text">⚠️ Perhatian: Salah satu mode evaluasi belum diselesaikan!</span>
+              <button id="btn-resume-mode" class="btn-resume-mode">Selesaikan Sekarang</button>
+            </div>
+
+            <!-- KOTAK PESAN APRESIASI / PENYEMANGAT -->
+            <div class="result-appreciation-box">
+              <h3 id="result-appreciation-headline" class="result-feedback-headline">
+                <span>🌟</span>
+                <span id="result-headline-text">Luar Biasa! Kamu Ahli Tata Surya!</span>
+              </h3>
+              <p id="result-appreciation-body" class="result-feedback-body">
+                Selamat! Pengetahuanmu mengenai karakteristik planet, hukum orbit, dan misteri tata surya sangat mengagumkan!
+              </p>
+            </div>
+
+            <!-- DERETAN DUA KARTU SUB-MODE (MULTIPLE CHOICE & FIND THE WORDS) -->
+            <div class="result-submodes-row">
+              <!-- 1. MULTIPLE CHOICE -->
+              <div class="result-submode-card card-mc">
+                <div class="submode-card-header">
+                  <span class="submode-title">1. MULTIPLE CHOICE</span>
+                  <span id="tag-mc-status" class="submode-status-tag">SELESAI</span>
+                </div>
+                <div class="submode-stats-row">
+                  <span>Jawaban Benar:</span>
+                  <strong id="mc-correct-val" class="correct">10 / 10</strong>
+                </div>
+                <div class="submode-stats-row">
+                  <span>Jawaban Salah:</span>
+                  <strong id="mc-wrong-val" class="wrong">0 / 10</strong>
+                </div>
+              </div>
+
+              <!-- 2. FIND THE WORDS -->
+              <div class="result-submode-card card-ftw">
+                <div class="submode-card-header">
+                  <span class="submode-title">2. FIND THE WORDS</span>
+                  <span id="tag-ftw-status" class="submode-status-tag">SELESAI</span>
+                </div>
+                <div class="submode-stats-row">
+                  <span>Jawaban Benar:</span>
+                  <strong id="ftw-correct-val" class="correct">10 / 10</strong>
+                </div>
+                <div class="submode-stats-row">
+                  <span>Jawaban Salah:</span>
+                  <strong id="ftw-wrong-val" class="wrong">0 / 10</strong>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- TOMBOL AKSI: MAIN LAGI & KEMBALI KE MENU UTAMA (TERPUSAT DI BAGIAN BAWAH KONTEN) -->
+        <div class="result-actions-row">
+          <button id="btn-quiz-retry" class="btn-result-action btn-result-retry" title="Mengulang Seluruh Kuis (Sesi Baru)">
+            <img src="assets/Tombol%20Mundur.png" alt="Icon Main Lagi">
+            <span>MAIN LAGI</span>
+          </button>
+
+          <button id="btn-quiz-home" class="btn-result-action btn-result-home" title="Kembali ke Menu Utama">
+            <img src="assets/Tombol%20Rumah.png" alt="Icon Kembali ke Menu Utama">
+            <span>KEMBALI KE MENU UTAMA</span>
+          </button>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       SCRIPTS: PERHITUNGAN TERPADU 20 SOAL, APRESIASI & PENGACAKAN ULANG
+       ====================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CommonHUD.init('slide-9');
+
+      // 1. Ambil data nilai dari localStorage
+      const mcDoneRaw = localStorage.getItem('pml_eval_mc_done');
+      const ftwDoneRaw = localStorage.getItem('pml_eval_ftw_done');
+
+      const mcDone = mcDoneRaw === 'true';
+      const ftwDone = ftwDoneRaw === 'true';
+
+      const mcScore = mcDone ? parseInt(localStorage.getItem('pml_eval_mc_score') || '0', 10) : 0;
+      const ftwScore = ftwDone ? parseInt(localStorage.getItem('pml_eval_ftw_score') || '0', 10) : 0;
+
+      const totalCorrect = mcScore + ftwScore;
+      const totalQuestions = 20;
+      const totalWrong = totalQuestions - totalCorrect;
+      const percentage = Math.round((totalCorrect / totalQuestions) * 100);
+
+      // Sinkronkan ke CommonState untuk kompabilitas riwayat
+      CommonState.saveQuizScore(totalCorrect, totalQuestions);
+
+      // 2. Referensi Elemen DOM
+      const bannerIncomplete = document.getElementById('banner-incomplete');
+      const bannerText = document.getElementById('banner-incomplete-text');
+      const btnResume = document.getElementById('btn-resume-mode');
+
+      const tagMcStatus = document.getElementById('tag-mc-status');
+      const tagFtwStatus = document.getElementById('tag-ftw-status');
+
+      const mcCorrectVal = document.getElementById('mc-correct-val');
+      const mcWrongVal = document.getElementById('mc-wrong-val');
+      const ftwCorrectVal = document.getElementById('ftw-correct-val');
+      const ftwWrongVal = document.getElementById('ftw-wrong-val');
+
+      const grandDigits = document.getElementById('grand-score-digits');
+      const grandCorrectText = document.getElementById('grand-correct-text');
+      const grandWrongText = document.getElementById('grand-wrong-text');
+      const grandPercentText = document.getElementById('grand-percent-text');
+      const grandProgressFill = document.getElementById('grand-progress-fill');
+
+      const mascotImg = document.getElementById('result-mascot-img');
+      const medalText = document.getElementById('result-medal-text');
+      const headlineText = document.getElementById('result-headline-text');
+      const appreciationBody = document.getElementById('result-appreciation-body');
+
+      // 3. Tampilkan Data Multiple Choice & Find the Words
+      if (mcDone) {
+        tagMcStatus.textContent = 'SELESAI';
+        tagMcStatus.style.background = 'rgba(34, 197, 94, 0.2)';
+        tagMcStatus.style.color = '#86EFAC';
+        mcCorrectVal.textContent = `${mcScore} / 10`;
+        mcWrongVal.textContent = `${10 - mcScore} / 10`;
+      } else {
+        tagMcStatus.textContent = 'BELUM';
+        tagMcStatus.style.background = 'rgba(239, 68, 68, 0.2)';
+        tagMcStatus.style.color = '#FCA5A5';
+        mcCorrectVal.textContent = `— / 10`;
+        mcWrongVal.textContent = `— / 10`;
+      }
+
+      if (ftwDone) {
+        tagFtwStatus.textContent = 'SELESAI';
+        tagFtwStatus.style.background = 'rgba(34, 197, 94, 0.2)';
+        tagFtwStatus.style.color = '#86EFAC';
+        ftwCorrectVal.textContent = `${ftwScore} / 10`;
+        ftwWrongVal.textContent = `${10 - ftwScore} / 10`;
+      } else {
+        tagFtwStatus.textContent = 'BELUM';
+        tagFtwStatus.style.background = 'rgba(239, 68, 68, 0.2)';
+        tagFtwStatus.style.color = '#FCA5A5';
+        ftwCorrectVal.textContent = `— / 10`;
+        ftwWrongVal.textContent = `— / 10`;
+      }
+
+      // Banner jika salah satu belum selesai
+      if (!mcDone || !ftwDone) {
+        bannerIncomplete.style.display = 'flex';
+        if (!mcDone && !ftwDone) {
+          bannerText.textContent = '⚠️ Kamu belum mengerjakan kedua mode evaluasi!';
+          btnResume.onclick = () => CommonHUD.navigate('slide-8.html');
+        } else if (!mcDone) {
+          bannerText.textContent = '⚠️ Mode Multiple Choice belum diselesaikan!';
+          btnResume.onclick = () => CommonHUD.navigate('slide-8.html?mode=mc');
+        } else {
+          bannerText.textContent = '⚠️ Mode Find the Words belum diselesaikan!';
+          btnResume.onclick = () => CommonHUD.navigate('slide-8.html?mode=ftw');
+        }
+      }
+
+      // Grand Total (jika elemen tersedia di DOM)
+      if (grandDigits) grandDigits.textContent = totalCorrect;
+      if (grandCorrectText) grandCorrectText.textContent = `${totalCorrect} / 20`;
+      if (grandWrongText) grandWrongText.textContent = `${totalWrong} / 20`;
+      if (grandPercentText) grandPercentText.textContent = `${percentage}%`;
+
+      // Animasi Progress Bar
+      if (grandProgressFill) {
+        setTimeout(() => {
+          grandProgressFill.style.width = `${percentage}%`;
+        }, 250);
+      }
+
+      // 4. Logika Maskot, Pesan Apresiasi & Efek Suara
+      if (percentage >= 90) {
+        // 90 - 100%
+        if (mascotImg) mascotImg.src = 'assets/Maskot%209.png';
+        if (medalText) medalText.textContent = 'Medali Emas Antariksa 🥇';
+        if (headlineText) headlineText.textContent = 'Luar Biasa! Kamu Ahli Tata Surya!';
+        if (appreciationBody) appreciationBody.textContent = 'Pemahamanmu tentang semesta, tata surya, orbit, dan karakteristik planet sangat sempurna tanpa cela! Pertahankan kehebatanmu, calon astronom dunia!';
+        setTimeout(() => CommonAudio.play('fanfare'), 300);
+      } else if (percentage >= 70) {
+        // 70 - 89%
+        if (mascotImg) mascotImg.src = 'assets/Maskot%209.png';
+        if (medalText) medalText.textContent = 'Medali Perak Antariksa 🥈';
+        if (headlineText) headlineText.textContent = 'Hebat! Pengetahuanmu tentang Tata Surya semakin baik!';
+        if (appreciationBody) appreciationBody.textContent = 'Kerja yang sangat membanggakan! Kamu telah menuntaskan kedua tantangan evaluasi dengan sangat baik. Terus rawat rasa ingin tahumu terhadap luasnya alam semesta!';
+        setTimeout(() => CommonAudio.play('fanfare'), 300);
+      } else if (percentage >= 50) {
+        // 50 - 69%
+        if (mascotImg) mascotImg.src = 'assets/Maskot%209.2.png';
+        if (medalText) medalText.textContent = 'Bintang Penjelajah Antariksa ⭐';
+        if (headlineText) headlineText.textContent = 'Bagus! Terus tingkatkan pengetahuanmu!';
+        if (appreciationBody) appreciationBody.textContent = 'Hasil yang cukup baik! Sedikit lagi latihan di Planet Lab dan Planet Explorer, kamu pasti bisa meraih skor sempurna 20/20!';
+        setTimeout(() => CommonAudio.play('correct'), 300);
+      } else {
+        // < 50%
+        if (mascotImg) mascotImg.src = 'assets/Maskot%209.2.png';
+        if (medalText) medalText.textContent = 'Bintang Semangat Belajar ✨';
+        if (headlineText) headlineText.textContent = 'Jangan menyerah! Ayo belajar dan coba lagi!';
+        if (appreciationBody) appreciationBody.textContent = 'Setiap astronom hebat selalu belajar dari kesalahan. Buka kembali materi planet di Planet Mission Lab, lalu coba lagi kuis ini bersama teman-temanmu!';
+        setTimeout(() => CommonAudio.play('wrong'), 300);
+      }
+
+      // Interaktivitas Maskot
+      if (mascotImg) {
+        mascotImg.addEventListener('click', () => {
+          CommonAudio.play(percentage >= 70 ? 'correct' : 'button');
+          mascotImg.style.transform = 'scale(1.12) rotate(4deg)';
+          setTimeout(() => mascotImg.style.transform = '', 300);
+        });
+      }
+
+      // 5. Tombol Aksi:
+      // MAIN LAGI: Reset seluruh skor evaluasi, mulai sesi baru
+      const btnRetry = document.getElementById('btn-quiz-retry');
+      if (btnRetry) {
+        btnRetry.addEventListener('click', () => {
+          CommonAudio.play('button');
+          localStorage.removeItem('pml_eval_mc_score');
+          localStorage.removeItem('pml_eval_mc_done');
+          localStorage.removeItem('pml_eval_ftw_score');
+          localStorage.removeItem('pml_eval_ftw_done');
+          CommonState.saveQuizScore(0, 20);
+          CommonHUD.navigate('slide-8.html');
+        });
+      }
+
+      // KEMBALI KE MENU UTAMA (slide-2.html)
+      const btnHome = document.getElementById('btn-quiz-home');
+      if (btnHome) {
+        btnHome.addEventListener('click', () => {
+          CommonAudio.play('button');
+          CommonHUD.navigate('slide-2.html');
+        });
+      }
+
+      const btnMenu = document.getElementById('btn-back-menu');
+      if (btnMenu) {
+        btnMenu.addEventListener('click', () => {
+          CommonAudio.play('button');
+          CommonHUD.navigate('slide-2.html');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

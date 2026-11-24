@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide 3 - Pengertian Tata Surya | PLANET MISSION LAB</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- VIEWPORT 16:9 CONTAINER -->
+  <div id="viewport-wrapper">
+    <div id="app-stage" style="background-image: url('assets/bg%20keseluruhan.png');">
+
+      <!-- ====================================================================
+           GLOBAL HUD (POJOK KIRI: TOMBOL HOME & TOMBOL AUDIO DARI ASET)
+           ==================================================================== -->
+      <header class="stage-hud">
+        <div class="hud-left" style="gap: 18px; align-items: center;">
+          <!-- Tombol Menu Utama dari Aset -->
+          <button id="btn-back-menu" class="asset-icon-btn" data-tooltip="Menu Utama" title="Kembali ke Menu Utama">
+            <img src="assets/Tombol%20Rumah.png" alt="Kembali ke Menu Utama">
+          </button>
+
+          <!-- Tombol Suara dari Aset di sebelah kanan Tombol Home -->
+          <button id="btn-global-audio" class="asset-icon-btn" data-tooltip="Pengaturan Suara" title="Pengaturan Audio (Tekan M)">
+            <img src="assets/Tombol%20Suara.png" alt="Tombol Suara">
+          </button>
+        </div>
+
+        <div class="hud-center">
+          <!-- Spacer HUD Center -->
+        </div>
+
+        <div class="hud-right">
+          <!-- Tombol Layar Penuh Proyektor -->
+          <button id="btn-global-fullscreen" class="arcade-circle-btn btn-fullscreen" title="Layar Penuh Proyektor (F)">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           SLIDE 3 CONTENT: PENGERTIAN TATA SURYA (TATA LETAK KLASIKAL PROYEKTOR)
+           ==================================================================== -->
+      <main class="slide active" style="padding: clamp(65px, 7.5vh, 85px) clamp(20px, 2.5vw, 40px) clamp(65px, 7.5vh, 85px) clamp(20px, 2.5vw, 40px); justify-content: center; align-items: center; background: transparent;">
+        
+        <div class="slide3-content-wrapper">
+          
+          <!-- JUDUL UTAMA SLIDE 3 -->
+          <h2 class="arcade-header-title slide3-title">PENGERTIAN TATA SURYA</h2>
+
+          <!-- 3 KOTAK INFORMASI / CONTENT CARDS BERJAJAR SECARA PROPORSIONAL -->
+          <div class="slide3-cards-grid">
+            
+            <!-- KOTAK 1: PENGERTIAN TATA SURYA -->
+            <div class="slide3-card">
+              <div class="slide3-card-header">
+                <div class="slide3-card-icon">🪐</div>
+                <div class="slide3-card-title-group">
+                  <span class="slide3-card-badge">Kotak 1 • Sistem Utama</span>
+                  <h3 class="slide3-card-title">Pengertian Tata Surya</h3>
+                </div>
+              </div>
+              <div class="slide3-card-body">
+                <p>
+                  <strong>Tata Surya</strong> adalah kumpulan benda langit yang terdiri atas sebuah bintang induk yang disebut <strong>Matahari</strong> dan semua objek langit yang terikat oleh <strong>gaya gravitasinya</strong>.
+                </p>
+              </div>
+            </div>
+
+            <!-- KOTAK 2: PENGERTIAN PLANET -->
+            <div class="slide3-card">
+              <div class="slide3-card-header">
+                <div class="slide3-card-icon">🌍</div>
+                <div class="slide3-card-title-group">
+                  <span class="slide3-card-badge">Kotak 2 • Karakteristik</span>
+                  <h3 class="slide3-card-title">Pengertian Planet</h3>
+                </div>
+              </div>
+              <div class="slide3-card-body">
+                <p>
+                  <strong>Planet</strong> adalah benda langit yang <strong>mengorbit Matahari</strong>, memiliki massa yang cukup besar untuk membentuk gaya gravitasi sendiri sehingga <strong>berbentuk bulat</strong>, serta telah <strong>membersihkan lingkungan orbitnya</strong> dari objek-objek kecil.
+                </p>
+              </div>
+            </div>
+
+            <!-- KOTAK 3: ANGGOTA TATA SURYA -->
+            <div class="slide3-card">
+              <div class="slide3-card-header">
+                <div class="slide3-card-icon">🚀</div>
+                <div class="slide3-card-title-group">
+                  <span class="slide3-card-badge">Kotak 3 • Komponen</span>
+                  <h3 class="slide3-card-title">Anggota Tata Surya</h3>
+                </div>
+              </div>
+              <div class="slide3-card-body">
+                <p>
+                  Tata surya kita memiliki <strong>delapan planet utama</strong> yaitu: <em>Merkurius, Venus, Bumi, Mars, Jupiter, Saturnus, Uranus, dan Neptunus</em>, serta satelit alami, komet, meteoroid, dan sabuk asteroid.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BAGIAN PUSAT & URUTAN PLANET HORIZONTAL DENGAN ILUSTRASI ASET LENGKAP -->
+          <div class="slide3-orbit-strip">
+            <div class="slide3-strip-header">
+              <span>☀️</span> PUSAT & URUTAN 8 PLANET DARI MATAHARI
+            </div>
+
+            <div class="slide3-strip-track">
+              
+              <!-- PUSAT: MATAHARI -->
+              <div class="slide3-planet-node is-sun" title="Matahari: Bintang Induk & Pusat Tata Surya">
+                <div class="slide3-planet-avatar avatar-sun">
+                  <img src="assets/Matahari.png" alt="Matahari">
+                </div>
+                <span class="slide3-planet-name">Matahari</span>
+                <span class="slide3-planet-tag">Pusat</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 1. MERKURIUS -->
+              <div class="slide3-planet-node" title="1. Merkurius: Planet terdekat dari Matahari">
+                <div class="slide3-planet-avatar">
+                  <img src="assets/Merkurius.png" alt="Merkurius">
+                </div>
+                <span class="slide3-planet-name">Merkurius</span>
+                <span class="slide3-planet-tag">#1</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 2. VENUS -->
+              <div class="slide3-planet-node" title="2. Venus: Planet terpanas di Tata Surya">
+                <div class="slide3-planet-avatar">
+                  <img src="assets/Venus.png" alt="Venus">
+                </div>
+                <span class="slide3-planet-name">Venus</span>
+                <span class="slide3-planet-tag">#2</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 3. BUMI -->
+              <div class="slide3-planet-node" title="3. Bumi: Tempat tinggal kehidupan">
+                <div class="slide3-planet-avatar">
+                  <img src="assets/Bumi.png" alt="Bumi">
+                </div>
+                <span class="slide3-planet-name">Bumi</span>
+                <span class="slide3-planet-tag">#3</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 4. MARS -->
+              <div class="slide3-planet-node" title="4. Mars: Planet Merah">
+                <div class="slide3-planet-avatar">
+                  <img src="assets/Mars.png" alt="Mars">
+                </div>
+                <span class="slide3-planet-name">Mars</span>
+                <span class="slide3-planet-tag">#4</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 5. JUPITER -->
+              <div class="slide3-planet-node" title="5. Jupiter: Planet terbesar di Tata Surya">
+                <div class="slide3-planet-avatar">
+                  <img src="assets/Jupiter.png" alt="Jupiter">
+                </div>
+                <span class="slide3-planet-name">Jupiter</span>
+                <span class="slide3-planet-tag">#5</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 6. SATURNUS -->
+              <div class="slide3-planet-node" title="6. Saturnus: Planet dengan cincin megah">
+                <div class="slide3-planet-avatar avatar-saturn">
+                  <img src="assets/Saturnus.png" alt="Saturnus">
+                </div>
+                <span class="slide3-planet-name">Saturnus</span>
+                <span class="slide3-planet-tag">#6</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 7. URANUS -->
+              <div class="slide3-planet-node" title="7. Uranus: Raksasa gas es biru-kehijauan">
+                <div class="slide3-planet-avatar">
+                  <img src="assets/Uranus.png" alt="Uranus">
+                </div>
+                <span class="slide3-planet-name">Uranus</span>
+                <span class="slide3-planet-tag">#7</span>
+              </div>
+
+              <div class="slide3-track-arrow">➔</div>
+
+              <!-- 8. NEPTUNUS -->
+              <div class="slide3-planet-node" title="8. Neptunus: Planet terjauh dari Matahari">
+                <div class="slide3-planet-avatar">
+                  <img src="assets/Neptunus.png" alt="Neptunus">
+                </div>
+                <span class="slide3-planet-name">Neptunus</span>
+                <span class="slide3-planet-tag">#8</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Tombol Navigasi Bawah -->
+        <div class="slide-nav-bottom">
+          <div id="btn-prev-menu" class="nav-btn-wrapper">
+            <button class="arcade-circle-btn btn-home">
+              <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <span class="nav-label">Menu Misi</span>
+          </div>
+
+          <div id="btn-next-explorer" class="nav-btn-wrapper">
+            <span class="nav-label">Anggota Tata Surya (Planet Explorer)</span>
+            <button class="arcade-circle-btn btn-home">
+              <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       SCRIPTS
+       ====================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CommonHUD.init('slide-3');
+
+      // Sinkronisasi status audio pada Tombol Suara Aset
+      const btnAudio = document.getElementById('btn-global-audio');
+      const updateAudioVisual = () => {
+        const isMuted = CommonState.isAudioMuted();
+        if (btnAudio) {
+          btnAudio.title = isMuted ? 'Suara Dinonaktifkan (Klik untuk Mengaktifkan / Tekan M)' : 'Pengaturan Suara: Aktif (Tekan M)';
+          btnAudio.setAttribute('data-tooltip', isMuted ? 'Suara: NONAKTIF' : 'Pengaturan Suara');
+          btnAudio.style.opacity = isMuted ? '0.5' : '1';
+          btnAudio.style.filter = isMuted 
+            ? 'grayscale(0.85) drop-shadow(0 2px 6px rgba(0,0,0,0.4))' 
+            : 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5))';
+        }
+      };
+      updateAudioVisual();
+
+      if (btnAudio) {
+        btnAudio.addEventListener('click', () => {
+          setTimeout(updateAudioVisual, 50);
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'm' || e.key === 'M') {
+          setTimeout(updateAudioVisual, 50);
+        }
+      });
+
+      // Interaktivitas audio saat mengklik planet pada baris urutan
+      document.querySelectorAll('.slide3-planet-node').forEach(node => {
+        node.addEventListener('click', () => {
+          CommonAudio.play('button');
+        });
+      });
+
+      // Navigasi Kembali ke Menu Misi
+      const btnMenu = document.getElementById('btn-back-menu');
+      const btnPrev = document.getElementById('btn-prev-menu');
+      if (btnMenu) btnMenu.addEventListener('click', () => CommonHUD.navigate('slide-2.html'));
+      if (btnPrev) btnPrev.addEventListener('click', () => CommonHUD.navigate('slide-2.html'));
+
+      // Navigasi Lanjut ke Slide 4 (Anggota Tata Surya / Planet Explorer)
+      const btnNext = document.getElementById('btn-next-explorer');
+      if (btnNext) {
+        btnNext.addEventListener('click', () => {
+          CommonHUD.navigate('slide-4.html');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

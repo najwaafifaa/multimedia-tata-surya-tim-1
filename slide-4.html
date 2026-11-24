@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide 4 - Anggota Tata Surya (Planet Explorer) | PLANET MISSION LAB</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ====================================================================
+       STYLING POP-UP MODAL DETAIL PLANET (OPTIMALISASI PROYEKTOR & LAYAR BESAR)
+       ==================================================================== */
+    #modal-planet-detail.custom-modal-overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(8, 4, 24, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 600;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 2vh, 24px);
+      animation: modalFadeIn 0.25s ease-out forwards;
+      box-sizing: border-box;
+    }
+    #modal-planet-detail.custom-modal-overlay.active {
+      display: flex;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .planet-detail-modal-card {
+      position: relative;
+      width: 96%;
+      max-width: clamp(980px, 86vw, 1160px);
+      max-height: 94vh;
+      background: linear-gradient(155deg, rgba(20, 14, 52, 0.98) 0%, rgba(10, 8, 30, 0.98) 100%);
+      border: 2.5px solid #00D2FF;
+      border-radius: clamp(20px, 2vw, 26px);
+      box-shadow: 0 0 38px rgba(0, 210, 255, 0.45), inset 0 0 24px rgba(0, 210, 255, 0.1);
+      padding: clamp(20px, 2.6vh, 28px) clamp(26px, 3vw, 40px);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Modal Header */
+    .planet-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: clamp(12px, 1.6vh, 16px);
+      border-bottom: 2px dashed rgba(56, 189, 248, 0.4);
+    }
+
+    .planet-modal-title {
+      display: flex;
+      align-items: center;
+      gap: clamp(12px, 1.5vw, 18px);
+      margin: 0;
+      font-family: var(--font-scifi-head), 'Orbitron', sans-serif;
+      font-size: clamp(28px, 3.2vw, 38px);
+      font-weight: 900;
+      color: #00D2FF;
+      text-shadow: 0 0 16px rgba(0, 210, 255, 0.75);
+      letter-spacing: 1.5px;
+    }
+
+    #modal-planet-icon {
+      font-size: clamp(32px, 3.6vw, 44px);
+      line-height: 1;
+      display: inline-block;
+    }
+
+    .planet-modal-close-btn {
+      width: clamp(38px, 4.2vh, 44px);
+      height: clamp(38px, 4.2vh, 44px);
+      border-radius: 50%;
+      background: #EF4444;
+      border: 2.5px solid #FCA5A5;
+      color: #FFFFFF;
+      font-size: clamp(18px, 2vh, 22px);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+      line-height: 1;
+      padding: 0;
+      flex-shrink: 0;
+    }
+    .planet-modal-close-btn:hover {
+      transform: scale(1.12);
+      background: #DC2626;
+      box-shadow: 0 0 20px rgba(239, 68, 68, 0.9);
+    }
+
+    /* Modal Body */
+    .planet-modal-body {
+      display: flex;
+      align-items: center;
+      gap: clamp(26px, 3.2vw, 44px);
+      margin-top: clamp(16px, 2.2vh, 22px);
+      flex-wrap: nowrap;
+    }
+
+    .planet-modal-visual-col {
+      flex: 0 0 clamp(240px, 23vw, 300px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .planet-modal-img {
+      width: clamp(230px, 22vw, 290px);
+      height: clamp(230px, 22vw, 290px);
+      object-fit: contain;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 26px rgba(0, 210, 255, 0.45));
+      animation: gentleFloat 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes gentleFloat {
+      from { transform: translateY(-4px); }
+      to { transform: translateY(4px); }
+    }
+
+    .planet-modal-info-col {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .planet-modal-tagline {
+      color: #FDE047;
+      font-family: var(--font-body), sans-serif;
+      font-size: clamp(19px, 2vw, 24px);
+      font-weight: 900;
+      margin-bottom: clamp(10px, 1.4vh, 14px);
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.85);
+      letter-spacing: 0.5px;
+    }
+
+    .planet-modal-subdivider {
+      border-bottom: 2px dashed rgba(56, 189, 248, 0.35);
+      margin-bottom: clamp(12px, 1.6vh, 16px);
+      width: 100%;
+    }
+
+    /* Grid Karakteristik 2 Kolom */
+    .planet-cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(10px, 1.4vh, 15px) clamp(14px, 1.6vw, 20px);
+    }
+
+    .planet-meta-card {
+      background: rgba(14, 23, 58, 0.85);
+      border: 1.5px solid rgba(250, 204, 21, 0.3);
+      border-left: 5px solid #FACC15;
+      border-radius: 10px;
+      padding: clamp(11px, 1.4vh, 15px) clamp(14px, 1.6vw, 18px);
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4), inset 0 0 8px rgba(250, 204, 21, 0.04);
+      transition: transform 0.18s ease, border-color 0.18s ease;
+    }
+    .planet-meta-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(250, 204, 21, 0.6);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5), 0 0 10px rgba(250, 204, 21, 0.2);
+    }
+
+    .planet-card-label {
+      color: #FDE047;
+      font-family: var(--font-scifi-head), 'Orbitron', sans-serif;
+      font-size: clamp(15px, 1.6vw, 18.5px);
+      font-weight: 900;
+      white-space: nowrap;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      letter-spacing: 0.4px;
+    }
+
+    .planet-card-val {
+      color: #FFFFFF;
+      font-family: var(--font-body), sans-serif;
+      font-size: clamp(15px, 1.6vw, 18.5px);
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+    }
+
+    /* Modal Footer */
+    .planet-modal-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: clamp(18px, 2.4vh, 24px);
+      padding-top: clamp(14px, 1.8vh, 18px);
+      border-top: 2px dashed rgba(56, 189, 248, 0.4);
+    }
+
+    .planet-modal-nav-btn {
+      background: rgba(255, 255, 255, 0.14);
+      border: 2px solid rgba(56, 189, 248, 0.55);
+      border-radius: 14px;
+      color: #FFFFFF;
+      font-size: clamp(15px, 1.55vw, 18.5px);
+      font-weight: 800;
+      padding: clamp(10px, 1.3vh, 14px) clamp(22px, 2.2vw, 32px);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body), sans-serif;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+    .planet-modal-nav-btn:hover {
+      background: rgba(0, 210, 255, 0.28);
+      border-color: #00D2FF;
+      box-shadow: 0 0 16px rgba(0, 210, 255, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .planet-modal-counter-text {
+      color: #FFFFFF;
+      font-size: clamp(16.5px, 1.7vw, 20.5px);
+      font-weight: 900;
+      font-family: var(--font-body), sans-serif;
+      letter-spacing: 0.8px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    /* Style Khusus Gambar Sabuk Asteroid (Lanskap Proporsional, Tidak Terpotong) */
+    .planet-modal-img.asteroid-img-style {
+      border-radius: 18px !important;
+      border: 2px solid rgba(56, 189, 248, 0.65) !important;
+      box-shadow: 0 0 24px rgba(0, 210, 255, 0.45) !important;
+      object-fit: cover !important;
+      width: clamp(230px, 22vw, 290px) !important;
+      height: clamp(180px, 18vw, 230px) !important;
+    }
+
+    /* Tombol Interaktif Sabuk Asteroid */
+    .asteroid-action-btn {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.35) 0%, rgba(14, 165, 233, 0.2) 100%);
+      border: 2px solid #FDE047;
+      color: #FFFFFF;
+      font-size: clamp(15.5px, 1.65vw, 19px);
+      font-weight: 800;
+      padding: clamp(10px, 1.3vh, 14px) clamp(28px, 3vw, 42px);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(250, 204, 21, 0.35), 0 4px 12px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-body), sans-serif;
+      transition: all 0.22s ease;
+    }
+    .asteroid-action-btn:hover {
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.3) 0%, rgba(2, 132, 199, 0.5) 100%);
+      border-color: #FFFFFF;
+      box-shadow: 0 0 28px rgba(250, 204, 21, 0.65), 0 6px 18px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    /* ====================================================================
+       MODAL PENJELASAN PLANET DALAM & PLANET LUAR (Z-INDEX TINGGI)
+       ==================================================================== */
+    #modal-planet-classification.custom-modal-overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(6, 3, 20, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 700;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 2vh, 24px);
+      animation: modalFadeIn 0.25s ease-out forwards;
+      box-sizing: border-box;
+    }
+    #modal-planet-classification.custom-modal-overlay.active {
+      display: flex;
+    }
+
+    .classification-modal-card {
+      position: relative;
+      width: 96%;
+      max-width: clamp(960px, 86vw, 1120px);
+      max-height: 94vh;
+      background: linear-gradient(155deg, rgba(20, 14, 52, 0.98) 0%, rgba(10, 8, 30, 0.98) 100%);
+      border: 2.5px solid #FDE047;
+      border-radius: clamp(20px, 2vw, 26px);
+      box-shadow: 0 0 38px rgba(250, 204, 21, 0.35), inset 0 0 24px rgba(250, 204, 21, 0.08);
+      padding: clamp(20px, 2.6vh, 28px) clamp(26px, 3vw, 40px);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .classification-body-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(12px, 1.6vh, 18px);
+      margin-top: clamp(16px, 2.2vh, 22px);
+    }
+
+    .classification-card {
+      background: rgba(14, 23, 58, 0.88);
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 14px;
+      padding: clamp(14px, 1.8vh, 18px) clamp(16px, 1.8vw, 22px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      box-sizing: border-box;
+    }
+
+    .classification-card.divider-asteroid-card {
+      grid-column: span 2;
+      border: 1.5px solid rgba(250, 204, 21, 0.45);
+      border-left: 6px solid #FACC15;
+      background: linear-gradient(135deg, rgba(20, 26, 68, 0.9) 0%, rgba(14, 23, 58, 0.95) 100%);
+    }
+
+    .classification-card.inner-planets-card {
+      border-left: 6px solid #38BDF8;
+    }
+
+    .classification-card.outer-planets-card {
+      border-left: 6px solid #A855F7;
+    }
+
+    .classification-card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1.5px dashed rgba(255, 255, 255, 0.18);
+    }
+
+    .classification-badge {
+      background: #FACC15;
+      color: #0F172A;
+      font-family: var(--font-scifi-head), 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: clamp(14px, 1.4vw, 16px);
+      width: clamp(28px, 3vh, 32px);
+      height: clamp(28px, 3vh, 32px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 10px rgba(250, 204, 21, 0.6);
+      flex-shrink: 0;
+    }
+
+    .classification-card-title {
+      color: #FDE047;
+      font-family: var(--font-scifi-head), 'Orbitron', sans-serif;
+      font-size: clamp(17px, 1.7vw, 20px);
+      font-weight: 900;
+      margin: 0;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+      letter-spacing: 0.5px;
+    }
+
+    .classification-list {
+      margin: 0;
+      padding-left: 20px;
+      color: #FFFFFF;
+      font-family: var(--font-body), sans-serif;
+      font-size: clamp(14px, 1.45vw, 16.5px);
+      line-height: 1.55;
+    }
+
+    .classification-list li {
+      margin-bottom: 8px;
+    }
+
+    .classification-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .planet-chips-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .planet-mini-chip {
+      background: rgba(56, 189, 248, 0.16);
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-size: clamp(13px, 1.35vw, 15px);
+      font-weight: 800;
+      color: #FFFFFF;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    }
+
+    .outer-planets-card .planet-mini-chip {
+      background: rgba(168, 85, 247, 0.16);
+      border-color: rgba(168, 85, 247, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .planet-modal-body {
+        flex-direction: column;
+        gap: 14px;
+      }
+      .planet-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEWPORT 16:9 CONTAINER -->
+  <div id="viewport-wrapper">
+    <div id="app-stage" style="background-image: url('assets/bg%20keseluruhan.png');">
+
+      <!-- ====================================================================
+           GLOBAL HUD (MENGGUNAKAN ASET TOMBOL DARI FOLDER ASSETS)
+           ==================================================================== -->
+      <header class="stage-hud">
+        <div class="hud-left" style="gap: 20px;">
+          <!-- Tombol Menu Utama dari Aset -->
+          <button id="btn-back-menu" class="asset-icon-btn" data-tooltip="Menu Utama" title="Kembali ke Menu Utama">
+            <img src="assets/Tombol%20Rumah.png" alt="Kembali ke Menu Utama">
+          </button>
+
+          <!-- Tombol Suara dari Aset -->
+          <button id="btn-global-audio" class="asset-icon-btn" data-tooltip="Pengaturan Suara" title="Pengaturan Audio (Tekan M)">
+            <img src="assets/Tombol%20Suara.png" alt="Tombol Suara">
+          </button>
+        </div>
+
+        <div class="hud-center">
+          <!-- Spacer HUD Center -->
+        </div>
+
+        <div class="hud-right" style="gap: 20px;">
+          <!-- Tombol Layar Penuh Proyektor -->
+          <button id="btn-global-fullscreen" class="arcade-circle-btn btn-fullscreen" title="Layar Penuh Proyektor (F)">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           SLIDE 4 CONTENT: ANGGOTA TATA SURYA (PLANET EXPLORER)
+           - Planet diperbesar signifikan sesuai proporsi aslinya
+           - Ukuran huruf dan label diperbesar agar jelas di proyektor & desktop
+           ==================================================================== -->
+      <main class="slide active" style="padding: 45px 24px 20px 24px; justify-content: flex-start; align-items: center; background: transparent;">
+        <h2 class="arcade-header-title" style="margin-bottom: 6px; font-size: clamp(24px, 3.4vw, 40px);">ANGGOTA TATA SURYA</h2>
+        <p style="font-size: clamp(14px, 1.55vw, 18px); font-weight: 800; color: #BAE6FD; margin-bottom: 12px; text-align: center; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);">
+          🔭 Klik Matahari atau salah satu planet secara bebas untuk mempelajari karakteristiknya!
+        </p>
+
+        <!-- PETA ORBIT TATA SURYA INTERAKTIF (PLANET DIPERBESAR SECARA PROPORSIONAL) -->
+        <div class="orbit-map-container">
+          
+          <!-- MATAHARI (Bintang Pusat Raksasa) -->
+          <div id="orbit-sun" class="orbit-map-sun" data-planet-index="0" title="Matahari (Pusat Tata Surya)">
+            <img src="assets/Matahari.png" alt="Matahari" style="width: 100%; height: auto;">
+            <div class="orbit-pin-line" style="margin-left: 50%;"></div>
+            <span class="orbit-map-label" style="display: block; text-align: center;">Matahari</span>
+          </div>
+
+          <!-- 1. MERKURIUS (Planet Terkecil) -->
+          <div class="orbit-map-planet-item planet-item-mercury" data-planet-index="1" title="Merkurius">
+            <img src="assets/Merkurius.png" alt="Merkurius" class="orbit-planet-img">
+            <div class="orbit-pin-line"></div>
+            <span class="orbit-map-label">Merkurius</span>
+          </div>
+
+          <!-- 2. VENUS (Ukuran Mirip Bumi) -->
+          <div class="orbit-map-planet-item planet-item-venus" data-planet-index="2" title="Venus">
+            <span class="orbit-map-label" style="margin-bottom: 4px;">Venus</span>
+            <div class="orbit-pin-line"></div>
+            <img src="assets/Venus.png" alt="Venus" class="orbit-planet-img">
+          </div>
+
+          <!-- 3. BUMI (Terbesar di Planet Dalam) -->
+          <div class="orbit-map-planet-item planet-item-earth" data-planet-index="3" title="Bumi">
+            <img src="assets/Bumi.png" alt="Bumi" class="orbit-planet-img">
+            <div class="orbit-pin-line"></div>
+            <span class="orbit-map-label">Bumi</span>
+          </div>
+
+          <!-- 4. MARS (Planet Kedua Terkecil) -->
+          <div class="orbit-map-planet-item planet-item-mars" data-planet-index="4" title="Mars">
+            <span class="orbit-map-label" style="margin-bottom: 4px;">Mars</span>
+            <div class="orbit-pin-line"></div>
+            <img src="assets/Mars.png" alt="Mars" class="orbit-planet-img">
+          </div>
+
+          <!-- SABUK ASTEROID (PEMISAH PLANET DALAM & PLANET LUAR) -->
+          <div id="orbit-asteroid-belt" class="asteroid-belt-divider" title="Sabuk Asteroid (Pemisah Planet Dalam & Luar - Klik untuk Info)">
+            <svg class="asteroid-belt-svg" viewBox="0 0 70 380" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <!-- Filter Efek Bayangan & Kedalaman 3D Bebatuan -->
+                <filter id="asteroidShadow" x="-30%" y="-30%" width="170%" height="170%">
+                  <feDropShadow dx="1" dy="2" stdDeviation="1.8" flood-color="#000000" flood-opacity="0.85" />
+                </filter>
+                
+                <!-- Gradien Warna 1: Abu-abu Alami Luar Angkasa -->
+                <linearGradient id="astGradGray" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#C7BDB3" />
+                  <stop offset="35%" stop-color="#8F8377" />
+                  <stop offset="80%" stop-color="#554B43" />
+                  <stop offset="100%" stop-color="#322B25" />
+                </linearGradient>
+
+                <!-- Gradien Warna 2: Abu-abu Kecokelatan -->
+                <linearGradient id="astGradBrownGray" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#B2A08F" />
+                  <stop offset="40%" stop-color="#7C6D5F" />
+                  <stop offset="85%" stop-color="#4C3F34" />
+                  <stop offset="100%" stop-color="#2B221B" />
+                </linearGradient>
+
+                <!-- Gradien Warna 3: Cokelat Gelap Meteorit -->
+                <linearGradient id="astGradDarkBrown" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#9C8877" />
+                  <stop offset="45%" stop-color="#645345" />
+                  <stop offset="90%" stop-color="#3B2E24" />
+                  <stop offset="100%" stop-color="#1E1712" />
+                </linearGradient>
+
+                <!-- Highlight Cahaya Matahari (Sisi Kiri Menghadap Arah Matahari) -->
+                <linearGradient id="sunlightGleam" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="rgba(255, 255, 255, 0.75)" />
+                  <stop offset="60%" stop-color="rgba(255, 255, 255, 0)" />
+                </linearGradient>
+              </defs>
+
+              <!-- Garis Halus Jalur Orbit Melengkung Natural -->
+              <path class="asteroid-orbit-line" d="M 38 10 Q 24 190 38 368" fill="none" stroke="rgba(56, 189, 248, 0.3)" stroke-width="1.2" stroke-dasharray="3 5" />
+
+              <!-- KUMPULAN BEBATUAN ASTEROID TIDAK BERATURAN DENGAN VARIASI UKURAN & POSISI NATURAL -->
+              <!-- 1. Batu Atas Sedang -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 34 14 L 42 16 L 45 23 L 39 28 L 31 26 L 28 20 Z" fill="url(#astGradGray)" />
+                <path d="M 34 14 L 42 16 L 38 21 L 31 26 L 28 20 Z" fill="url(#sunlightGleam)" opacity="0.6" />
+                <circle cx="37" cy="22" r="1.5" fill="#3A322C" opacity="0.7" />
+              </g>
+
+              <!-- 2. Batu Kecil -->
+              <path class="asteroid-rock" filter="url(#asteroidShadow)" d="M 22 26 L 26 27 L 27 32 L 23 34 L 19 30 Z" fill="url(#astGradBrownGray)" />
+
+              <!-- 3. Debu / Mikro Asteroid -->
+              <circle cx="48" cy="32" r="1.5" fill="#C5BCB2" opacity="0.8" />
+              <circle cx="15" cy="40" r="1.2" fill="#A89D91" opacity="0.7" />
+
+              <!-- 4. Batu Agak Besar (Faceted 3D) -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 40 44 L 49 48 L 52 57 L 46 64 L 38 61 L 34 52 Z" fill="url(#astGradDarkBrown)" />
+                <path d="M 40 44 L 49 48 L 44 55 L 34 52 Z" fill="url(#sunlightGleam)" opacity="0.65" />
+                <circle cx="44" cy="56" r="2" fill="#241C16" opacity="0.8" />
+              </g>
+
+              <!-- 5. Batu Pipih Miring -->
+              <path class="asteroid-rock" filter="url(#asteroidShadow)" d="M 23 54 L 28 53 L 30 58 L 26 62 L 20 60 Z" fill="url(#astGradGray)" />
+
+              <!-- 6. Butiran Kecil -->
+              <circle cx="16" cy="68" r="2" fill="#887C71" />
+              <circle cx="44" cy="72" r="1.8" fill="#B5A99D" />
+
+              <!-- 7. Batu Sedang (Kecokelatan Berbiku) -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 28 76 L 36 78 L 39 86 L 34 92 L 25 89 L 23 82 Z" fill="url(#astGradBrownGray)" />
+                <path d="M 28 76 L 36 78 L 32 84 L 23 82 Z" fill="url(#sunlightGleam)" opacity="0.5" />
+                <ellipse cx="32" cy="85" rx="2" ry="1.2" fill="#2C231C" opacity="0.75" />
+              </g>
+
+              <!-- 8. Batu Mini -->
+              <path class="asteroid-rock" filter="url(#asteroidShadow)" d="M 46 88 L 51 90 L 52 95 L 48 97 L 43 93 Z" fill="url(#astGradDarkBrown)" />
+              <circle cx="18" cy="98" r="1.5" fill="#DDD2C7" opacity="0.7" />
+
+              <!-- 9. Batu Besar Ceres-Type (Kawah & Highlight 3D Nyata) -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 28 106 L 38 108 L 46 116 L 44 127 L 35 133 L 24 128 L 21 117 Z" fill="url(#astGradGray)" />
+                <path d="M 28 106 L 38 108 L 36 120 L 24 128 L 21 117 Z" fill="url(#sunlightGleam)" opacity="0.7" />
+                <ellipse cx="32" cy="119" rx="3.5" ry="2.5" fill="#3D342C" />
+                <ellipse cx="31.5" cy="118.5" rx="3" ry="2" fill="#221C16" />
+                <circle cx="39" cy="124" r="1.8" fill="#302821" />
+              </g>
+
+              <!-- 10. Kerikil Luar Angkasa -->
+              <circle cx="52" cy="112" r="2.2" fill="#786B5F" />
+              <circle cx="14" cy="122" r="1.8" fill="#998C7F" />
+              <circle cx="48" cy="132" r="1.4" fill="#C7BCB0" />
+
+              <!-- 11. Batu Sedang Cokelat Gelap -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 18 138 L 25 140 L 28 147 L 24 153 L 16 150 L 14 144 Z" fill="url(#astGradDarkBrown)" />
+                <path d="M 18 138 L 25 140 L 22 145 L 14 144 Z" fill="url(#sunlightGleam)" opacity="0.5" />
+              </g>
+
+              <!-- 12. Batu Bersudut Tajam -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 38 146 L 46 149 L 49 157 L 43 163 L 34 160 L 32 152 Z" fill="url(#astGradBrownGray)" />
+                <path d="M 38 146 L 46 149 L 42 155 L 32 152 Z" fill="url(#sunlightGleam)" opacity="0.6" />
+                <circle cx="41" cy="156" r="1.6" fill="#2C231C" />
+              </g>
+
+              <!-- 13. Debu Kosmik Tengah -->
+              <circle cx="27" cy="164" r="2" fill="#B3A79A" />
+              <circle cx="18" cy="170" r="1.3" fill="#6A5D52" />
+              <circle cx="50" cy="172" r="1.7" fill="#8E8073" />
+
+              <!-- 14. Batu Besar Tengah (Pusat Jalur Sabuk) -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 26 178 L 37 180 L 43 189 L 39 199 L 29 203 L 21 196 L 19 186 Z" fill="url(#astGradGray)" />
+                <path d="M 26 178 L 37 180 L 33 192 L 21 196 L 19 186 Z" fill="url(#sunlightGleam)" opacity="0.7" />
+                <ellipse cx="30" cy="190" rx="3" ry="2" fill="#322922" />
+                <circle cx="36" cy="196" r="1.5" fill="#261E18" />
+              </g>
+
+              <!-- 15. Satelit Batu Kecil -->
+              <path class="asteroid-rock" filter="url(#asteroidShadow)" d="M 46 186 L 51 188 L 53 194 L 49 197 L 44 193 Z" fill="url(#astGradDarkBrown)" />
+              <circle cx="14" cy="198" r="1.8" fill="#7C6F62" />
+
+              <!-- 16. Batu Sedang Bawah -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 33 208 L 41 210 L 44 218 L 39 224 L 30 222 L 27 215 Z" fill="url(#astGradBrownGray)" />
+                <path d="M 33 208 L 41 210 L 37 216 L 27 215 Z" fill="url(#sunlightGleam)" opacity="0.55" />
+                <circle cx="36" cy="217" r="1.5" fill="#30261E" />
+              </g>
+
+              <!-- 17. Bebatuan Kecil Berderet -->
+              <path class="asteroid-rock" filter="url(#asteroidShadow)" d="M 19 216 L 24 217 L 25 223 L 20 225 L 17 221 Z" fill="url(#astGradGray)" />
+              <circle cx="48" cy="226" r="2.2" fill="#887A6E" />
+              <circle cx="23" cy="232" r="1.4" fill="#C2B7AC" />
+
+              <!-- 18. Batu Asimetris Besar -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 32 238 L 43 241 L 48 250 L 42 260 L 32 262 L 23 256 L 24 246 Z" fill="url(#astGradDarkBrown)" />
+                <path d="M 32 238 L 43 241 L 39 252 L 23 256 L 24 246 Z" fill="url(#sunlightGleam)" opacity="0.65" />
+                <ellipse cx="35" cy="250" rx="3.2" ry="2.2" fill="#241B14" />
+                <circle cx="42" cy="254" r="1.4" fill="#32261E" />
+              </g>
+
+              <!-- 19. Debu dan Batu Mini -->
+              <circle cx="16" cy="248" r="1.8" fill="#6A5C50" />
+              <circle cx="51" cy="254" r="1.5" fill="#A89B8D" />
+              <path class="asteroid-rock" filter="url(#asteroidShadow)" d="M 17 266 L 22 267 L 24 273 L 19 275 L 15 271 Z" fill="url(#astGradGray)" />
+
+              <!-- 20. Batu Sedang Melengkung -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 35 272 L 43 275 L 46 283 L 41 289 L 32 287 L 29 279 Z" fill="url(#astGradBrownGray)" />
+                <path d="M 35 272 L 43 275 L 39 281 L 29 279 Z" fill="url(#sunlightGleam)" opacity="0.5" />
+                <circle cx="37" cy="282" r="1.7" fill="#2A211A" />
+              </g>
+
+              <!-- 21. Taburan Batu Bawah -->
+              <circle cx="49" cy="292" r="2" fill="#7E7063" />
+              <circle cx="22" cy="296" r="1.5" fill="#BAB0A4" />
+
+              <!-- 22. Batu Bawah Sedang -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 28 304 L 37 306 L 41 314 L 36 321 L 27 319 L 24 311 Z" fill="url(#astGradGray)" />
+                <path d="M 28 304 L 37 306 L 33 312 L 24 311 Z" fill="url(#sunlightGleam)" opacity="0.6" />
+                <circle cx="33" cy="314" r="1.8" fill="#332B24" />
+              </g>
+
+              <!-- 23. Batu Kecil & Partikel Ujung Bawah -->
+              <path class="asteroid-rock" filter="url(#asteroidShadow)" d="M 44 318 L 49 320 L 51 326 L 47 329 L 41 325 Z" fill="url(#astGradDarkBrown)" />
+              <circle cx="17" cy="324" r="1.6" fill="#5F5247" />
+              <circle cx="23" cy="334" r="2.2" fill="#9C8F83" />
+
+              <!-- 24. Batu Penutup Bawah -->
+              <g class="asteroid-rock" filter="url(#asteroidShadow)">
+                <path d="M 33 338 L 42 341 L 45 349 L 39 356 L 30 353 L 27 345 Z" fill="url(#astGradBrownGray)" />
+                <path d="M 33 338 L 42 341 L 38 347 L 27 345 Z" fill="url(#sunlightGleam)" opacity="0.55" />
+                <circle cx="36" cy="348" r="1.6" fill="#2E241C" />
+              </g>
+
+              <!-- 25. Partikel Halus Paling Bawah -->
+              <circle cx="48" cy="354" r="1.7" fill="#887B6F" />
+              <circle cx="22" cy="360" r="1.5" fill="#C5BAB0" />
+            </svg>
+            <div class="asteroid-belt-badge">Sabuk Asteroid</div>
+          </div>
+
+          <!-- 5. JUPITER (Planet Terbesar Se-Tata Surya) -->
+          <div class="orbit-map-planet-item planet-item-jupiter" data-planet-index="5" title="Jupiter">
+            <img src="assets/Jupiter.png" alt="Jupiter" class="orbit-planet-img">
+            <div class="orbit-pin-line"></div>
+            <span class="orbit-map-label">Jupiter</span>
+          </div>
+
+          <!-- 6. SATURNUS (Planet Cincin Megah) -->
+          <div class="orbit-map-planet-item planet-item-saturn" data-planet-index="6" title="Saturnus">
+            <span class="orbit-map-label" style="margin-bottom: 4px;">Saturnus</span>
+            <div class="orbit-pin-line"></div>
+            <img src="assets/Saturnus.png" alt="Saturnus" class="orbit-planet-img">
+          </div>
+
+          <!-- 7. URANUS (Raksasa Gas Es, Lebih Besar dari Neptunus) -->
+          <div class="orbit-map-planet-item planet-item-uranus" data-planet-index="7" title="Uranus">
+            <img src="assets/Uranus.png" alt="Uranus" class="orbit-planet-img">
+            <div class="orbit-pin-line"></div>
+            <span class="orbit-map-label">Uranus</span>
+          </div>
+
+          <!-- 8. NEPTUNUS (Raksasa Gas Es Biru) -->
+          <div class="orbit-map-planet-item planet-item-neptune" data-planet-index="8" title="Neptunus">
+            <span class="orbit-map-label" style="margin-bottom: 4px;">Neptunus</span>
+            <div class="orbit-pin-line"></div>
+            <img src="assets/Neptunus.png" alt="Neptunus" class="orbit-planet-img">
+          </div>
+
+        </div>
+
+        <!-- TOMBOL NAVIGASI BAWAH (HURUF BESAR & JELAS) -->
+        <div class="slide-nav-bottom">
+          <div id="btn-prev-pengertian" class="nav-btn-wrapper" title="Kembali ke Pengertian Tata Surya">
+            <button class="arcade-circle-btn btn-home" style="width: 50px; height: 50px;">
+              <svg viewBox="0 0 24 24" style="width: 26px; height: 26px;"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <span class="nav-label" style="font-size: clamp(15px, 1.6vw, 18px); font-weight: 800;">Pengertian Tata Surya</span>
+          </div>
+
+          <div id="btn-complete-m1" class="nav-btn-wrapper" title="Selesaikan Misi 1 & Kembali ke Menu Utama">
+            <span class="nav-label" style="font-size: clamp(15px, 1.6vw, 18px); font-weight: 800;">Selesaikan Misi 1 & Lanjut ke Menu Utama</span>
+            <button class="arcade-circle-btn btn-home" style="width: 50px; height: 50px;">
+              <svg viewBox="0 0 24 24" style="width: 26px; height: 26px;"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       MODAL KARTU DETAIL KARAKTERISTIK PLANET
+       - Sesuai Referensi After 1 (Ringkas, Rapi, Fokus Visual & Karakteristik)
+       ====================================================================== -->
+  <div id="modal-planet-detail" class="custom-modal-overlay">
+    <div class="planet-detail-modal-card">
+      <!-- Header Modal -->
+      <div class="planet-modal-header">
+        <h3 id="modal-planet-title" class="planet-modal-title">
+          <span id="modal-planet-icon">🪐</span> <span id="modal-planet-name">Bumi</span>
+        </h3>
+        <button class="planet-modal-close-btn btn-close-modal" title="Tutup Detail (Esc)">✕</button>
+      </div>
+
+      <!-- Body Modal: Kiri Gambar Planet Bundar Utuh, Kanan Karakteristik Grid -->
+      <div class="planet-modal-body">
+        <!-- Visual Planet Bundar Utuh -->
+        <div class="planet-modal-visual-col">
+          <img id="modal-planet-img" class="planet-modal-img" src="assets/Bumi.png" alt="Planet">
+        </div>
+
+        <!-- Kolom Informasi & Karakteristik (Information Cards Grid 2 Kolom) -->
+        <div class="planet-modal-info-col">
+          <div id="modal-planet-tagline" class="planet-modal-tagline">
+            Planet Biru Rumah Kehidupan
+          </div>
+          <div class="planet-modal-subdivider"></div>
+
+          <!-- Grid Spesifikasi 2 Kolom -->
+          <div id="modal-planet-specs" class="planet-cards-grid"></div>
+        </div>
+      </div>
+
+      <!-- Footer Modal Planet Biasa (Navigasi Antar Objek) -->
+      <div id="planet-modal-footer-nav" class="planet-modal-footer">
+        <button id="btn-modal-prev-planet" class="planet-modal-nav-btn" title="Objek Sebelumnya">
+          ◀ Planet Sebelumnya
+        </button>
+        <span id="modal-planet-counter" class="planet-modal-counter-text">Planet 3 (Bumi)</span>
+        <button id="btn-modal-next-planet" class="planet-modal-nav-btn" title="Objek Setelahnya">
+          Planet Setelahnya ▶
+        </button>
+      </div>
+
+      <!-- Footer Modal Sabuk Asteroid (Tombol Interaktif Pelajari Planet Dalam & Luar) -->
+      <div id="asteroid-modal-footer-action" class="planet-modal-footer" style="display: none; justify-content: center;">
+        <button id="btn-open-planet-classification" class="asteroid-action-btn" title="Pelajari Pengelompokan Planet Dalam & Planet Luar">
+          <span style="font-size: 1.3em;">📖</span> Pelajari Planet Dalam & Planet Luar 🚀
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       MODAL PENJELASAN INTERAKTIF: PLANET DALAM & PLANET LUAR
+       - Dibuka melalui tombol interaktif di detail Sabuk Asteroid
+       ====================================================================== -->
+  <div id="modal-planet-classification" class="custom-modal-overlay">
+    <div class="classification-modal-card">
+      <!-- Header Pop-up -->
+      <div class="planet-modal-header">
+        <h3 class="planet-modal-title" style="color: #FDE047; text-shadow: 0 0 16px rgba(250, 204, 21, 0.65);">
+          <span>🪐</span> <span>Mengenal Planet Dalam dan Planet Luar</span>
+        </h3>
+        <button id="btn-close-classification" class="planet-modal-close-btn" title="Tutup Penjelasan (Esc)">✕</button>
+      </div>
+
+      <!-- Body Pop-up: 2 Kolom (A & B) dan 1 Kolom Bawah (C Sabuk Asteroid) -->
+      <div class="classification-body-grid">
+        
+        <!-- A. Planet Dalam -->
+        <div class="classification-card inner-planets-card">
+          <div class="classification-card-header">
+            <span class="classification-badge">A</span>
+            <h4 class="classification-card-title">Planet Dalam</h4>
+          </div>
+          <ul class="classification-list">
+            <li>Merupakan kelompok planet yang memiliki jarak paling dekat dengan Matahari.</li>
+            <li>
+              <strong>Terdiri dari:</strong>
+              <div class="planet-chips-row">
+                <span class="planet-mini-chip">☿ Merkurius</span>
+                <span class="planet-mini-chip">♀ Venus</span>
+                <span class="planet-mini-chip">♁ Bumi</span>
+                <span class="planet-mini-chip">♂ Mars</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- B. Planet Luar -->
+        <div class="classification-card outer-planets-card">
+          <div class="classification-card-header">
+            <span class="classification-badge">B</span>
+            <h4 class="classification-card-title">Planet Luar</h4>
+          </div>
+          <ul class="classification-list">
+            <li>Merupakan kelompok planet yang memiliki jarak paling jauh dari Matahari.</li>
+            <li>
+              <strong>Terdiri dari:</strong>
+              <div class="planet-chips-row">
+                <span class="planet-mini-chip">♃ Jupiter</span>
+                <span class="planet-mini-chip">♄ Saturnus</span>
+                <span class="planet-mini-chip">♅ Uranus</span>
+                <span class="planet-mini-chip">♆ Neptunus</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- C. Sabuk Asteroid sebagai Pembatas -->
+        <div class="classification-card divider-asteroid-card">
+          <div class="classification-card-header">
+            <span class="classification-badge">C</span>
+            <h4 class="classification-card-title">Sabuk Asteroid sebagai Pembatas</h4>
+          </div>
+          <ul class="classification-list">
+            <li>Kedua kelompok planet tersebut dipisahkan oleh Sabuk Asteroid.</li>
+            <li>Sabuk Asteroid merupakan wilayah di Tata Surya yang terletak di antara orbit planet Mars dan Jupiter.</li>
+            <li>Wilayah ini dipenuhi oleh banyak objek kecil tak beraturan berupa batuan, logam, dan planet kerdil.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       SCRIPTS
+       ====================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CommonHUD.init('slide-4');
+
+      let currentPlanetIdx = 3;
+      const explorerBodies = PLANET_DATA.bodies.filter(b => b.id !== 'sabuk-asteroid');
+
+      // Tombol Menu & Prev
+      const btnMenu = document.getElementById('btn-back-menu');
+      const btnPrev = document.getElementById('btn-prev-pengertian');
+      if (btnMenu) btnMenu.addEventListener('click', () => {
+        CommonAudio.play('button');
+        CommonHUD.navigate('slide-2.html');
+      });
+      if (btnPrev) btnPrev.addEventListener('click', () => {
+        CommonAudio.play('button');
+        CommonHUD.navigate('slide-3.html');
+      });
+
+      // Selesaikan Misi 1 -> Buka Misi 2 (Planet Lab) & Kembali ke Slide 2 (Menu Utama)
+      const btnComplete = document.getElementById('btn-complete-m1');
+      if (btnComplete) {
+        btnComplete.addEventListener('click', () => {
+          CommonAudio.play('success');
+          CommonState.unlockMission(2); // Membuka Misi 2 (Planet Lab)
+          CommonHUD.navigate('slide-2.html');
+        });
+      }
+
+      // Klik Planet di Peta Orbit
+      document.querySelectorAll('[data-planet-index]').forEach(el => {
+        el.addEventListener('click', () => {
+          const idx = parseInt(el.getAttribute('data-planet-index'), 10);
+          openPlanetModal(idx);
+        });
+      });
+
+      // Klik Sabuk Asteroid
+      const asteroidBelt = document.getElementById('orbit-asteroid-belt');
+      if (asteroidBelt) {
+        asteroidBelt.addEventListener('click', () => {
+          CommonAudio.play('click');
+          const sabuk = PLANET_DATA.bodies.find(b => b.id === 'sabuk-asteroid');
+          if (sabuk) showCustomModal(sabuk.title, sabuk.tagline, sabuk.description, sabuk.image || 'assets/sabuk%20asteroid.jpg');
+        });
+      }
+
+      function openPlanetModal(idx) {
+        CommonAudio.play('click');
+        currentPlanetIdx = idx;
+        const planet = explorerBodies[idx];
+        if (!planet) return;
+
+        const modal = document.getElementById('modal-planet-detail');
+        const iconEl = document.getElementById('modal-planet-icon');
+        const nameEl = document.getElementById('modal-planet-name');
+        const tagEl = document.getElementById('modal-planet-tagline');
+        const imgEl = document.getElementById('modal-planet-img');
+        const specsEl = document.getElementById('modal-planet-specs');
+        const counterEl = document.getElementById('modal-planet-counter');
+        const navFooter = document.getElementById('planet-modal-footer-nav');
+        const actionFooter = document.getElementById('asteroid-modal-footer-action');
+
+        // Kembalikan tampilan navigasi planet biasa & hilangkan tombol asteroid
+        if (navFooter) navFooter.style.display = 'flex';
+        if (actionFooter) actionFooter.style.display = 'none';
+
+        if (nameEl) nameEl.textContent = planet.name;
+        if (tagEl) tagEl.textContent = planet.tagline;
+        if (imgEl) {
+          imgEl.src = planet.image;
+          imgEl.alt = planet.name;
+          imgEl.classList.remove('asteroid-img-style');
+        }
+
+        if (planet.id === 'matahari') {
+          if (iconEl) iconEl.textContent = '☀️';
+          if (specsEl) {
+            specsEl.innerHTML = `
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Jenis:</span>
+                <span class="planet-card-val">${planet.type}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Diameter:</span>
+                <span class="planet-card-val">${planet.diameter}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Suhu Permukaan:</span>
+                <span class="planet-card-val">${planet.surfaceTemp}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Suhu Inti:</span>
+                <span class="planet-card-val">${planet.coreTemp}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Kala Rotasi:</span>
+                <span class="planet-card-val">${planet.rotation}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Komposisi:</span>
+                <span class="planet-card-val">${planet.composition}</span>
+              </div>
+            `;
+          }
+          if (counterEl) {
+            counterEl.textContent = 'Pusat Tata Surya (Matahari)';
+          }
+        } else {
+          if (iconEl) iconEl.textContent = '🪐';
+
+          let satText = 'Tidak Ada';
+          if (planet.satellites > 0) {
+            if (planet.id === 'bumi') satText = '1 (Bulan (Moon))';
+            else if (planet.id === 'mars') satText = '2 (Phobos, Deimos)';
+            else if (planet.id === 'jupiter') satText = '79 (Io, Europa, Ganymede, dkk)';
+            else if (planet.id === 'saturnus') satText = '82 (Titan, Enceladus, dkk)';
+            else if (planet.id === 'uranus') satText = '27 (Titania, Oberon, dkk)';
+            else if (planet.id === 'neptunus') satText = '14 (Triton, Proteus, dkk)';
+            else satText = `${planet.satellites} (${planet.satelliteList})`;
+          }
+
+          let ringText = 'Tidak Ada';
+          if (planet.rings) {
+            if (planet.id === 'saturnus') ringText = 'Ada (Spektakuler)';
+            else if (planet.id === 'uranus') ringText = 'Ada (Cincin Tipis)';
+            else ringText = 'Ada';
+          }
+
+          if (specsEl) {
+            specsEl.innerHTML = `
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Kelompok:</span>
+                <span class="planet-card-val">${planet.group}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Jarak ke Matahari:</span>
+                <span class="planet-card-val">${planet.distance}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Kala Revolusi:</span>
+                <span class="planet-card-val">${planet.revolution}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Kala Rotasi:</span>
+                <span class="planet-card-val">${planet.rotation}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Satelit:</span>
+                <span class="planet-card-val">${satText}</span>
+              </div>
+              <div class="planet-meta-card">
+                <span class="planet-card-label">Cincin:</span>
+                <span class="planet-card-val">${ringText}</span>
+              </div>
+            `;
+          }
+          if (counterEl) {
+            counterEl.textContent = `Planet ${planet.number} (${planet.name})`;
+          }
+        }
+
+        if (modal) modal.classList.add('active');
+      }
+
+      // Tombol Navigasi Modal Prev & Next
+      const btnModalPrev = document.getElementById('btn-modal-prev-planet');
+      const btnModalNext = document.getElementById('btn-modal-next-planet');
+
+      if (btnModalPrev) {
+        btnModalPrev.addEventListener('click', () => {
+          if (currentPlanetIdx > 0) {
+            openPlanetModal(currentPlanetIdx - 1);
+          } else {
+            openPlanetModal(explorerBodies.length - 1);
+          }
+        });
+      }
+
+      if (btnModalNext) {
+        btnModalNext.addEventListener('click', () => {
+          if (currentPlanetIdx < explorerBodies.length - 1) {
+            openPlanetModal(currentPlanetIdx + 1);
+          } else {
+            openPlanetModal(0);
+          }
+        });
+      }
+
+      function showCustomModal(title, subtitle, text, img) {
+        const modal = document.getElementById('modal-planet-detail');
+        const iconEl = document.getElementById('modal-planet-icon');
+        const nameEl = document.getElementById('modal-planet-name');
+        const tagEl = document.getElementById('modal-planet-tagline');
+        const imgEl = document.getElementById('modal-planet-img');
+        const specsEl = document.getElementById('modal-planet-specs');
+        const counterEl = document.getElementById('modal-planet-counter');
+        const navFooter = document.getElementById('planet-modal-footer-nav');
+        const actionFooter = document.getElementById('asteroid-modal-footer-action');
+
+        // Sembunyikan navigasi planet & tampilkan tombol interaktif Sabuk Asteroid
+        if (navFooter) navFooter.style.display = 'none';
+        if (actionFooter) actionFooter.style.display = 'flex';
+
+        if (iconEl) iconEl.textContent = '☄️';
+        if (nameEl) nameEl.textContent = 'Sabuk Asteroid';
+        if (tagEl) tagEl.textContent = subtitle || 'Batas Pemisah Alami Planet Dalam & Luar';
+        if (imgEl) {
+          // Gunakan aset sabuk asteroid.jpg langsung dan terapkan styling lanskap proporsional
+          imgEl.src = 'assets/sabuk%20asteroid.jpg';
+          imgEl.alt = 'Sabuk Asteroid';
+          imgEl.classList.add('asteroid-img-style');
+        }
+
+        if (specsEl) {
+          specsEl.innerHTML = `
+            <div class="planet-meta-card">
+              <span class="planet-card-label">Kelompok:</span>
+              <span class="planet-card-val">Pembatas Orbit</span>
+            </div>
+            <div class="planet-meta-card">
+              <span class="planet-card-label">Jarak ke Matahari:</span>
+              <span class="planet-card-val">329 - 478 juta km</span>
+            </div>
+            <div class="planet-meta-card">
+              <span class="planet-card-label">Objek Utama:</span>
+              <span class="planet-card-val">Ceres (Planet Kerdil)</span>
+            </div>
+            <div class="planet-meta-card">
+              <span class="planet-card-label">Jumlah Objek:</span>
+              <span class="planet-card-val">Jutaan Batuan Antariksa</span>
+            </div>
+            <div class="planet-meta-card">
+              <span class="planet-card-label">Fungsi:</span>
+              <span class="planet-card-val">Pemisah Planet Dalam & Luar</span>
+            </div>
+            <div class="planet-meta-card">
+              <span class="planet-card-label">Cincin:</span>
+              <span class="planet-card-val">Tidak Ada</span>
+            </div>
+          `;
+        }
+        if (counterEl) counterEl.textContent = 'Sabuk Asteroid';
+        if (modal) modal.classList.add('active');
+      }
+
+      // Tombol Buka Pop-up Penjelasan Planet Dalam & Planet Luar
+      const btnOpenClassification = document.getElementById('btn-open-planet-classification');
+      const modalClassification = document.getElementById('modal-planet-classification');
+      const btnCloseClassification = document.getElementById('btn-close-classification');
+
+      if (btnOpenClassification && modalClassification) {
+        btnOpenClassification.addEventListener('click', () => {
+          CommonAudio.play('click');
+          modalClassification.classList.add('active');
+        });
+      }
+
+      if (btnCloseClassification && modalClassification) {
+        btnCloseClassification.addEventListener('click', () => {
+          CommonAudio.play('click');
+          modalClassification.classList.remove('active');
+        });
+      }
+
+      // Tutup modal klasifikasi jika klik di area overlay gelapnya
+      if (modalClassification) {
+        modalClassification.addEventListener('click', (e) => {
+          if (e.target === modalClassification) {
+            CommonAudio.play('click');
+            modalClassification.classList.remove('active');
+          }
+        });
+      }
+
+      // Tutup modal jika klik di area overlay gelap
+      const modalDetail = document.getElementById('modal-planet-detail');
+      if (modalDetail) {
+        modalDetail.addEventListener('click', (e) => {
+          if (e.target === modalDetail) {
+            CommonAudio.play('click');
+            modalDetail.classList.remove('active');
+          }
+        });
+      }
+
+      // Tutup modal jika menekan tombol Escape (ESC)
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          // Prioritas tutup pop-up klasifikasi terlebih dahulu jika sedang aktif
+          if (modalClassification && modalClassification.classList.contains('active')) {
+            CommonAudio.play('click');
+            modalClassification.classList.remove('active');
+            return;
+          }
+          if (modalDetail && modalDetail.classList.contains('active')) {
+            CommonAudio.play('click');
+            modalDetail.classList.remove('active');
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

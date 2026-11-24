@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Slide 5 - Planet Lab | PLANET MISSION LAB</title>
+  
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪐</text></svg>">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ==========================================================================
+       REVISI SLIDE 5: PENYESUAIAN DESAIN PLANET LAB MENGIKUTI REFERENSI SS 2
+       ========================================================================== */
+
+    .slide-lab-main {
+      padding: clamp(55px, 7vh, 75px) clamp(16px, 2.5vw, 36px) clamp(65px, 7.5vh, 85px) clamp(16px, 2.5vw, 36px) !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      background: transparent !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      box-sizing: border-box !important;
+      display: flex !important;
+      flex-direction: column !important;
+      position: relative !important;
+    }
+
+    /* Header Group: Judul & Subtitle Tetap di Posisi Atas */
+    .lab-header-group {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      width: 100% !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Subtitle di bawah judul PLANET LAB */
+    .lab-subtitle {
+      font-size: clamp(12px, 1.2vw, 13.5px) !important;
+      font-weight: 700 !important;
+      color: #BAE6FD !important;
+      margin-top: -4px !important;
+      margin-bottom: 0 !important;
+      text-align: center !important;
+      letter-spacing: 0.3px !important;
+    }
+
+    /* Kelompok Konten Utama (Filter, Tombol Temukan, Petunjuk, Preset):
+       Diposisikan TEPAT DI TENGAH-TENGAH area kerja antara Header dan Navigasi */
+    .lab-workspace-center {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important; /* Vertically centered di area kerja */
+      width: 100% !important;
+      max-width: clamp(920px, 92vw, 1060px) !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+      z-index: 10 !important;
+    }
+
+    /* 5 KOLOM FILTER INTERAKTIF (MENGIKUTI SS 2) */
+    .lab-filters-row {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+      gap: clamp(10px, 1.4vw, 18px) !important;
+      width: 100% !important;
+      max-width: clamp(920px, 92vw, 1060px) !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+      flex-wrap: nowrap !important;
+    }
+
+    /* Kategori Filter per Kolom */
+    .lab-filter-group {
+      flex: 1 !important;
+      min-width: 0 !important;
+      max-width: 200px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Judul Kategori Kolom (Ukuran, Satelit, Cincin, Planet, Jarak ke matahari) */
+    .lab-filter-label {
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(12.5px, 1.25vw, 14px) !important;
+      font-weight: 800 !important;
+      color: #FFFFFF !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+      text-align: center !important;
+      margin-bottom: 8px !important;
+      white-space: nowrap !important;
+      letter-spacing: 0.3px !important;
+    }
+
+    /* Input Box Putih Membulat (Capsule / Pill) di Bagian Atas Setiap Kolom */
+    .lab-select-input-box {
+      width: 100% !important;
+      height: 38px !important;
+      background: #FFFFFF !important;
+      border-radius: 24px !important;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22) !important;
+      display: flex !important;
+      align-items: center !important;
+      padding: 0 12px !important;
+      position: relative !important;
+      box-sizing: border-box !important;
+      cursor: pointer !important;
+      transition: box-shadow 0.2s ease !important;
+    }
+
+    .lab-select-input-box:hover {
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4) !important;
+    }
+
+    /* Ikon Pencarian Kaca Pembesar di Sebelah Kiri */
+    .lab-search-icon {
+      width: 16px !important;
+      height: 16px !important;
+      fill: #64748B !important;
+      flex-shrink: 0 !important;
+      margin-right: 8px !important;
+    }
+
+    /* Teks Tampilan Input: Placeholder atau Nilai Pilihan Aktif */
+    .lab-input-text {
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(12.5px, 1.25vw, 13.5px) !important;
+      font-weight: 700 !important;
+      color: #0F172A !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      flex: 1 !important;
+      line-height: 1 !important;
+    }
+
+    .lab-input-text.placeholder {
+      color: #94A3B8 !important;
+      font-weight: 600 !important;
+    }
+
+    /* Dropdown Select Tersembunyi (Aksesibilitas & Fallback) */
+    .lab-select-hidden {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      opacity: 0 !important;
+      cursor: pointer !important;
+      z-index: 2 !important;
+    }
+
+    /* Container Tombol-Tombol Pilihan di Bawah Input Box */
+    .lab-options-stack {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      width: 100% !important;
+      margin-top: 8px !important;
+    }
+
+    /* Tombol Pilihan Kuning Membulat (SS 2 Style Pill) */
+    .lab-option-pill {
+      width: 100% !important;
+      height: 36px !important;
+      padding: 0 10px !important;
+      background: #FEF08A !important; /* Kuning pastel cerah sesuai SS 2 */
+      color: #0F172A !important; /* Teks gelap */
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(12.5px, 1.25vw, 13.5px) !important;
+      font-weight: 700 !important;
+      text-align: center !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 24px !important; /* Membulat penuh seperti SS 2 */
+      border: 2px solid transparent !important;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.18) !important;
+      cursor: pointer !important;
+      transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      box-sizing: border-box !important;
+      white-space: nowrap !important;
+    }
+
+    .lab-option-pill:hover {
+      background: #FDE047 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    /* Tombol Pilihan AKTIF (Highlight Biru / Cyan Terang Menyala Sesuai SS 2) */
+    .lab-option-pill.active {
+      background: #00E5FF !important; /* Cyan terang menyala sesuai SS 2 */
+      color: #000000 !important;
+      border-color: #38BDF8 !important;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.85), 0 0 24px rgba(0, 210, 255, 0.5) !important;
+      font-weight: 800 !important;
+      transform: translateY(-1px) !important;
+    }
+
+    /* Tombol "Temukan planet!" (SS 2 Style) */
+    .btn-temukan-planet {
+      margin-top: clamp(14px, 2vh, 18px) !important;
+      background: #FFFFFF !important;
+      color: #0F172A !important;
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(15px, 1.5vw, 17.5px) !important;
+      font-weight: 800 !important;
+      padding: 8px 26px !important;
+      border-radius: 30px !important;
+      border: 2.5px solid #00D2FF !important;
+      box-shadow: 0 0 15px rgba(0, 210, 255, 0.5), 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease, background 0.18s ease !important;
+    }
+
+    .btn-temukan-planet:hover {
+      transform: scale(1.06) !important;
+      box-shadow: 0 0 24px rgba(0, 210, 255, 0.8), 0 6px 18px rgba(0, 0, 0, 0.3) !important;
+      background: #F0FDF4 !important;
+    }
+
+    .btn-temukan-planet:active {
+      transform: scale(0.96) !important;
+    }
+
+    .find-planet-icon {
+      width: 19px !important;
+      height: 19px !important;
+      fill: #0284C7 !important;
+    }
+
+    /* Area Hasil Pencarian & Teks Petunjuk */
+    .lab-results-stage {
+      margin-top: clamp(8px, 1.2vh, 12px) !important;
+      width: 100% !important;
+      max-width: 900px !important;
+      min-height: 85px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 30px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Teks Petunjuk di Bawah Tombol Temukan Planet Sesuai SS 2 */
+    .lab-instruction-hint {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      color: #BAE6FD !important;
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(13px, 1.3vw, 14px) !important;
+      font-weight: 700 !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7) !important;
+      text-align: center !important;
+    }
+
+    .hint-search-icon {
+      width: 16px !important;
+      height: 16px !important;
+      fill: #38BDF8 !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Kartu Hasil Planet */
+    .lab-result-card {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 6px !important;
+      animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    }
+
+    .lab-result-img {
+      width: clamp(70px, 9vw, 95px) !important;
+      height: clamp(70px, 9vw, 95px) !important;
+      object-fit: contain !important;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6)) !important;
+      animation: planetSpin 35s linear infinite !important;
+    }
+
+    .lab-result-name {
+      font-family: var(--font-body), sans-serif !important;
+      font-size: clamp(14px, 1.5vw, 16px) !important;
+      font-weight: 800 !important;
+      color: #FFFFFF !important;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+    }
+
+    /* Baris Preset Demo Cepat di Bagian Bawah Konten */
+    .lab-presets-bar {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(6px, 0.8vw, 10px) !important;
+      margin-top: 4px !important;
+      margin-bottom: 4px !important;
+      flex-wrap: wrap !important;
+      z-index: 10 !important;
+    }
+
+    .preset-label {
+      font-size: 11px !important;
+      font-weight: 700 !important;
+      color: #E2E8F0 !important;
+      margin-right: 2px !important;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    .lab-preset-chip {
+      background: rgba(255, 255, 255, 0.15) !important;
+      color: #BAE6FD !important;
+      border: 1px solid rgba(56, 189, 248, 0.45) !important;
+      padding: 4px 12px !important;
+      border-radius: 14px !important;
+      font-family: var(--font-body), sans-serif !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      transition: all 0.15s ease !important;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .lab-preset-chip:hover {
+      background: #0284C7 !important;
+      color: #FFFFFF !important;
+      border-color: #38BDF8 !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .lab-preset-chip.chip-reset {
+      border-color: rgba(239, 68, 68, 0.6) !important;
+      color: #FCA5A5 !important;
+      background: rgba(239, 68, 68, 0.18) !important;
+    }
+
+    .lab-preset-chip.chip-reset:hover {
+      background: #EF4444 !important;
+      color: #FFFFFF !important;
+      border-color: #F87171 !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEWPORT 16:9 CONTAINER -->
+  <div id="viewport-wrapper">
+    <div id="app-stage" style="background-image: url('assets/bg%20keseluruhan.png');">
+
+      <!-- ====================================================================
+           GLOBAL HUD (POJOK KIRI: TOMBOL HOME & SUARA DARI SS 1, KANAN: FULLSCREEN)
+           ==================================================================== -->
+      <header class="stage-hud">
+        <div class="hud-left" style="gap: 20px;">
+          <!-- Tombol Menu Utama dari Aset (SS 1) -->
+          <button id="btn-back-menu" class="asset-icon-btn" data-tooltip="Menu Utama" title="Kembali ke Menu Utama">
+            <img src="assets/Tombol%20Rumah.png" alt="Kembali ke Menu Utama">
+          </button>
+
+          <!-- Tombol Suara dari Aset (SS 1) -->
+          <button id="btn-global-audio" class="asset-icon-btn" data-tooltip="Pengaturan Suara" title="Pengaturan Audio (Tekan M)">
+            <img src="assets/Tombol%20Suara.png" alt="Tombol Suara">
+          </button>
+        </div>
+
+        <div class="hud-center">
+          <!-- Spacer HUD Center -->
+        </div>
+
+        <div class="hud-right" style="gap: 20px;">
+          <!-- Tombol Layar Penuh Proyektor (SS 1) -->
+          <button id="btn-global-fullscreen" class="arcade-circle-btn btn-fullscreen" title="Layar Penuh Proyektor (F)">
+            <svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- ====================================================================
+           SLIDE 5 CONTENT: PLANET LAB (TATA LETAK MENGIKUTI SS 2)
+           ==================================================================== -->
+      <main class="slide active slide-lab-main">
+        <!-- 1. ELEMEN YANG TETAP DI ATAS: Judul & Subjudul -->
+        <div class="lab-header-group">
+          <!-- Judul PLANET LAB dari SS 1 (Dipertahankan) -->
+          <h2 class="arcade-header-title" style="margin-bottom: 4px;">PLANET LAB</h2>
+          <p class="lab-subtitle">
+            Pilih kombinasi karakteristik planet di bawah lalu tekan "Temukan planet!"
+          </p>
+        </div>
+
+        <!-- 2. KELOMPOK KONTEN UTAMA: DIPUSATKAN SECARA VERTIKAL TEPAT DI TENGAH AREA KERJA -->
+        <div class="lab-workspace-center">
+          <!-- 5 KOLOM FILTER INTERAKTIF (LEBAR SERAGAM & 1 BARIS HORIZONTAL SESUAI SS 2) -->
+          <div class="lab-filters-row">
+            
+            <!-- 1. UKURAN -->
+            <div class="lab-filter-group">
+              <span class="lab-filter-label">Ukuran</span>
+              <div class="lab-select-input-box" data-category="size">
+                <svg class="lab-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <span class="lab-input-text placeholder" id="display-size">Pilih...</span>
+                <select class="lab-select-hidden" data-category="size" aria-label="Pilih Ukuran">
+                  <option value="">Pilih...</option>
+                  <option value="Kecil">Kecil</option>
+                  <option value="Sedang">Sedang</option>
+                  <option value="Besar">Besar</option>
+                </select>
+              </div>
+              <div class="lab-options-stack">
+                <div class="lab-option-pill" data-category="size" data-val="Kecil">Kecil</div>
+                <div class="lab-option-pill" data-category="size" data-val="Sedang">Sedang</div>
+                <div class="lab-option-pill" data-category="size" data-val="Besar">Besar</div>
+              </div>
+            </div>
+
+            <!-- 2. SATELIT (URUTAN SS 2: Tidak punya, Sedikit, Banyak) -->
+            <div class="lab-filter-group">
+              <span class="lab-filter-label">Satelit</span>
+              <div class="lab-select-input-box" data-category="satellites">
+                <svg class="lab-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <span class="lab-input-text placeholder" id="display-satellites">Pilih...</span>
+                <select class="lab-select-hidden" data-category="satellites" aria-label="Pilih Satelit">
+                  <option value="">Pilih...</option>
+                  <option value="Tidak punya">Tidak punya</option>
+                  <option value="Sedikit">Sedikit</option>
+                  <option value="Banyak">Banyak</option>
+                </select>
+              </div>
+              <div class="lab-options-stack">
+                <div class="lab-option-pill" data-category="satellites" data-val="Tidak punya">Tidak punya</div>
+                <div class="lab-option-pill" data-category="satellites" data-val="Sedikit">Sedikit</div>
+                <div class="lab-option-pill" data-category="satellites" data-val="Banyak">Banyak</div>
+              </div>
+            </div>
+
+            <!-- 3. CINCIN (SS 2: Ada, Tidak) -->
+            <div class="lab-filter-group">
+              <span class="lab-filter-label">Cincin</span>
+              <div class="lab-select-input-box" data-category="rings">
+                <svg class="lab-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <span class="lab-input-text placeholder" id="display-rings">Pilih...</span>
+                <select class="lab-select-hidden" data-category="rings" aria-label="Pilih Cincin">
+                  <option value="">Pilih...</option>
+                  <option value="Ada">Ada</option>
+                  <option value="Tidak">Tidak</option>
+                </select>
+              </div>
+              <div class="lab-options-stack">
+                <div class="lab-option-pill" data-category="rings" data-val="Ada">Ada</div>
+                <div class="lab-option-pill" data-category="rings" data-val="Tidak">Tidak</div>
+              </div>
+            </div>
+
+            <!-- 4. PLANET / KELOMPOK (URUTAN SS 2: Dalam, Luar) -->
+            <div class="lab-filter-group">
+              <span class="lab-filter-label">Planet</span>
+              <div class="lab-select-input-box" data-category="group">
+                <svg class="lab-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <span class="lab-input-text placeholder" id="display-group">Pilih...</span>
+                <select class="lab-select-hidden" data-category="group" aria-label="Pilih Kelompok Planet">
+                  <option value="">Pilih...</option>
+                  <option value="Dalam">Dalam</option>
+                  <option value="Luar">Luar</option>
+                </select>
+              </div>
+              <div class="lab-options-stack">
+                <div class="lab-option-pill" data-category="group" data-val="Dalam">Dalam</div>
+                <div class="lab-option-pill" data-category="group" data-val="Luar">Luar</div>
+              </div>
+            </div>
+
+            <!-- 5. JARAK KE MATAHARI (SS 2: Dekat, Jauh) -->
+            <div class="lab-filter-group">
+              <span class="lab-filter-label">Jarak ke matahari</span>
+              <div class="lab-select-input-box" data-category="distance">
+                <svg class="lab-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                <span class="lab-input-text placeholder" id="display-distance">Pilih...</span>
+                <select class="lab-select-hidden" data-category="distance" aria-label="Pilih Jarak ke Matahari">
+                  <option value="">Pilih...</option>
+                  <option value="Dekat">Dekat</option>
+                  <option value="Jauh">Jauh</option>
+                </select>
+              </div>
+              <div class="lab-options-stack">
+                <div class="lab-option-pill" data-category="distance" data-val="Dekat">Dekat</div>
+                <div class="lab-option-pill" data-category="distance" data-val="Jauh">Jauh</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- TOMBOL "Temukan planet!" (SS 2 STYLE DI TENGAH HORIZONTAL) -->
+          <button id="btn-find-planet" class="btn-temukan-planet" title="Cari Planet Berdasarkan Parameter">
+            <span>Temukan planet!</span>
+            <svg class="find-planet-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          </button>
+
+          <!-- AREA HASIL PENCARIAN & TEKS PETUNJUK (MENGIKUTI SS 2) -->
+          <div id="lab-results-stage" class="lab-results-stage">
+            <div class="lab-instruction-hint">
+              <svg class="hint-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+              <span>Pilih parameter di atas lalu klik "Temukan planet!"</span>
+            </div>
+          </div>
+
+          <!-- PRESET DEMO CEPAT GURU (DI BAGIAN BAWAH KONTEN SEBELUM NAVIGASI) -->
+          <div class="lab-presets-bar">
+            <span class="preset-label">Preset Demo:</span>
+            <button class="lab-preset-chip" data-preset="bumi-mars">Bumi & Mars</button>
+            <button class="lab-preset-chip" data-preset="merkurius-venus">Merkurius & Venus</button>
+            <button class="lab-preset-chip" data-preset="jupiter">Jupiter</button>
+            <button class="lab-preset-chip" data-preset="saturnus">Saturnus</button>
+            <button class="lab-preset-chip" data-preset="uranus">Uranus</button>
+            <button class="lab-preset-chip" data-preset="neptunus">Neptunus</button>
+            <button class="lab-preset-chip chip-reset" data-preset="reset">Reset</button>
+          </div>
+        </div>
+
+        <!-- Tombol Navigasi Bawah (SS 1) -->
+        <div class="slide-nav-bottom">
+          <div id="btn-prev-explorer" class="nav-btn-wrapper" title="Kembali ke Anggota Tata Surya">
+            <button class="arcade-circle-btn btn-home">
+              <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <span class="nav-label">Anggota Tata Surya</span>
+          </div>
+
+          <div id="btn-complete-m2" class="nav-btn-wrapper" title="Selesaikan Misi 2 & Kembali ke Menu Utama">
+            <span class="nav-label">Selesaikan Misi 2 & Lanjut ke Menu Utama</span>
+            <button class="arcade-circle-btn btn-home">
+              <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </button>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       SCRIPTS (LOGIKA FILTER & PRESET DEMO)
+       ====================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      CommonHUD.init('slide-5');
+
+      const currentFilters = {
+        size: null,
+        satellites: null,
+        rings: null,
+        group: null,
+        distance: null
+      };
+
+      // Sinkronisasi status audio pada Tombol Suara Aset
+      const btnAudio = document.getElementById('btn-global-audio');
+      const updateAudioVisual = () => {
+        const isMuted = CommonState.isAudioMuted();
+        if (btnAudio) {
+          btnAudio.title = isMuted ? 'Suara Dinonaktifkan (Klik untuk Mengaktifkan / Tekan M)' : 'Pengaturan Suara: Aktif (Tekan M)';
+          btnAudio.setAttribute('data-tooltip', isMuted ? 'Suara: NONAKTIF' : 'Pengaturan Suara');
+          btnAudio.style.opacity = isMuted ? '0.5' : '1';
+          btnAudio.style.filter = isMuted 
+            ? 'grayscale(0.85) drop-shadow(0 2px 6px rgba(0,0,0,0.4))' 
+            : 'drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5))';
+        }
+      };
+      updateAudioVisual();
+
+      if (btnAudio) {
+        btnAudio.addEventListener('click', () => {
+          setTimeout(updateAudioVisual, 50);
+        });
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'm' || e.key === 'M') {
+          setTimeout(updateAudioVisual, 50);
+        }
+      });
+
+      // Tombol Menu & Prev
+      const btnMenu = document.getElementById('btn-back-menu');
+      const btnPrev = document.getElementById('btn-prev-explorer');
+      if (btnMenu) btnMenu.addEventListener('click', () => CommonHUD.navigate('slide-2.html'));
+      if (btnPrev) btnPrev.addEventListener('click', () => CommonHUD.navigate('slide-4.html'));
+
+      // Selesaikan Misi 2 -> Buka Misi 3 (Mission Room) & Kembali ke Slide 2 (Menu Utama)
+      const btnComplete = document.getElementById('btn-complete-m2');
+      if (btnComplete) {
+        btnComplete.addEventListener('click', () => {
+          CommonAudio.play('success');
+          CommonState.unlockMission(3);
+          CommonHUD.navigate('slide-2.html');
+        });
+      }
+
+      // Fungsi Update Teks Input Box Display
+      function updateInputDisplay(cat, val) {
+        const displaySpan = document.getElementById(`display-${cat}`);
+        if (displaySpan) {
+          if (val) {
+            displaySpan.textContent = val;
+            displaySpan.classList.remove('placeholder');
+          } else {
+            displaySpan.textContent = 'Pilih...';
+            displaySpan.classList.add('placeholder');
+          }
+        }
+      }
+
+      // Interaksi Pill Filter (Klik untuk Memilih / Batalkan Pilihan)
+      document.querySelectorAll('.lab-option-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          const cat = pill.getAttribute('data-category');
+          const val = pill.getAttribute('data-val');
+          const siblingPills = document.querySelectorAll(`.lab-option-pill[data-category="${cat}"]`);
+
+          if (currentFilters[cat] === val) {
+            currentFilters[cat] = null;
+            pill.classList.remove('active');
+            updateInputDisplay(cat, null);
+          } else {
+            siblingPills.forEach(p => p.classList.remove('active'));
+            currentFilters[cat] = val;
+            pill.classList.add('active');
+            updateInputDisplay(cat, val);
+          }
+
+          const sel = document.querySelector(`.lab-select-hidden[data-category="${cat}"]`);
+          if (sel) sel.value = currentFilters[cat] || '';
+          CommonAudio.play('click');
+        });
+      });
+
+      // Select Dropdown Fallback
+      document.querySelectorAll('.lab-select-hidden').forEach(sel => {
+        sel.addEventListener('change', () => {
+          const cat = sel.getAttribute('data-category');
+          const val = sel.value || null;
+          currentFilters[cat] = val;
+
+          document.querySelectorAll(`.lab-option-pill[data-category="${cat}"]`).forEach(p => {
+            if (p.getAttribute('data-val') === val) p.classList.add('active');
+            else p.classList.remove('active');
+          });
+          updateInputDisplay(cat, val);
+          CommonAudio.play('click');
+        });
+      });
+
+      // Tombol Temukan Planet
+      const btnFind = document.getElementById('btn-find-planet');
+      if (btnFind) {
+        btnFind.addEventListener('click', () => {
+          CommonAudio.play('button');
+          executeFilter();
+        });
+      }
+
+      function executeFilter() {
+        const resultsBox = document.getElementById('lab-results-stage');
+        const filtered = PLANET_DATA.labPlanets.filter(p => {
+          if (currentFilters.size && (p.size !== currentFilters.size && p.sizeAlt !== currentFilters.size)) return false;
+          if (currentFilters.satellites && p.satellites !== currentFilters.satellites) return false;
+          if (currentFilters.rings && p.rings !== currentFilters.rings) return false;
+          if (currentFilters.group && p.group !== currentFilters.group) return false;
+          if (currentFilters.distance && p.distance !== currentFilters.distance) return false;
+          return true;
+        });
+
+        resultsBox.innerHTML = '';
+        if (filtered.length === 0) {
+          resultsBox.innerHTML = `
+            <div style="text-align: center; color: #FCA5A5; font-weight: 700;">
+              <p style="font-size: 15px; margin-bottom: 4px;">❌ Tidak ada planet yang cocok dengan kombinasi parameter ini.</p>
+              <p style="font-size: 12px; color: #E2E8F0;">Coba sesuaikan pilihan filter atau gunakan preset demo di bawah!</p>
+            </div>
+          `;
+          CommonAudio.play('wrong');
+          return;
+        }
+
+        CommonAudio.play('correct');
+        filtered.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'lab-result-card';
+          card.innerHTML = `
+            <img class="lab-result-img" src="${p.image}" alt="${p.name}">
+            <div class="lab-result-name">${p.name}</div>
+          `;
+          resultsBox.appendChild(card);
+        });
+      }
+
+      // Presets Demonstrasi Guru
+      document.querySelectorAll('.lab-preset-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const key = chip.getAttribute('data-preset');
+          applyPreset(key);
+        });
+      });
+
+      function applyPreset(key) {
+        Object.keys(currentFilters).forEach(k => {
+          currentFilters[k] = null;
+          updateInputDisplay(k, null);
+        });
+        document.querySelectorAll('.lab-option-pill').forEach(p => p.classList.remove('active'));
+
+        switch(key) {
+          case 'bumi-mars':
+            setVal('size', 'Sedang'); setVal('satellites', 'Sedikit'); setVal('rings', 'Tidak'); setVal('group', 'Dalam'); setVal('distance', 'Dekat');
+            break;
+          case 'merkurius-venus':
+            setVal('size', 'Kecil'); setVal('satellites', 'Tidak punya'); setVal('rings', 'Tidak'); setVal('group', 'Dalam'); setVal('distance', 'Dekat');
+            break;
+          case 'jupiter':
+            setVal('size', 'Besar'); setVal('satellites', 'Banyak'); setVal('rings', 'Tidak'); setVal('group', 'Luar'); setVal('distance', 'Jauh');
+            break;
+          case 'saturnus':
+            setVal('size', 'Besar'); setVal('satellites', 'Banyak'); setVal('rings', 'Ada'); setVal('group', 'Luar'); setVal('distance', 'Jauh');
+            break;
+          case 'uranus':
+            setVal('size', 'Sedang'); setVal('satellites', 'Banyak'); setVal('rings', 'Ada'); setVal('group', 'Luar'); setVal('distance', 'Jauh');
+            break;
+          case 'neptunus':
+            setVal('size', 'Sedang'); setVal('satellites', 'Banyak'); setVal('rings', 'Tidak'); setVal('group', 'Luar'); setVal('distance', 'Jauh');
+            break;
+          case 'reset':
+            resultsBoxToDefault();
+            return;
+        }
+
+        CommonAudio.play('click');
+        executeFilter();
+      }
+
+      function resultsBoxToDefault() {
+        const resultsBox = document.getElementById('lab-results-stage');
+        resultsBox.innerHTML = `
+          <div class="lab-instruction-hint">
+            <svg class="hint-search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <span>Pilih parameter di atas lalu klik "Temukan planet!"</span>
+          </div>
+        `;
+      }
+
+      function setVal(cat, val) {
+        currentFilters[cat] = val;
+        const pill = document.querySelector(`.lab-option-pill[data-category="${cat}"][data-val="${val}"]`);
+        if (pill) pill.classList.add('active');
+        const sel = document.querySelector(`.lab-select-hidden[data-category="${cat}"]`);
+        if (sel) sel.value = val;
+        updateInputDisplay(cat, val);
+      }
+    });
+  </script>
+</body>
+</html>
